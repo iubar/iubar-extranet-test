@@ -15,12 +15,20 @@
             "homepage": "http://www.iubar.it"
         }
     ],
+    
+    "repositories": [
+	        {
+	            "type": "git",
+	            "url": "https://github.com/iubar/iubar-web-test.git"
+	        }     
+	    ],
  
-    "require": {
+    "require-dev": {
         "php": ">=5.5.0",
-        "guzzlehttp/guzzle": "~6.0"
+        "guzzlehttp/guzzle": "~6.0",
+        "iubar/iubar-web-test": "dev-master@dev"
     },
-     
+    
     "autoload": {
     	"psr-4": {
     		"Extranet\\": "tests/"
