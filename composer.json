@@ -1,0 +1,29 @@
+{
+	"name" : "iubar/extranet-test",
+    "description": "",
+    "keywords": ["package", "dependency", "autoload"],
+    "homepage": "https://www.fatturatutto.it",
+    "type": "test",
+    "license": "MPL",
+    "authors": [
+        {
+            "name": "Matteo Mirisola",
+            "email": "mirimmm94@gmail.com"
+        },
+        {
+            "name": "Andrea Borgogelli Avveduti",
+            "homepage": "http://www.iubar.it"
+        }
+    ],
+ 
+    "require": {
+        "php": ">=5.5.0",
+        "guzzlehttp/guzzle": "~6.0"
+    },
+     
+    "autoload": {
+    	"psr-4": {
+    		"Extranet\\": "tests/"
+        }  
+	}
+}
