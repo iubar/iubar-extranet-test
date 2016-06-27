@@ -26,6 +26,7 @@
     "require-dev": {
         "php": ">=5.5.0",
         "guzzlehttp/guzzle": "~6.0",
+        "league/climate":"*",
         "iubar/iubar-web-test": "dev-master@dev"
     },
     
