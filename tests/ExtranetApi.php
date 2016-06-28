@@ -99,7 +99,8 @@ class ExtranetApi extends RestApi_TestCase {
         } catch (RequestException $e) {
             $this->handleException($e);
         }
-        $data = $this->checkResponse($response);
+        $body = $this->checkResponse($response);
+        $data = $body['data'];
         $this->assertEquals(self::ELEM_LIMIT, count($data));
         $first_obj = $data[0];
         $this->assertArrayHasKey('short_text', $first_obj);
@@ -175,12 +176,13 @@ class ExtranetApi extends RestApi_TestCase {
             
             if ($bOk) {
                 echo PHP_EOL . 'I have found your email and I\'m trying to delete it...' . PHP_EOL;
-                
+                echo "Number of messages in the mailbox: " . $this->countMessages($conn) . PHP_EOL;
                 // delete the uniqid msg
                 $del = $this->pop3_dele($conn, $msg_num);
                 if (!$del) {
                     $this->fail("Can't delete the message " . $msg_num . " with subject " . $subject);
                 }
+                echo "Number of messages in the mailbox after deletion: " . $this->countMessages($conn) . PHP_EOL;
             } else {
                 $this->fail('ERROR: I haven\'t found your email');
             }
@@ -266,28 +268,39 @@ class ExtranetApi extends RestApi_TestCase {
         // this is the right code
         $ssl = ($ssl == true) ? "/ssl/novalidate-cert" : "";
         $x = "{" . $host . ":" . $port . "/pop3" . $ssl . "}" . $folder;
-        return (imap_open($x, $user, $pass));
+        $conn = (imap_open($x, $user, $pass)) or die("Can't connect: " . imap_last_error());
+        return $conn;
     }
 
     /**
      * Delete the given message
      *
      * @param string $connection the connection
-     * @param string $message the message
+     * @param string $msg_num
      */
-    protected function pop3_dele($connection, $message) {
-        return (imap_delete($connection, $message));
+    protected function pop3_dele($connection, $msg_num) {
+        $b = (imap_delete($connection, $msg_num));
+        if (!$b) {
+            echo "imap_delete() failed: " . imap_last_error() . PHP_EOL;
+        }
+        return $b;
     }
 
     /**
-     * unutilized function
+     * Count the number of message in connection folder
      *
-     * @param string $connection
-     * @return array
+     * @param string $connection the connection
+     * @return number the number of the messages
      */
-    protected function pop3_stat($connection) {
+    protected function countMessages($connection) {
+        $n = 0;
         $check = imap_mailboxmsginfo($connection);
-        return ((array) $check);
+        if ($check) {
+            $n = $check->Nmsgs;
+        } else {
+            echo "imap_mailboxmsginfo() failed: " . imap_last_error() . PHP_EOL;
+        }
+        return $n;
     }
 
     /**
@@ -454,9 +467,8 @@ class ExtranetApi extends RestApi_TestCase {
         $this->assertContains(self::APP_JSON_CT, $response->getHeader(self::CONTENT_TYPE)[0]);
         $this->assertEquals(self::OK, $response->getStatusCode());
         
-        // Data
+        // Getting data
         $data = json_decode($response->getBody(), true);
-        
         return $data;
     }
 }
