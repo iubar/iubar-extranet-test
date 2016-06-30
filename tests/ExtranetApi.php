@@ -9,7 +9,7 @@ use League\CLImate\CLImate;
  * API Test
  *
  * @author Matteo
- * @global env ft_username
+ * @global env app_username
  * @global env host
  * @global env port
  * @global env user
@@ -137,7 +137,7 @@ class ExtranetApi extends RestApi_TestCase {
         $expected_subject = uniqid(self::PREFIX_SUBJECT);
         try {
             $array = array(
-                'from_name' => getEnv('FT_USERNAME'),
+                'from_name' => getEnv('APP_USERNAME'),
                 'from_email' => self::PARTIAL_EMAIL . self::EMAIL_DOMAIN,
                 'from_domain' => self::EMAIL_DOMAIN,
                 'subject' => $expected_subject,
@@ -197,7 +197,7 @@ class ExtranetApi extends RestApi_TestCase {
         $response = null;
         try {
             $array = array(
-                'email' => getenv('FT_USERNAME'),
+                'email' => getenv('APP_USERNAME'),
                 'nome' => self::NOME,
                 'cognome' => self::COGNOME,
                 'idprofessione' => self::ID_SUBSCRIBE,
@@ -218,7 +218,7 @@ class ExtranetApi extends RestApi_TestCase {
         try {
             // Param 'list_id' cannot be modified
             $array = array(
-                'email' => getenv('FT_USERNAME'),
+                'email' => getenv('APP_USERNAME'),
                 'nome' => self::NOME,
                 'cognome' => self::COGNOME,
                 'idprofessione' => self::ID_EDIT_UNSUBSCRIBE
@@ -239,7 +239,7 @@ class ExtranetApi extends RestApi_TestCase {
         $response = null;
         try {
             $array = array(
-                'email' => getenv('FT_USERNAME')
+                'email' => getenv('APP_USERNAME')
             );
             $response = $this->sendRequest(self::GET, self::MAILING_LIST . self::UNSUBSCRIBE, $array, self::TIMEOUT);
         } catch (RequestException $e) {
