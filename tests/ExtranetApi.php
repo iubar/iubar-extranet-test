@@ -65,9 +65,32 @@ class ExtranetApi extends RestApi_TestCase {
     
     // seconds to wait before logging to the pop3 mailbox to delete the message
     const EMAIL_WAIT = 40;
+
+    protected static $host;
+
+    protected static $port;
+
+    protected static $user;
+
+    protected static $password;
+
+    protected static $ssl = false;
+
+    protected static $app_username;
     
     // easily output colored text and special formatting
     protected static $climate;
+
+    /**
+     */
+    private static function printConfig() {
+        self::$climate->info("HOST: " . self::$host);
+        self::$climate->info("PORT: " . self::$port);
+        self::$climate->info("SSL: " . self::$ssl);
+        self::$climate->info("USER: " . self::$user);
+        self::$climate->info("PASSWORD: " . self::$password);
+        self::$climate->info("APP_USERNAME: " . self::$app_username);
+    }
 
     /**
      * Create a Client
@@ -81,6 +104,28 @@ class ExtranetApi extends RestApi_TestCase {
             'base_uri' => self::IUBAR_EXTRANET_API,
             'timeout' => self::TIMEOUT
         ]);
+        
+        self::$host = getenv('MAIL_HOST');
+        self::$port = getenv('MAIL_PORT');
+        self::$ssl = getenv('MAIL_SSL');
+        self::$user = getenv('MAIL_USER');
+        self::$password = getenv('MAIL_PASSWORD');
+        self::$app_username = getenv('APP_USERNAME');
+        
+        self::printConfig();
+        
+        if (!self::$host) {
+            die("Missing parameter: host" . PHP_EOL);
+        }
+        if (!self::$port) {
+            die("Missing parameter: port" . PHP_EOL);
+        }
+        if (!self::$user) {
+            die("Missing parameter: user" . PHP_EOL);
+        }
+        if (!self::$password) {
+            die("Missing parameter: password" . PHP_EOL);
+        }
     }
 
     /**
@@ -137,7 +182,7 @@ class ExtranetApi extends RestApi_TestCase {
         $expected_subject = uniqid(self::PREFIX_SUBJECT);
         try {
             $array = array(
-                'from_name' => getEnv('APP_USERNAME'),
+                'from_name' => self::$app_username,
                 'from_email' => self::PARTIAL_EMAIL . self::EMAIL_DOMAIN,
                 'from_domain' => self::EMAIL_DOMAIN,
                 'subject' => $expected_subject,
@@ -153,7 +198,7 @@ class ExtranetApi extends RestApi_TestCase {
         sleep(self::EMAIL_WAIT);
         
         // connect to the email inbox
-        $conn = $this->pop3_login(getenv('host'), getenv('port'), getenv('user'), getenv('password'), "INBOX", true);
+        $conn = $this->pop3_login();
         $bOk = false;
         if (!$conn) {
             $this->fail('Connection error');
@@ -176,13 +221,15 @@ class ExtranetApi extends RestApi_TestCase {
             
             if ($bOk) {
                 echo PHP_EOL . 'I have found your email and I\'m trying to delete it...' . PHP_EOL;
-                echo "Number of messages in the mailbox: " . $this->countMessages($conn) . PHP_EOL;
+                echo "Number of messages in the mailbox: " . $this->countMessages($conn) . ' (' . $this->countMessages2($conn) . ')' . PHP_EOL;
                 // delete the uniqid msg
                 $del = $this->pop3_dele($conn, $msg_num);
                 if (!$del) {
                     $this->fail("Can't delete the message " . $msg_num . " with subject " . $subject);
+                } else {
+                    echo "Message deleted" . PHP_EOL;
                 }
-                echo "Number of messages in the mailbox after deletion: " . $this->countMessages($conn) . PHP_EOL;
+                echo "Number of messages in the mailbox after deletion: " . $this->countMessages($conn) . '/' . $this->countMessages2($conn) . PHP_EOL;
             } else {
                 $this->fail('ERROR: I haven\'t found your email');
             }
@@ -197,7 +244,7 @@ class ExtranetApi extends RestApi_TestCase {
         $response = null;
         try {
             $array = array(
-                'email' => getenv('APP_USERNAME'),
+                'email' => self::$app_username,
                 'nome' => self::NOME,
                 'cognome' => self::COGNOME,
                 'idprofessione' => self::ID_SUBSCRIBE,
@@ -218,7 +265,7 @@ class ExtranetApi extends RestApi_TestCase {
         try {
             // Param 'list_id' cannot be modified
             $array = array(
-                'email' => getenv('APP_USERNAME'),
+                'email' => self::$app_username,
                 'nome' => self::NOME,
                 'cognome' => self::COGNOME,
                 'idprofessione' => self::ID_EDIT_UNSUBSCRIBE
@@ -239,7 +286,7 @@ class ExtranetApi extends RestApi_TestCase {
         $response = null;
         try {
             $array = array(
-                'email' => getenv('APP_USERNAME')
+                'email' => self::$app_username
             );
             $response = $this->sendRequest(self::GET, self::MAILING_LIST . self::UNSUBSCRIBE, $array, self::TIMEOUT);
         } catch (RequestException $e) {
@@ -255,21 +302,18 @@ class ExtranetApi extends RestApi_TestCase {
     /**
      * Make the login with pop3
      *
-     * @param string $host the host
-     * @param int $port the port
-     * @param string $user the user email
-     * @param string $pass the password
      * @param string $folder default:INBOX
-     * @param string $ssl if you want the ssl certificate
      */
-    protected function pop3_login($host, $port, $user, $pass, $folder = "INBOX", $ssl = false) {
-        // the version of this function in this webpage is wrog http://php.net/manual/en/book.imap.php
-        
-        // this is the right code
-        $ssl = ($ssl == true) ? "/ssl/novalidate-cert" : "";
-        $x = "{" . $host . ":" . $port . "/pop3" . $ssl . "}" . $folder;
-        $conn = (imap_open($x, $user, $pass)) or die("Can't connect: " . imap_last_error());
+    protected function pop3_login($folder = "INBOX") {
+        $pop3_folder = $this->getPop3Folder($folder);
+        $conn = (imap_open($pop3_folder, self::$user, self::$password)) or die("Can't connect: " . imap_last_error());
         return $conn;
+    }
+
+    protected function getPop3Folder($folder = "INBOX") {
+        $ssl = (self::$ssl == true) ? "/ssl/novalidate-cert" : "";
+        $mail_folder = "{" . self::$host . ":" . self::$port . "/pop3" . $ssl . "}" . $folder;
+        return $mail_folder;
     }
 
     /**
@@ -282,6 +326,8 @@ class ExtranetApi extends RestApi_TestCase {
         $b = (imap_delete($connection, $msg_num));
         if (!$b) {
             echo "imap_delete() failed: " . imap_last_error() . PHP_EOL;
+        } else {
+            imap_expunge($connection);
         }
         return $b;
     }
@@ -303,6 +349,17 @@ class ExtranetApi extends RestApi_TestCase {
         return $n;
     }
 
+    protected function countMessages2($connection) {
+        $n = 0;
+        $status = imap_status($connection, $this->getPop3Folder(), SA_ALL);
+        if ($status) {
+            $n = $status->messages;
+        } else {
+            echo "imap_mailboxmsginfo() failed: " . imap_last_error() . PHP_EOL;
+        }
+        return $n;
+    }
+
     /**
      * Give all the messages of the connection folder
      *
@@ -311,6 +368,7 @@ class ExtranetApi extends RestApi_TestCase {
      * @return array all the messages
      */
     protected function pop3_list($connection, $message = "") {
+        $result = array();
         if ($message) {
             $range = $message;
         } else {
@@ -318,8 +376,9 @@ class ExtranetApi extends RestApi_TestCase {
             $range = "1:" . $MC->Nmsgs;
         }
         $response = imap_fetch_overview($connection, $range);
-        foreach ($response as $msg)
+        foreach ($response as $msg) {
             $result[$msg->msgno] = (array) $msg;
+        }
         return $result;
     }
 
@@ -444,6 +503,7 @@ class ExtranetApi extends RestApi_TestCase {
      * @return string the response
      */
     private function sendRequest($method, $partial_uri, $array, $timeout) {
+        $response = null;
         try {
             $request = new Request($method, $partial_uri);
             $response = $this->client->send($request, [
@@ -463,12 +523,15 @@ class ExtranetApi extends RestApi_TestCase {
      * @return string the body of the decode response
      */
     private function checkResponse($response) {
-        // Response
-        $this->assertContains(self::APP_JSON_CT, $response->getHeader(self::CONTENT_TYPE)[0]);
-        $this->assertEquals(self::OK, $response->getStatusCode());
-        
-        // Getting data
-        $data = json_decode($response->getBody(), true);
+        $data = null;
+        if ($response) {
+            // Response
+            $this->assertContains(self::APP_JSON_CT, $response->getHeader(self::CONTENT_TYPE)[0]);
+            $this->assertEquals(self::OK, $response->getStatusCode());
+            
+            // Getting data
+            $data = json_decode($response->getBody(), true);
+        }
         return $data;
     }
 }
