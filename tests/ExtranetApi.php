@@ -2,7 +2,7 @@
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
-use Iubar\RestApi_TestCase;
+use Iubar\Tests\RestApi_TestCase;
 use League\CLImate\CLImate;
 
 /**
@@ -64,7 +64,7 @@ class ExtranetApi extends RestApi_TestCase {
     const PREFIX_SUBJECT = "msgTest";
     
     // seconds to wait before logging to the pop3 mailbox to delete the message
-    const EMAIL_WAIT = 40;
+    const EMAIL_WAIT = 60;
 
     protected static $host;
 
@@ -195,6 +195,7 @@ class ExtranetApi extends RestApi_TestCase {
         $data = $this->checkResponse($response);
         
         // wait for email arrived
+        self::$climate->info("Waiting " . self::EMAIL_WAIT . " seconds...");
         sleep(self::EMAIL_WAIT);
         
         // connect to the email inbox
@@ -229,12 +230,31 @@ class ExtranetApi extends RestApi_TestCase {
                 } else {
                     echo "Message deleted" . PHP_EOL;
                 }
-                echo "Number of messages in the mailbox after deletion: " . $this->countMessages($conn) . '/' . $this->countMessages2($conn) . PHP_EOL;
+                echo "Number of messages in the mailbox after deletion: " . $this->countMessages($conn) . ' (' . $this->countMessages2($conn) . ')' . PHP_EOL;
             } else {
                 $this->fail('ERROR: I haven\'t found your email');
             }
             $this->pop3_close($conn);
         }
+    }
+    
+
+    /**
+     * Unsubscribe from the mailing list
+     *
+     * @uses Can't unsubribe twice but only once. Even if you retry to subscribe, you can't.
+     */
+    public function testUnsubscribeMailingList() {
+        $response = null;
+        try {
+            $array = array(
+                'email' => self::$app_username
+            );
+            $response = $this->sendRequest(self::GET, self::MAILING_LIST . self::UNSUBSCRIBE, $array, self::TIMEOUT);
+        } catch (RequestException $e) {
+            $this->handleException($e);
+        }
+        $data = $this->checkResponse($response);
     }
 
     /**
@@ -277,23 +297,6 @@ class ExtranetApi extends RestApi_TestCase {
         $data = $this->checkResponse($response);
     }
 
-    /**
-     * Unsubscribe from the mailing list
-     *
-     * @uses Can't unsubribe twice but only once. Even if you retry to subscribe, you can't.
-     */
-    public function testUnsubscribeMailingList() {
-        $response = null;
-        try {
-            $array = array(
-                'email' => self::$app_username
-            );
-            $response = $this->sendRequest(self::GET, self::MAILING_LIST . self::UNSUBSCRIBE, $array, self::TIMEOUT);
-        } catch (RequestException $e) {
-            $this->handleException($e);
-        }
-        $data = $this->checkResponse($response);
-    }
 
     public function testFinish() {
         self::$climate->info('FINE TEST API OK!!!!!!!!');
@@ -529,6 +532,7 @@ class ExtranetApi extends RestApi_TestCase {
             $this->assertContains(self::APP_JSON_CT, $response->getHeader(self::CONTENT_TYPE)[0]);
             $this->assertEquals(self::OK, $response->getStatusCode());
             
+            self::$climate->shout("Response code is: " . $response->getStatusCode());
             // Getting data
             $data = json_decode($response->getBody(), true);
         }
