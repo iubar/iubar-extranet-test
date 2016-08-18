@@ -4,6 +4,8 @@ php:
 env:
   global:
     # - APP_HOST="iubar.it"
+before_script:
+.  - composer install --prefer-source --no-interaction --dev    
 script: phpunit
 notifications:
   email:
