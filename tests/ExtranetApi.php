@@ -3,13 +3,15 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
 use Iubar\Tests\RestApi_TestCase;
+use Iubar\Net\Pop3;
+use Iubar\Net\MailgunUtil;
 use League\CLImate\CLImate;
 
 /**
  * API Test
  *
- * @author Matteo
- * @global env app_username
+ * @author Borgo, Matteo
+ * @global env transact_email_user
  * @global env host
  * @global env port
  * @global env user
@@ -24,9 +26,11 @@ class ExtranetApi extends RestApi_TestCase {
 
     const ELEM_LIMIT = 3;
 
-    const PARTIAL_EMAIL = "postmaster@";
+    const PARTIAL_EMAIL = 'postmaster@';
 
-    const EMAIL_DOMAIN = "fatturatutto.it";
+    const EMAIL_DOMAIN = 'fatturatutto.it';
+    
+    const RECIPIENT = 'info@iubar.it';
 
     const GET = 'get';
 
@@ -38,8 +42,7 @@ class ExtranetApi extends RestApi_TestCase {
 
     const APP_JSON_CT = 'application/json';
     
-    // http status code
-    const OK = 200;
+    const HTTP_OK = 200;
 
     const RSS = 'rss';
 
@@ -57,41 +60,33 @@ class ExtranetApi extends RestApi_TestCase {
 
     const ID_EDIT_UNSUBSCRIBE = 2;
 
-    const NOME = "NomeTest";
+    const NOME = 'NomeTest';
 
-    const COGNOME = "CognomeTest";
+    const COGNOME = 'CognomeTest';
 
-    const PREFIX_SUBJECT = "msgTest";
+    const PREFIX_SUBJECT = 'msgTest';
     
     // seconds to wait before logging to the pop3 mailbox to delete the message
     const EMAIL_WAIT = 60;
-
-    protected static $host;
-
-    protected static $port;
-
-    protected static $user;
-
-    protected static $password;
-
-    protected static $ssl = false;
-
-    protected static $app_username;
     
+    /**
+     * seconds to wait before Mailgun writes log
+     *  @see: https://documentation.mailgun.com/api-events.html#event-polling
+     */
+    const LOG_WAIT = 15;
+
+    protected static $transact_email_user = null;
+    
+    protected static $transact_secret_api_key = null;
+    
+
+    protected $pop3 = null;
+
+
     // easily output colored text and special formatting
     protected static $climate;
-
-    /**
-     */
-    private static function printConfig() {
-        self::$climate->info("HOST: " . self::$host);
-        self::$climate->info("PORT: " . self::$port);
-        self::$climate->info("SSL: " . self::$ssl);
-        self::$climate->info("USER: " . self::$user);
-        self::$climate->info("PASSWORD: " . self::$password);
-        self::$climate->info("APP_USERNAME: " . self::$app_username);
-    }
-
+    
+ 
     /**
      * Create a Client
      */
@@ -105,27 +100,43 @@ class ExtranetApi extends RestApi_TestCase {
             'timeout' => self::TIMEOUT
         ]);
         
-        self::$host = getenv('MAIL_HOST');
-        self::$port = getenv('MAIL_PORT');
-        self::$ssl = getenv('MAIL_SSL');
-        self::$user = getenv('MAIL_USER');
-        self::$password = getenv('MAIL_PASSWORD');
-        self::$app_username = getenv('APP_USERNAME');
         
-        self::printConfig();
+        $host = getenv('MAIL_HOST');
+        $port = getenv('MAIL_PORT');
+        $ssl = getenv('MAIL_SSL');
+        $user = getenv('MAIL_USER');
+        $password = getenv('MAIL_PASSWORD');      
         
-        if (!self::$host) {
+        if (!$host) {
             die("Missing parameter: host" . PHP_EOL);
         }
-        if (!self::$port) {
+        if (!$port) {
             die("Missing parameter: port" . PHP_EOL);
         }
-        if (!self::$user) {
+        if (!$user) {
             die("Missing parameter: user" . PHP_EOL);
         }
-        if (!self::$password) {
+        if (!$password) {
             die("Missing parameter: password" . PHP_EOL);
         }
+                
+        $this->pop3 = new Pop3();
+        
+        $this->pop3->setHost($host);
+        $this->pop3->setPort($port);
+        $this->pop3->setSsl($ssl);
+        $this->pop3->setUser($user);
+        $this->pop3->setPassword($password);
+        self::$transact_email_user = getenv('TRANSACT_EMAIL_USER');
+        self::$transact_secret_api_key = getenv('TRANSACT_SECRET_API_KEY');
+        
+        self::$climate->info("HOST: " . $host);
+        self::$climate->info("PORT: " . $port);
+        self::$climate->info("SSL: " . $ssl);
+        self::$climate->info("USER: "  . $user);
+        self::$climate->info("PASSWORD: " . $password);
+        self::$climate->info("TRANSACT_EMAIL_USER: " . self::$transact_email_user);        
+
     }
 
     /**
@@ -133,7 +144,8 @@ class ExtranetApi extends RestApi_TestCase {
      *
      * @uses Some tweet could be filtered so the ELEM_LIMIT and the number of tweet could be different
      */
-    public function testTwitter() {
+    public function _testTwitter() {
+        self::$climate->info("Testing Twitter...");
         $response = null;
         try {
             $array = array(
@@ -157,7 +169,8 @@ class ExtranetApi extends RestApi_TestCase {
     /**
      * Test Rss
      */
-    public function testRss() {
+    public function _testRss() {
+        self::$climate->info("Testing Rss...");
         $response = null;
         try {
             $array = array(
@@ -176,13 +189,14 @@ class ExtranetApi extends RestApi_TestCase {
      * Send an email with a uniqid subject and delete it
      */
     public function testSendDeleteEmail() {
+        self::$climate->info("Testing SendDeleteEmail...");
         $response = null;
         
         // create a unique id for the subject of the email to identify it
         $expected_subject = uniqid(self::PREFIX_SUBJECT);
         try {
             $array = array(
-                'from_name' => self::$app_username,
+                'from_name' => self::$transact_email_user,
                 'from_email' => self::PARTIAL_EMAIL . self::EMAIL_DOMAIN,
                 'from_domain' => self::EMAIL_DOMAIN,
                 'subject' => $expected_subject,
@@ -194,24 +208,43 @@ class ExtranetApi extends RestApi_TestCase {
         }
         $data = $this->checkResponse($response);
         
+        /////////////////////
+        
+        sleep(self::LOG_WAIT);
+        
+        
+        $mailgun = new MailgunUtil(self::$transact_secret_api_key);
+        $mailgun->setDomain(self::EMAIL_DOMAIN);
+        $recipient = self::RECIPIENT;
+        $from = self::PARTIAL_EMAIL . self::EMAIL_DOMAIN;
+        $b = $mailgun->checkEvents($from, $recipient, $expected_subject);
+        if($b){
+            echo "OK" . PHP_EOL;            
+        }else{
+            echo "KO" . PHP_EOL;
+        }
+        die("!");
+        
+        ////////////////////
+        
         // wait for email arrived
         self::$climate->info("Waiting " . self::EMAIL_WAIT . " seconds...");
         sleep(self::EMAIL_WAIT);
         
         // connect to the email inbox
-        $conn = $this->pop3_login();
+        $conn = $this->pop3->pop3_login();
         $bOk = false;
         if (!$conn) {
             $this->fail('Connection error');
         } else {
             $subject = "";
             $msg_num = -1;
-            $messages = $this->pop3_list($conn);
+            $messages = $this->pop3->pop3_list();
             if (count($messages) > 0) {
                 foreach ($messages as $msg) {
                     $subject = $msg['subject'];
                     $msg_num = $msg['msgno'];
-                    echo "subject --> " . $subject . PHP_EOL;
+                    self::$climate->info("subject --> " . $subject);
                     $pos = strpos($subject, $expected_subject);
                     if ($pos !== false) {
                         $bOk = true;
@@ -221,20 +254,20 @@ class ExtranetApi extends RestApi_TestCase {
             }
             
             if ($bOk) {
-                echo PHP_EOL . 'I have found your email and I\'m trying to delete it...' . PHP_EOL;
-                echo "Number of messages in the mailbox: " . $this->countMessages($conn) . ' (' . $this->countMessages2($conn) . ')' . PHP_EOL;
+                self::$climate->info('I have found your email and I\'m trying to delete it...');
+                self::$climate->info("Number of messages in the mailbox: " . $this->pop3->countMessages() . ' (' . $this->pop3->countMessages2() . ')');
                 // delete the uniqid msg
-                $del = $this->pop3_dele($conn, $msg_num);
+                $del = $this->pop3->pop3_dele($msg_num);
                 if (!$del) {
                     $this->fail("Can't delete the message " . $msg_num . " with subject " . $subject);
                 } else {
-                    echo "Message deleted" . PHP_EOL;
+                    self::$climate->info("Message deleted");
                 }
-                echo "Number of messages in the mailbox after deletion: " . $this->countMessages($conn) . ' (' . $this->countMessages2($conn) . ')' . PHP_EOL;
+                self::$climate->info("Number of messages in the mailbox after deletion: " . $this->pop3->countMessages() . ' (' . $this->pop3->countMessages2() . ')');
             } else {
                 $this->fail('ERROR: I haven\'t found your email');
             }
-            $this->pop3_close($conn);
+            $this->pop3->pop3_close();
         }
     }
     
@@ -244,11 +277,12 @@ class ExtranetApi extends RestApi_TestCase {
      *
      * @uses Can't unsubribe twice but only once. Even if you retry to subscribe, you can't.
      */
-    public function testUnsubscribeMailingList() {
+    public function _testUnsubscribeMailingList() {
+        self::$climate->info("Testing UnsubscribeMailingList...");
         $response = null;
         try {
             $array = array(
-                'email' => self::$app_username
+                'email' => self::$transact_email_user
             );
             $response = $this->sendRequest(self::GET, self::MAILING_LIST . self::UNSUBSCRIBE, $array, self::TIMEOUT);
         } catch (RequestException $e) {
@@ -260,11 +294,12 @@ class ExtranetApi extends RestApi_TestCase {
     /**
      * Subscribe into the mailing list
      */
-    public function testSubscribeMailingList() {
+    public function _testSubscribeMailingList() {
+        self::$climate->info("Testing SubscribeMailingList...");
         $response = null;
         try {
             $array = array(
-                'email' => self::$app_username,
+                'email' => self::$transact_email_user,
                 'nome' => self::NOME,
                 'cognome' => self::COGNOME,
                 'idprofessione' => self::ID_SUBSCRIBE,
@@ -280,12 +315,13 @@ class ExtranetApi extends RestApi_TestCase {
     /**
      * Edit from the mailing list
      */
-    public function testEditMailingList() {
+    public function _testEditMailingList() {
+        self::$climate->info("Testing EditMailingList...");
         $response = null;
         try {
             // Param 'list_id' cannot be modified
             $array = array(
-                'email' => self::$app_username,
+                'email' => self::$transact_email_user,
                 'nome' => self::NOME,
                 'cognome' => self::COGNOME,
                 'idprofessione' => self::ID_EDIT_UNSUBSCRIBE
@@ -299,203 +335,10 @@ class ExtranetApi extends RestApi_TestCase {
 
 
     public function testFinish() {
-        self::$climate->info('FINE TEST API OK!!!!!!!!');
+        self::$climate->info('TEST API OK!!!!!!!!');
     }
 
-    /**
-     * Make the login with pop3
-     *
-     * @param string $folder default:INBOX
-     */
-    protected function pop3_login($folder = "INBOX") {
-        $pop3_folder = $this->getPop3Folder($folder);
-        $conn = (imap_open($pop3_folder, self::$user, self::$password)) or die("Can't connect: " . imap_last_error());
-        return $conn;
-    }
-
-    protected function getPop3Folder($folder = "INBOX") {
-        $ssl = (self::$ssl == true) ? "/ssl/novalidate-cert" : "";
-        $mail_folder = "{" . self::$host . ":" . self::$port . "/pop3" . $ssl . "}" . $folder;
-        return $mail_folder;
-    }
-
-    /**
-     * Delete the given message
-     *
-     * @param string $connection the connection
-     * @param string $msg_num
-     */
-    protected function pop3_dele($connection, $msg_num) {
-        $b = (imap_delete($connection, $msg_num));
-        if (!$b) {
-            echo "imap_delete() failed: " . imap_last_error() . PHP_EOL;
-        } else {
-            imap_expunge($connection);
-        }
-        return $b;
-    }
-
-    /**
-     * Count the number of message in connection folder
-     *
-     * @param string $connection the connection
-     * @return number the number of the messages
-     */
-    protected function countMessages($connection) {
-        $n = 0;
-        $check = imap_mailboxmsginfo($connection);
-        if ($check) {
-            $n = $check->Nmsgs;
-        } else {
-            echo "imap_mailboxmsginfo() failed: " . imap_last_error() . PHP_EOL;
-        }
-        return $n;
-    }
-
-    protected function countMessages2($connection) {
-        $n = 0;
-        $status = imap_status($connection, $this->getPop3Folder(), SA_ALL);
-        if ($status) {
-            $n = $status->messages;
-        } else {
-            echo "imap_mailboxmsginfo() failed: " . imap_last_error() . PHP_EOL;
-        }
-        return $n;
-    }
-
-    /**
-     * Give all the messages of the connection folder
-     *
-     * @param string $connection the connection
-     * @param string $message the message
-     * @return array all the messages
-     */
-    protected function pop3_list($connection, $message = "") {
-        $result = array();
-        if ($message) {
-            $range = $message;
-        } else {
-            $MC = imap_check($connection);
-            $range = "1:" . $MC->Nmsgs;
-        }
-        $response = imap_fetch_overview($connection, $range);
-        foreach ($response as $msg) {
-            $result[$msg->msgno] = (array) $msg;
-        }
-        return $result;
-    }
-
-    /**
-     * Close the connection
-     *
-     * @param string $conn the connection
-     */
-    protected function pop3_close($conn) {
-        imap_close($conn);
-    }
-
-    /**
-     * unutilized function
-     *
-     * @param string $connection
-     * @param string $message
-     */
-    protected function pop3_retr($connection, $message) {
-        return (imap_fetchheader($connection, $message, FT_PREFETCHTEXT));
-    }
-
-    /**
-     * unutilized function
-     *
-     * @param string $headers
-     * @return unknown
-     */
-    protected function mail_parse_headers($headers) {
-        $headers = preg_replace('/\r\n\s+/m', '', $headers);
-        preg_match_all('/([^: ]+): (.+?(?:\r\n\s(?:.+?))*)?\r\n/m', $headers, $matches);
-        foreach ($matches[1] as $key => $value)
-            $result[$value] = $matches[2][$key];
-        return ($result);
-    }
-
-    /**
-     * unutilized function
-     *
-     * @param unknown $imap
-     * @param unknown $mid
-     * @param string $parse_headers
-     * @return unknown
-     */
-    protected function mail_mime_to_array($imap, $mid, $parse_headers = false) {
-        $mail = imap_fetchstructure($imap, $mid);
-        $mail = mail_get_parts($imap, $mid, $mail, 0);
-        if ($parse_headers)
-            $mail[0]["parsed"] = mail_parse_headers($mail[0]["data"]);
-        return ($mail);
-    }
-
-    /**
-     * unutilized function
-     *
-     * @param unknown $imap
-     * @param unknown $mid
-     * @param unknown $part
-     * @param unknown $prefix
-     * @return NULL[]
-     */
-    protected function mail_get_parts($imap, $mid, $part, $prefix) {
-        $attachments = array();
-        $attachments[$prefix] = mail_decode_part($imap, $mid, $part, $prefix);
-        if (isset($part->parts)) // multipart
-{
-            $prefix = ($prefix == "0") ? "" : "$prefix.";
-            foreach ($part->parts as $number => $subpart)
-                $attachments = array_merge($attachments, mail_get_parts($imap, $mid, $subpart, $prefix . ($number + 1)));
-        }
-        return $attachments;
-    }
-
-    /**
-     * unutilized function
-     *
-     * @param unknown $connection
-     * @param unknown $message_number
-     * @param unknown $part
-     * @param unknown $prefix
-     * @return boolean[]|NULL[]
-     */
-    protected function mail_decode_part($connection, $message_number, $part, $prefix) {
-        $attachment = array();
-        
-        if ($part->ifdparameters) {
-            foreach ($part->dparameters as $object) {
-                $attachment[strtolower($object->attribute)] = $object->value;
-                if (strtolower($object->attribute) == 'filename') {
-                    $attachment['is_attachment'] = true;
-                    $attachment['filename'] = $object->value;
-                }
-            }
-        }
-        
-        if ($part->ifparameters) {
-            foreach ($part->parameters as $object) {
-                $attachment[strtolower($object->attribute)] = $object->value;
-                if (strtolower($object->attribute) == 'name') {
-                    $attachment['is_attachment'] = true;
-                    $attachment['name'] = $object->value;
-                }
-            }
-        }
-        
-        $attachment['data'] = imap_fetchbody($connection, $message_number, $prefix);
-        if ($part->encoding == 3) { // 3 = BASE64
-            $attachment['data'] = base64_decode($attachment['data']);
-        } elseif ($part->encoding == 4) { // 4 = QUOTED-PRINTABLE
-            $attachment['data'] = quoted_printable_decode($attachment['data']);
-        }
-        return ($attachment);
-    }
-
+    
     /**
      * Send an http request and return the response
      *
@@ -518,7 +361,7 @@ class ExtranetApi extends RestApi_TestCase {
         }
         return $response;
     }
-
+    
     /**
      * Check the OK status code and the APP_JSON_CT content type of the response
      *
@@ -530,12 +373,14 @@ class ExtranetApi extends RestApi_TestCase {
         if ($response) {
             // Response
             $this->assertContains(self::APP_JSON_CT, $response->getHeader(self::CONTENT_TYPE)[0]);
-            $this->assertEquals(self::OK, $response->getStatusCode());
-            
+            $this->assertEquals(self::HTTP_OK, $response->getStatusCode());
+    
             self::$climate->shout("Response code is: " . $response->getStatusCode());
             // Getting data
             $data = json_decode($response->getBody(), true);
         }
         return $data;
     }
+    
+
 }
