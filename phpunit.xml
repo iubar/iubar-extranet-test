@@ -28,7 +28,9 @@
 
 	<testsuites>
 		<testsuite name="Extranet Api">
-			<file>./tests/ExtranetApi.php</file>
+			<file>./tests/Others.php</file>
+			<file>./tests/TransactionalEmail.php</file>			
+<!-- 			<file>./tests/MailingList.php</file> -->
 		</testsuite>		
 		<!-- <testsuite name="All Tests"> -->
 		<!-- <directory suffix=".php">./tests/</directory> -->
