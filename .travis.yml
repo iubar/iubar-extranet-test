@@ -1,0 +1,15 @@
+language: php
+php:
+- 5.5
+env:
+  global:
+    - APP_HOST="iubar.it"
+script: phpunit
+notifications:
+  email:
+    recipients:
+      - ${EMAIL_BORGO}
+    on_success: change  # options: [always|never|change] default: changes
+    on_failure: always  # options: [always|never|change] default: always
+
+    
