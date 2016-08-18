@@ -3,7 +3,7 @@ php:
 - 5.5
 env:
   global:
-    - APP_HOST="iubar.it"
+    # - APP_HOST="iubar.it"
 script: phpunit
 notifications:
   email:
