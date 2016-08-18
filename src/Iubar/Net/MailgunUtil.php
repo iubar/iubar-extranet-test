@@ -40,7 +40,7 @@ class MailgunUtil {
             'recipient' => $recipient
         );        
         
-        $this->printQuery($queryString);
+        $this->printJson('Query is: ', $queryString);
         
         // Make the call to the client.
         $result = $this->mgClient->get($this->domain . "/events", $queryString);
@@ -59,10 +59,7 @@ class MailgunUtil {
                     $b = true;                    
                 }else{
                     echo "ERROR: message status is '" . $item->event . "' !" . PHP_EOL;
-                    $status = $item->delivery-status;
-                    $json = json_encode($status, JSON_PRETTY_PRINT);
-                    echo "Delivery Status:" . PHP_EOL;
-                    echo $json-status . PHP_EOL;
+                    $this->printJson('Delivery Status: ', $item->delivery-status);
                 }
                 break;
             }
@@ -81,7 +78,7 @@ class MailgunUtil {
             'pretty' => 'yes',
             'event' => 'rejected OR failed'
         );
-        $this->printQuery($queryString);
+        $this->printJson('Query is: ', $queryString);
         $result = $this->mgClient->get($this->domain . "/events", $queryString);
         
 //     {
@@ -161,8 +158,8 @@ class MailgunUtil {
         return $now_str;
     }
     
-    private function printQuery($queryString){
-        echo "Query is: " . PHP_EOL . json_encode($queryString, JSON_PRETTY_PRINT) . PHP_EOL;
+    private function printJson($label, $obj_or_array){
+        echo $label . PHP_EOL . json_encode($obj_or_array, JSON_PRETTY_PRINT) . PHP_EOL;
     }
     
 }
