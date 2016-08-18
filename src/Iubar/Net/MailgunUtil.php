@@ -55,16 +55,26 @@ class MailgunUtil {
             $pos = strpos($subject, $subject_substr);
             if ($pos !== false) {
                 if($item->event == 'delivered'){
+                    echo "Ok: message was delivered !" . PHP_EOL;
                     $b = true;                    
+                }else{
+                    echo "ERROR: message status is '" . $item->event . "' !" . PHP_EOL;
+                    $status = $item->delivery-status;
+                    $json = json_encode($status, JSON_PRETTY_PRINT);
+                    echo "Delivery Status:" . PHP_EOL;
+                    echo $json-status . PHP_EOL;
                 }
                 break;
             }
-        }
-        
+        }        
         return $b;
     }
 
-    public function checkErrorEvents($recipient, $subject) {
+    
+    /**
+     *  Only as example
+     */
+    private function checkErrorEvents() {
         
         // Fetches the first page of log records that contain different types of failure, starting from the most recent:
         $queryString = array(
