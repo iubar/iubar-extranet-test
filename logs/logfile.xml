@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Extranet Api" tests="17" assertions="63" failures="0" errors="0" time="106.870114">
+    <testsuite name="Extranet\MailingListTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\MailingListTest.php" tests="3" assertions="11" failures="0" errors="0" time="4.281245">
+      <testcase name="testSubscribe" class="Extranet\MailingListTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\MailingListTest.php" line="58" assertions="5" time="2.139122"/>
+      <testcase name="testEditSubscription" class="Extranet\MailingListTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\MailingListTest.php" line="94" assertions="2" time="0.106006"/>
+      <testcase name="testUnsubscribe" class="Extranet\MailingListTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\MailingListTest.php" line="116" assertions="4" time="2.036117"/>
+    </testsuite>
+    <testsuite name="Extranet\TransactionalEmailTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\TransactionalEmailTest.php" tests="1" assertions="2" failures="0" errors="0" time="80.367597">
+      <testcase name="testContact" class="Extranet\TransactionalEmailTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\TransactionalEmailTest.php" line="115" assertions="2" time="80.367597">
+        <system-out>GuzzleHttp\Psr7\Response Object
+(
+    [reasonPhrase:GuzzleHttp\Psr7\Response:private] =&gt; OK
+    [statusCode:GuzzleHttp\Psr7\Response:private] =&gt; 200
+    [headers:GuzzleHttp\Psr7\Response:private] =&gt; Array
+        (
+            [Date] =&gt; Array
+                (
+                    [0] =&gt; Tue, 06 Sep 2016 08:56:49 GMT
+                )
+
+            [Server] =&gt; Array
+                (
+                    [0] =&gt; Apache/2.4.7 (Win32) PHP/5.5.36
+                )
+
+            [X-Powered-By] =&gt; Array
+                (
+                    [0] =&gt; PHP/5.5.36
+                )
+
+            [Access-Control-Allow-Origin] =&gt; Array
+                (
+                    [0] =&gt; *
+                )
+
+            [Content-Length] =&gt; Array
+                (
+                    [0] =&gt; 56
+                )
+
+            [Content-Type] =&gt; Array
+                (
+                    [0] =&gt; application/json; charset=utf-8
+                )
+
+        )
+
+    [headerNames:GuzzleHttp\Psr7\Response:private] =&gt; Array
+        (
+            [date] =&gt; Date
+            [server] =&gt; Server
+            [x-powered-by] =&gt; X-Powered-By
+            [access-control-allow-origin] =&gt; Access-Control-Allow-Origin
+            [content-length] =&gt; Content-Length
+            [content-type] =&gt; Content-Type
+        )
+
+    [protocol:GuzzleHttp\Psr7\Response:private] =&gt; 1.1
+    [stream:GuzzleHttp\Psr7\Response:private] =&gt; GuzzleHttp\Psr7\Stream Object
+        (
+            [stream:GuzzleHttp\Psr7\Stream:private] =&gt; Resource id #1306
+            [size:GuzzleHttp\Psr7\Stream:private] =&gt; 
+            [seekable:GuzzleHttp\Psr7\Stream:private] =&gt; 1
+            [readable:GuzzleHttp\Psr7\Stream:private] =&gt; 1
+            [writable:GuzzleHttp\Psr7\Stream:private] =&gt; 1
+            [uri:GuzzleHttp\Psr7\Stream:private] =&gt; php://temp
+            [customMetadata:GuzzleHttp\Psr7\Stream:private] =&gt; Array
+                (
+                )
+
+        )
+
+)
+Query is: &#13;
+{
+    "begin": "Tue, 06 Sep 2016 10:57:06 +0200",
+    "ascending": "no",
+    "limit": 10,
+    "pretty": "yes",
+    "recipient": "info@iubar.it"
+}&#13;
+Items fetched: 10&#13;
+Search pattern: msgTest57ce84d175d14&#13;
+Reading subject: DANIELE-PC: Contatto dal sito - msgTest57ce84d175d14 - fatturatutto.it&#13;
+Ok: message was delivered !&#13;
+</system-out>
+      </testcase>
+    </testsuite>
+    <testsuite name="Extranet\OthersTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\OthersTest.php" tests="7" assertions="22" failures="0" errors="0" time="21.453227">
+      <testcase name="testTwitter" class="Extranet\OthersTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\OthersTest.php" line="55" assertions="4" time="1.662095"/>
+      <testcase name="testRss" class="Extranet\OthersTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\OthersTest.php" line="78" assertions="3" time="2.730156"/>
+      <testcase name="testChecksum" class="Extranet\OthersTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\OthersTest.php" line="92" assertions="4" time="0.128008"/>
+      <testcase name="testBenchmark" class="Extranet\OthersTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\OthersTest.php" line="135" assertions="3" time="15.099864"/>
+      <testcase name="testGeoDecoder" class="Extranet\OthersTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\OthersTest.php" line="159" assertions="3" time="1.279073"/>
+      <testcase name="testGeoReverseDecoder" class="Extranet\OthersTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\OthersTest.php" line="174" assertions="1" time="0.288016"/>
+      <testcase name="testIp2Geo" class="Extranet\OthersTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\OthersTest.php" line="189" assertions="4" time="0.266015"/>
+    </testsuite>
+    <testsuite name="Extranet\EchoDataTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\EchoDataTest.php" tests="6" assertions="28" failures="0" errors="0" time="0.768045">
+      <testcase name="testEchoGet" class="Extranet\EchoDataTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\EchoDataTest.php" line="40" assertions="5" time="0.113007"/>
+      <testcase name="testEchoGet2" class="Extranet\EchoDataTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\EchoDataTest.php" line="61" assertions="5" time="0.121007"/>
+      <testcase name="testEchoPost" class="Extranet\EchoDataTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\EchoDataTest.php" line="79" assertions="5" time="0.105006"/>
+      <testcase name="testEchoPost2" class="Extranet\EchoDataTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\EchoDataTest.php" line="96" assertions="5" time="0.105006"/>
+      <testcase name="testEchoPost3" class="Extranet\EchoDataTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\EchoDataTest.php" line="117" assertions="5" time="0.134008"/>
+      <testcase name="testEchoPost6" class="Extranet\EchoDataTest" file="C:\Users\Daniele\workspace_php\iubar-extranet-test\tests\EchoDataTest.php" line="143" assertions="3" time="0.190011"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

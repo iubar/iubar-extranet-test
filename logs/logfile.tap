@@ -1,0 +1,95 @@
+TAP version 13
+ok 1 - Extranet\MailingListTest::testSubscribe
+ok 2 - Extranet\MailingListTest::testEditSubscription
+ok 3 - Extranet\MailingListTest::testUnsubscribe
+ok 4 - Extranet\TransactionalEmailTest::testContact
+# GuzzleHttp\Psr7\Response Object
+# (
+#     [reasonPhrase:GuzzleHttp\Psr7\Response:private] => OK
+#     [statusCode:GuzzleHttp\Psr7\Response:private] => 200
+#     [headers:GuzzleHttp\Psr7\Response:private] => Array
+#         (
+#             [Date] => Array
+#                 (
+#                     [0] => Tue, 06 Sep 2016 08:56:49 GMT
+#                 )
+# 
+#             [Server] => Array
+#                 (
+#                     [0] => Apache/2.4.7 (Win32) PHP/5.5.36
+#                 )
+# 
+#             [X-Powered-By] => Array
+#                 (
+#                     [0] => PHP/5.5.36
+#                 )
+# 
+#             [Access-Control-Allow-Origin] => Array
+#                 (
+#                     [0] => *
+#                 )
+# 
+#             [Content-Length] => Array
+#                 (
+#                     [0] => 56
+#                 )
+# 
+#             [Content-Type] => Array
+#                 (
+#                     [0] => application/json; charset=utf-8
+#                 )
+# 
+#         )
+# 
+#     [headerNames:GuzzleHttp\Psr7\Response:private] => Array
+#         (
+#             [date] => Date
+#             [server] => Server
+#             [x-powered-by] => X-Powered-By
+#             [access-control-allow-origin] => Access-Control-Allow-Origin
+#             [content-length] => Content-Length
+#             [content-type] => Content-Type
+#         )
+# 
+#     [protocol:GuzzleHttp\Psr7\Response:private] => 1.1
+#     [stream:GuzzleHttp\Psr7\Response:private] => GuzzleHttp\Psr7\Stream Object
+#         (
+#             [stream:GuzzleHttp\Psr7\Stream:private] => Resource id #1306
+#             [size:GuzzleHttp\Psr7\Stream:private] => 
+#             [seekable:GuzzleHttp\Psr7\Stream:private] => 1
+#             [readable:GuzzleHttp\Psr7\Stream:private] => 1
+#             [writable:GuzzleHttp\Psr7\Stream:private] => 1
+#             [uri:GuzzleHttp\Psr7\Stream:private] => php://temp
+#             [customMetadata:GuzzleHttp\Psr7\Stream:private] => Array
+#                 (
+#                 )
+# 
+#         )
+# 
+# )
+# Query is: 
+# {
+#     "begin": "Tue, 06 Sep 2016 10:57:06 +0200",
+#     "ascending": "no",
+#     "limit": 10,
+#     "pretty": "yes",
+#     "recipient": "info@iubar.it"
+# }
+# Items fetched: 10
+# Search pattern: msgTest57ce84d175d14
+# Reading subject: DANIELE-PC: Contatto dal sito - msgTest57ce84d175d14 - fatturatutto.it
+# Ok: message was delivered !
+ok 5 - Extranet\OthersTest::testTwitter
+ok 6 - Extranet\OthersTest::testRss
+ok 7 - Extranet\OthersTest::testChecksum
+ok 8 - Extranet\OthersTest::testBenchmark
+ok 9 - Extranet\OthersTest::testGeoDecoder
+ok 10 - Extranet\OthersTest::testGeoReverseDecoder
+ok 11 - Extranet\OthersTest::testIp2Geo
+ok 12 - Extranet\EchoDataTest::testEchoGet
+ok 13 - Extranet\EchoDataTest::testEchoGet2
+ok 14 - Extranet\EchoDataTest::testEchoPost
+ok 15 - Extranet\EchoDataTest::testEchoPost2
+ok 16 - Extranet\EchoDataTest::testEchoPost3
+ok 17 - Extranet\EchoDataTest::testEchoPost6
+1..17

@@ -27,15 +27,27 @@
 	<!-- timeoutForLargeTests="60" -->
 
 	<testsuites>
+
 		<testsuite name="Extranet Api">
-			<file>./tests/Others.php</file>
-			<file>./tests/TransactionalEmail.php</file>			
-<!-- 			<file>./tests/MailingList.php</file> -->
-		</testsuite>		
+
+
+
+<!-- 			<file>./tests/IpaTest.php</file> -->
+<file>./tests/MailingListTest.php</file>			
+<!--  			<file>./tests/AuthTest.php</file> -->
+
+			<file>./tests/TransactionalEmailTest.php</file>	
+ 			<file>./tests/OthersTest.php</file>
+			<file>./tests/EchoDataTest.php</file>
+			
+		</testsuite>
+				
 		<!-- <testsuite name="All Tests"> -->
-		<!-- <directory suffix=".php">./tests/</directory> -->
+			<!-- <directory suffix=".php">./tests/</directory> -->
 		<!-- </testsuite> -->
+	  
 	</testsuites>
+	
 
 	<php>
 		<!-- Specify the path to a service configuration file -->
@@ -46,20 +58,19 @@
 			by grabbing them from the $_SERVER superglobal: $apiUser = $_SERVER['API_USER']; -->
 	</php>
 
-	<!-- <logging> -->
+	<logging>
 	<!-- <log type="coverage-html" target="/tmp/report" lowUpperBound="35" highLowerBound="70"/> -->
 	<!-- <log type="coverage-clover" target="/tmp/coverage.xml"/> -->
 	<!-- <log type="coverage-php" target="/tmp/coverage.serialized"/> -->
 	<!-- <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/> -->
-	<!-- <log type="json" target="logs/logfile.json" /> -->
-	<!-- <log type="tap" target="logs/logfile.tap" /> -->
-	<!-- <log type="junit" target="logs/logfile.xml" logIncompleteSkipped="false" 
-		/> -->
+	<log type="json" target="./logs/logfile.json" />
+	<log type="tap" target="./logs/logfile.tap" />
+	<log type="junit" target="./logs/logfile.xml" logIncompleteSkipped="false" />
 	<!-- <log type="testdox-html" target="/tmp/testdox.html"/> -->
 	<!-- <log type="testdox-text" target="/tmp/testdox.txt"/> -->
-	<!-- </logging> -->
-
-	<!-- Including and Excluding Files for Code Coverage -->
+	</logging>
+	
+ 	<!-- Including and Excluding Files for Code Coverage -->
 	<!-- The <filter> element and its children can be used to configure the 
 		blacklist and whitelist for the code coverage reporting. -->
 	<!-- <filter> -->

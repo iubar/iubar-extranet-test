@@ -1,5 +1,5 @@
 {
-	"name" : "iubar/extranet-test",
+	"name" : "iubar/iubar-extranet-test",
     "description": "",
     "keywords": ["package", "dependency", "autoload"],
     "homepage": "https://www.fatturatutto.it",
@@ -17,26 +17,33 @@
     ],
     
     "repositories": [
+           
 	        {
 	            "type": "git",
 	            "url": "https://github.com/iubar/iubar-web-test.git"
-	        }     
+	        },
+	        {
+	            "type": "git",
+	            "url": "https://github.com/iubar/iubar-php-common.git"
+	        } 	        
 	    ],
  
     "require-dev": {
         "php": ">=5.5.0",
         "guzzlehttp/guzzle": "~6.0",
+        "guzzlehttp/psr7" : "*",
         "league/climate": "*",
-        "mailgun/mailgun-php": "*",
+        "mailgun/mailgun-php": "*",        
         "php-http/guzzle6-adapter": "*",
-        "iubar/iubar-web-test": "dev-master@dev"
+        "iubar/iubar-web-test": "dev-master@dev",
+        "iubar/iubar-php-common": "dev-master@dev",
+        "devster/ubench": "*"
         
     },
     
     "autoload": {
     	"psr-4": {
-    		"Extranet\\": "tests/",
-    		"Iubar\\": "src/Iubar/"
+    		"Extranet\\": "tests/"
         }  
 	}
 }

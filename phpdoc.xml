@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- Non so come usare l'opzione per definire alcuni 'custom tags' all'interno di questo file xml di configurazione -->
+<!-- http://manual.phpdoc.org/HTMLSmartyConverter/default/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html#using.command-line.customtags  -->
+<!-- L'uso da riga di comando è il seguente: -->
+<!-- "phpdoc -ct mytag,anothertag" -->
+
+<!-- Vedi: http://phpdoc.org/docs/latest/references/configuration.html -->
+<phpdoc>
+<!--   <title>Titolo</title> -->
+  <parser>
+    <target>./docs/phpdoc</target>
+<!-- Se definisco l'encoding ho dei problemi. Bug ?     -->
+<!--     <encoding>utf8</encoding> -->
+        <markers>
+            <item>TODO</item>
+            <item>FIXME</item>
+        </markers>  
+        <extensions>
+            <extension>php</extension>
+        </extensions>  
+  </parser>
+  <transformer>
+    <target>../docs/phpdoc</target>
+  </transformer>
+  <transformations>
+  		<template name="clean" />
+  </transformations>  
+  <files>
+    <directory>./src</directory>    
+<!-- 	<file>test.php</file> -->
+        <ignore-hidden>true</ignore-hidden>
+        <ignore-symlinks>true</ignore-symlinks>
+		<ignore>./vendor/*</ignore>
+  </files>
+<!--   <logging> -->
+<!--       <level>debug</level> -->
+<!--       <paths> -->
+<!--           <default>{APP_ROOT}/doc/log/{DATE}.log</default> -->
+<!--           <errors>{APP_ROOT}/doc/log/{DATE}.errors.log</errors> -->
+<!--       </paths> -->
+<!--   </logging> -->
+      
+</phpdoc>

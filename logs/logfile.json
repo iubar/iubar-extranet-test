@@ -1,0 +1,242 @@
+{
+    "event": "suiteStart",
+    "suite": "Extranet Api",
+    "tests": 17
+}{
+    "event": "suiteStart",
+    "suite": "Extranet\\MailingListTest",
+    "tests": 3
+}{
+    "event": "testStart",
+    "suite": "Extranet\\MailingListTest",
+    "test": "Extranet\\MailingListTest::testSubscribe"
+}{
+    "event": "test",
+    "suite": "Extranet\\MailingListTest",
+    "test": "Extranet\\MailingListTest::testSubscribe",
+    "status": "pass",
+    "time": 2.1391220092773,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\MailingListTest",
+    "test": "Extranet\\MailingListTest::testEditSubscription"
+}{
+    "event": "test",
+    "suite": "Extranet\\MailingListTest",
+    "test": "Extranet\\MailingListTest::testEditSubscription",
+    "status": "pass",
+    "time": 0.10600614547729,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\MailingListTest",
+    "test": "Extranet\\MailingListTest::testUnsubscribe"
+}{
+    "event": "test",
+    "suite": "Extranet\\MailingListTest",
+    "test": "Extranet\\MailingListTest::testUnsubscribe",
+    "status": "pass",
+    "time": 2.0361168384552,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "suiteStart",
+    "suite": "Extranet\\TransactionalEmailTest",
+    "tests": 1
+}{
+    "event": "testStart",
+    "suite": "Extranet\\TransactionalEmailTest",
+    "test": "Extranet\\TransactionalEmailTest::testContact"
+}{
+    "event": "test",
+    "suite": "Extranet\\TransactionalEmailTest",
+    "test": "Extranet\\TransactionalEmailTest::testContact",
+    "status": "pass",
+    "time": 80.367597103119,
+    "trace": [],
+    "message": "",
+    "output": "GuzzleHttp\\Psr7\\Response Object\n(\n    [reasonPhrase:GuzzleHttp\\Psr7\\Response:private] => OK\n    [statusCode:GuzzleHttp\\Psr7\\Response:private] => 200\n    [headers:GuzzleHttp\\Psr7\\Response:private] => Array\n        (\n            [Date] => Array\n                (\n                    [0] => Tue, 06 Sep 2016 08:56:49 GMT\n                )\n\n            [Server] => Array\n                (\n                    [0] => Apache\/2.4.7 (Win32) PHP\/5.5.36\n                )\n\n            [X-Powered-By] => Array\n                (\n                    [0] => PHP\/5.5.36\n                )\n\n            [Access-Control-Allow-Origin] => Array\n                (\n                    [0] => *\n                )\n\n            [Content-Length] => Array\n                (\n                    [0] => 56\n                )\n\n            [Content-Type] => Array\n                (\n                    [0] => application\/json; charset=utf-8\n                )\n\n        )\n\n    [headerNames:GuzzleHttp\\Psr7\\Response:private] => Array\n        (\n            [date] => Date\n            [server] => Server\n            [x-powered-by] => X-Powered-By\n            [access-control-allow-origin] => Access-Control-Allow-Origin\n            [content-length] => Content-Length\n            [content-type] => Content-Type\n        )\n\n    [protocol:GuzzleHttp\\Psr7\\Response:private] => 1.1\n    [stream:GuzzleHttp\\Psr7\\Response:private] => GuzzleHttp\\Psr7\\Stream Object\n        (\n            [stream:GuzzleHttp\\Psr7\\Stream:private] => Resource id #1306\n            [size:GuzzleHttp\\Psr7\\Stream:private] => \n            [seekable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [readable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [writable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [uri:GuzzleHttp\\Psr7\\Stream:private] => php:\/\/temp\n            [customMetadata:GuzzleHttp\\Psr7\\Stream:private] => Array\n                (\n                )\n\n        )\n\n)\nQuery is: \r\n{\n    \"begin\": \"Tue, 06 Sep 2016 10:57:06 +0200\",\n    \"ascending\": \"no\",\n    \"limit\": 10,\n    \"pretty\": \"yes\",\n    \"recipient\": \"info@iubar.it\"\n}\r\nItems fetched: 10\r\nSearch pattern: msgTest57ce84d175d14\r\nReading subject: DANIELE-PC: Contatto dal sito - msgTest57ce84d175d14 - fatturatutto.it\r\nOk: message was delivered !\r\n"
+}{
+    "event": "suiteStart",
+    "suite": "Extranet\\OthersTest",
+    "tests": 7
+}{
+    "event": "testStart",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testTwitter"
+}{
+    "event": "test",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testTwitter",
+    "status": "pass",
+    "time": 1.6620950698853,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testRss"
+}{
+    "event": "test",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testRss",
+    "status": "pass",
+    "time": 2.7301559448242,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testChecksum"
+}{
+    "event": "test",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testChecksum",
+    "status": "pass",
+    "time": 0.12800812721252,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testBenchmark"
+}{
+    "event": "test",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testBenchmark",
+    "status": "pass",
+    "time": 15.099864006042,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testGeoDecoder"
+}{
+    "event": "test",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testGeoDecoder",
+    "status": "pass",
+    "time": 1.2790729999542,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testGeoReverseDecoder"
+}{
+    "event": "test",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testGeoReverseDecoder",
+    "status": "pass",
+    "time": 0.28801608085632,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testIp2Geo"
+}{
+    "event": "test",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testIp2Geo",
+    "status": "pass",
+    "time": 0.26601505279541,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "suiteStart",
+    "suite": "Extranet\\EchoDataTest",
+    "tests": 6
+}{
+    "event": "testStart",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoGet"
+}{
+    "event": "test",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoGet",
+    "status": "pass",
+    "time": 0.11300683021545,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoGet2"
+}{
+    "event": "test",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoGet2",
+    "status": "pass",
+    "time": 0.12100696563721,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost"
+}{
+    "event": "test",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost",
+    "status": "pass",
+    "time": 0.10500597953796,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost2"
+}{
+    "event": "test",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost2",
+    "status": "pass",
+    "time": 0.10500597953796,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost3"
+}{
+    "event": "test",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost3",
+    "status": "pass",
+    "time": 0.13400793075562,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost6"
+}{
+    "event": "test",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost6",
+    "status": "pass",
+    "time": 0.1900110244751,
+    "trace": [],
+    "message": "",
+    "output": ""
+}
