@@ -11,10 +11,7 @@ abstract class Extranet_TestCase extends RestApi_TestCase {
     //         $this->markTestIncomplete(
     //             'This test has not been implemented yet.'
     //         );
-    
-    // protected static $iubar_extranet_api = 'http://www.iubar.it/extranet/api/';
-    protected static $iubar_extranet_api = 'http://extranet/api/';
-    
+        
     // easily output colored text and special formatting
     protected static $climate = null;
        
@@ -25,6 +22,13 @@ abstract class Extranet_TestCase extends RestApi_TestCase {
     protected function sleep($seconds){
         self::$climate->info('Waiting ' . $seconds . ' seconds...');
         sleep($seconds);
+    }
+    
+    protected static function getHost(){
+        $http_host = getenv('HTTP_HOST');
+        if(!$http_host){
+            $this->fail('Wrong config');
+        }
     }
     
 }

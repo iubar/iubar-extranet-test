@@ -49,7 +49,7 @@ class MailingListTest extends Extranet_TestCase {
      * Create a Client
      */    
     public function setUp() {
-        $this->client = parent::factoryClient(self::$iubar_extranet_api . 'mailing-list/');        
+        $this->client = parent::factoryClient(self::getHost() . DIRECTORY_SEPARATOR . 'mailing-list/');        
     }           
 
     /**

@@ -62,7 +62,7 @@ class IpaTest extends Extranet_TestCase {
      * Create a Client
      */
     public function setUp() {
-         $this->client = parent::factoryClient(self::$iubar_extranet_api);
+         $this->client = parent::factoryClient(self::getHost() . DIRECTORY_SEPARATOR);
     }
 
     private function requestIpaApi($route, $data) {

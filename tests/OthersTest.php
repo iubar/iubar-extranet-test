@@ -44,7 +44,7 @@ class OthersTest extends Extranet_TestCase {
      * Create a Client
      */    
     public function setUp() {
-        $this->client = parent::factoryClient(self::$iubar_extranet_api);        
+        $this->client = parent::factoryClient(self::getHost() . DIRECTORY_SEPARATOR);        
     }
 
     /**
@@ -92,7 +92,7 @@ class OthersTest extends Extranet_TestCase {
     public function testChecksum() {
         self::$climate->info('Testing Checksum...');
 
-        if(self::$iubar_extranet_api == 'http://www.iubar.it/extranet/api/'){
+        if(self::getHost() == 'http://www.iubar.it/extranet/api'){
             $host = 'iubar.it';
  
             $file = 'downloads/assistenza/TeamViewerQS_9_it.exe';
@@ -103,7 +103,7 @@ class OthersTest extends Extranet_TestCase {
             if (!$exists) {
                $this->fail('Remote file ' . $file  . ' does not exist on host ' . $host);
             }
-        }else if(self::$iubar_extranet_api == 'http://extranet/api/'){
+        }else if(self::getHost() == 'http://extranet/api'){
             $host = 'extranet';
  
             $file = 'public/img/iubar_logo_75.png';
@@ -139,9 +139,9 @@ class OthersTest extends Extranet_TestCase {
         $sec = 15;
         $array = array(); // no params required
         $route = null;
-        if(self::$iubar_extranet_api == 'http://www.iubar.it/extranet/api/'){
+        if(self::getHost()  == 'http://www.iubar.it/extranet/api'){
             $route = 'http://www.iubar.it/extranet/sandbox/benchmark';
-        }else if(self::$iubar_extranet_api == 'http://extranet/api/'){
+        }else if(self::getHost()  == 'http://extranet/api'){
             $route = 'http://extranet/sandbox/benchmark';
         }else{
             $this->fail('Test config error');
