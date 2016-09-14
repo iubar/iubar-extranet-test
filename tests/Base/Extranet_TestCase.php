@@ -29,6 +29,7 @@ abstract class Extranet_TestCase extends RestApi_TestCase {
         if(!$http_host){
             $this->fail('Wrong config');
         }
+        return $http_host;
     }
     
 }

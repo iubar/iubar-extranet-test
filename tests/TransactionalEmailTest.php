@@ -64,7 +64,7 @@ class TransactionalEmailTest extends Extranet_TestCase {
      * Create a Client
      */
     public function setUp() {
-        $this->client = parent::factoryClient(self::getHost() . DIRECTORY_SEPARATOR);
+        $this->client = parent::factoryClient(self::getHost() . '/');
         $this->pop3 = $this->factoryPop3();  
     }
 
@@ -132,7 +132,7 @@ class TransactionalEmailTest extends Extranet_TestCase {
         $response = $this->sendGetReq(self::CONTACT, $array, self::TIMEOUT);
 
         print_r($response);
-        $data = $this->checkResponse($response);
+        // $data = $this->checkResponse($response);
         
         // 2) Read the Mailgun event log
         $this->sleep(self::LOG_WAIT);  // Wait until the Mailgun log is updated

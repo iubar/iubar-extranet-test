@@ -49,7 +49,9 @@ class MailingListTest extends Extranet_TestCase {
      * Create a Client
      */    
     public function setUp() {
-        $this->client = parent::factoryClient(self::getHost() . DIRECTORY_SEPARATOR . 'mailing-list/');        
+        $base_url = self::getHost() . '/' . 'mailing-list/';
+        self::$climate->info('base_url: ' . $base_url);
+        $this->client = parent::factoryClient($base_url);        
     }           
 
     /**
@@ -148,12 +150,14 @@ class MailingListTest extends Extranet_TestCase {
     
     private function getSubscribed($route, $email, $list_id){
         $b = false;
-        self::$climate->info('isSubscribed() being...');
+        self::$climate->info('getSubscribed() beging...');
         $array = array(
             'email' => self::ML_EMAIL_EXAMPLE,
             'list_id' => self::MAILING_LIST_ID
         );
+
         $response = $this->sendGetReq($route, $array, self::TIMEOUT);
+                
         $this->assertContains(self::APP_JSON_CT, $response->getHeader(self::CONTENT_TYPE)[0]);                              
         if($response->getStatusCode() == self::HTTP_OK){
                 $body = $response->getBody()->getContents();
@@ -171,6 +175,7 @@ class MailingListTest extends Extranet_TestCase {
             self::$climate->error('Response code is: ' . $response->getStatusCode());
             $this->fail('Situazione imprevista');
         }
+        
         // Getting data
         // $data = json_decode($response->getBody()->getContents(), true);
         

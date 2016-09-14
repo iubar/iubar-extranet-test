@@ -11,7 +11,7 @@ ok 4 - Extranet\TransactionalEmailTest::testContact
 #         (
 #             [Date] => Array
 #                 (
-#                     [0] => Tue, 06 Sep 2016 08:56:49 GMT
+#                     [0] => Tue, 13 Sep 2016 10:44:49 GMT
 #                 )
 # 
 #             [Server] => Array
@@ -69,27 +69,23 @@ ok 4 - Extranet\TransactionalEmailTest::testContact
 # )
 # Query is: 
 # {
-#     "begin": "Tue, 06 Sep 2016 10:57:06 +0200",
+#     "begin": "Tue, 13 Sep 2016 12:45:06 +0200",
 #     "ascending": "no",
 #     "limit": 10,
 #     "pretty": "yes",
 #     "recipient": "info@iubar.it"
 # }
 # Items fetched: 10
-# Search pattern: msgTest57ce84d175d14
-# Reading subject: DANIELE-PC: Contatto dal sito - msgTest57ce84d175d14 - fatturatutto.it
+# Search pattern: msgTest57d7d8a12bcd3
+# Reading subject: DANIELE-PC: MailingList - Utente cancellato
+# Reading subject: DANIELE-PC: Contatto dal sito - msgTest57d7d8a12bcd3 - fatturatutto.it
 # Ok: message was delivered !
-ok 5 - Extranet\OthersTest::testTwitter
-ok 6 - Extranet\OthersTest::testRss
-ok 7 - Extranet\OthersTest::testChecksum
-ok 8 - Extranet\OthersTest::testBenchmark
-ok 9 - Extranet\OthersTest::testGeoDecoder
-ok 10 - Extranet\OthersTest::testGeoReverseDecoder
-ok 11 - Extranet\OthersTest::testIp2Geo
-ok 12 - Extranet\EchoDataTest::testEchoGet
-ok 13 - Extranet\EchoDataTest::testEchoGet2
-ok 14 - Extranet\EchoDataTest::testEchoPost
-ok 15 - Extranet\EchoDataTest::testEchoPost2
-ok 16 - Extranet\EchoDataTest::testEchoPost3
-ok 17 - Extranet\EchoDataTest::testEchoPost6
-1..17
+not ok 5 - Failure: Extranet\OthersTest::testTwitter
+  ---
+  message: 'Failed asserting that 404 matches expected 200.'
+  severity: fail
+  data:
+      got: 404
+      expected: 200
+  ...
+1..5

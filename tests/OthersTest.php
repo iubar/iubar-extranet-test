@@ -44,7 +44,7 @@ class OthersTest extends Extranet_TestCase {
      * Create a Client
      */    
     public function setUp() {
-        $this->client = parent::factoryClient(self::getHost() . DIRECTORY_SEPARATOR);        
+        $this->client = parent::factoryClient(self::getHost() . '/');        
     }
 
     /**
