@@ -15,7 +15,7 @@
     "suite": "Extranet\\MailingListTest",
     "test": "Extranet\\MailingListTest::testSubscribe",
     "status": "pass",
-    "time": 2.5171439647675,
+    "time": 6.3533630371094,
     "trace": [],
     "message": "",
     "output": ""
@@ -28,7 +28,7 @@
     "suite": "Extranet\\MailingListTest",
     "test": "Extranet\\MailingListTest::testEditSubscription",
     "status": "pass",
-    "time": 0.12200713157654,
+    "time": 0.16900992393494,
     "trace": [],
     "message": "",
     "output": ""
@@ -41,7 +41,7 @@
     "suite": "Extranet\\MailingListTest",
     "test": "Extranet\\MailingListTest::testUnsubscribe",
     "status": "pass",
-    "time": 2.0831189155579,
+    "time": 2.8081610202789,
     "trace": [],
     "message": "",
     "output": ""
@@ -58,10 +58,10 @@
     "suite": "Extranet\\TransactionalEmailTest",
     "test": "Extranet\\TransactionalEmailTest::testContact",
     "status": "pass",
-    "time": 82.02569103241,
+    "time": 81.504662036896,
     "trace": [],
     "message": "",
-    "output": "GuzzleHttp\\Psr7\\Response Object\n(\n    [reasonPhrase:GuzzleHttp\\Psr7\\Response:private] => OK\n    [statusCode:GuzzleHttp\\Psr7\\Response:private] => 200\n    [headers:GuzzleHttp\\Psr7\\Response:private] => Array\n        (\n            [Date] => Array\n                (\n                    [0] => Tue, 13 Sep 2016 10:44:49 GMT\n                )\n\n            [Server] => Array\n                (\n                    [0] => Apache\/2.4.7 (Win32) PHP\/5.5.36\n                )\n\n            [X-Powered-By] => Array\n                (\n                    [0] => PHP\/5.5.36\n                )\n\n            [Access-Control-Allow-Origin] => Array\n                (\n                    [0] => *\n                )\n\n            [Content-Length] => Array\n                (\n                    [0] => 56\n                )\n\n            [Content-Type] => Array\n                (\n                    [0] => application\/json; charset=utf-8\n                )\n\n        )\n\n    [headerNames:GuzzleHttp\\Psr7\\Response:private] => Array\n        (\n            [date] => Date\n            [server] => Server\n            [x-powered-by] => X-Powered-By\n            [access-control-allow-origin] => Access-Control-Allow-Origin\n            [content-length] => Content-Length\n            [content-type] => Content-Type\n        )\n\n    [protocol:GuzzleHttp\\Psr7\\Response:private] => 1.1\n    [stream:GuzzleHttp\\Psr7\\Response:private] => GuzzleHttp\\Psr7\\Stream Object\n        (\n            [stream:GuzzleHttp\\Psr7\\Stream:private] => Resource id #1306\n            [size:GuzzleHttp\\Psr7\\Stream:private] => \n            [seekable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [readable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [writable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [uri:GuzzleHttp\\Psr7\\Stream:private] => php:\/\/temp\n            [customMetadata:GuzzleHttp\\Psr7\\Stream:private] => Array\n                (\n                )\n\n        )\n\n)\nQuery is: \r\n{\n    \"begin\": \"Tue, 13 Sep 2016 12:45:06 +0200\",\n    \"ascending\": \"no\",\n    \"limit\": 10,\n    \"pretty\": \"yes\",\n    \"recipient\": \"info@iubar.it\"\n}\r\nItems fetched: 10\r\nSearch pattern: msgTest57d7d8a12bcd3\r\nReading subject: DANIELE-PC: MailingList - Utente cancellato\r\nReading subject: DANIELE-PC: Contatto dal sito - msgTest57d7d8a12bcd3 - fatturatutto.it\r\nOk: message was delivered !\r\n"
+    "output": "GuzzleHttp\\Psr7\\Response Object\n(\n    [reasonPhrase:GuzzleHttp\\Psr7\\Response:private] => OK\n    [statusCode:GuzzleHttp\\Psr7\\Response:private] => 200\n    [headers:GuzzleHttp\\Psr7\\Response:private] => Array\n        (\n            [Date] => Array\n                (\n                    [0] => Wed, 14 Sep 2016 07:26:48 GMT\n                )\n\n            [Server] => Array\n                (\n                    [0] => Apache\/2.4.7 (Win32) PHP\/5.5.36\n                )\n\n            [X-Powered-By] => Array\n                (\n                    [0] => PHP\/5.5.36\n                )\n\n            [Access-Control-Allow-Origin] => Array\n                (\n                    [0] => *\n                )\n\n            [Content-Length] => Array\n                (\n                    [0] => 56\n                )\n\n            [Content-Type] => Array\n                (\n                    [0] => application\/json; charset=utf-8\n                )\n\n        )\n\n    [headerNames:GuzzleHttp\\Psr7\\Response:private] => Array\n        (\n            [date] => Date\n            [server] => Server\n            [x-powered-by] => X-Powered-By\n            [access-control-allow-origin] => Access-Control-Allow-Origin\n            [content-length] => Content-Length\n            [content-type] => Content-Type\n        )\n\n    [protocol:GuzzleHttp\\Psr7\\Response:private] => 1.1\n    [stream:GuzzleHttp\\Psr7\\Response:private] => GuzzleHttp\\Psr7\\Stream Object\n        (\n            [stream:GuzzleHttp\\Psr7\\Stream:private] => Resource id #1306\n            [size:GuzzleHttp\\Psr7\\Stream:private] => \n            [seekable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [readable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [writable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [uri:GuzzleHttp\\Psr7\\Stream:private] => php:\/\/temp\n            [customMetadata:GuzzleHttp\\Psr7\\Stream:private] => Array\n                (\n                )\n\n        )\n\n)\nQuery is: \r\n{\n    \"begin\": \"Wed, 14 Sep 2016 09:27:06 +0200\",\n    \"ascending\": \"no\",\n    \"limit\": 10,\n    \"pretty\": \"yes\",\n    \"recipient\": \"info@iubar.it\"\n}\r\nItems fetched: 10\r\nSearch pattern: msgTest57d8fbb88c46c\r\nReading subject: DANIELE-PC: Contatto dal sito - msgTest57d8fbb88c46c - fatturatutto.it\r\nOk: message was delivered !\r\n"
 }{
     "event": "suiteStart",
     "suite": "Extranet\\OthersTest",
@@ -74,24 +74,169 @@
     "event": "test",
     "suite": "Extranet\\OthersTest",
     "test": "Extranet\\OthersTest::testTwitter",
-    "status": "fail",
-    "time": 0.12100696563721,
-    "trace": [
-        {
-            "file": "C:\\Users\\Daniele\\workspace_php\\iubar-extranet-test\\vendor\\iubar\\iubar-web-test\\src\\Iubar\\Tests\\RestApi_TestCase.php",
-            "line": 130,
-            "function": "assertEquals",
-            "class": "PHPUnit_Framework_Assert",
-            "type": "::"
-        },
-        {
-            "file": "C:\\Users\\Daniele\\workspace_php\\iubar-extranet-test\\tests\\OthersTest.php",
-            "line": 63,
-            "function": "checkResponse",
-            "class": "Iubar\\Tests\\RestApi_TestCase",
-            "type": "->"
-        }
-    ],
-    "message": "Failed asserting that 404 matches expected 200.",
+    "status": "pass",
+    "time": 3.3481919765472,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testRss"
+}{
+    "event": "test",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testRss",
+    "status": "pass",
+    "time": 3.7212128639221,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testChecksum"
+}{
+    "event": "test",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testChecksum",
+    "status": "pass",
+    "time": 0.23201298713684,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testBenchmark"
+}{
+    "event": "test",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testBenchmark",
+    "status": "pass",
+    "time": 15.179867982864,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testGeoDecoder"
+}{
+    "event": "test",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testGeoDecoder",
+    "status": "pass",
+    "time": 1.1940679550171,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testGeoReverseDecoder"
+}{
+    "event": "test",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testGeoReverseDecoder",
+    "status": "pass",
+    "time": 0.26701498031616,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testIp2Geo"
+}{
+    "event": "test",
+    "suite": "Extranet\\OthersTest",
+    "test": "Extranet\\OthersTest::testIp2Geo",
+    "status": "pass",
+    "time": 0.98705697059631,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "suiteStart",
+    "suite": "Extranet\\EchoDataTest",
+    "tests": 6
+}{
+    "event": "testStart",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoGet"
+}{
+    "event": "test",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoGet",
+    "status": "pass",
+    "time": 0.19801092147827,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoGet2"
+}{
+    "event": "test",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoGet2",
+    "status": "pass",
+    "time": 0.17101001739502,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost"
+}{
+    "event": "test",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost",
+    "status": "pass",
+    "time": 0.1360080242157,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost2"
+}{
+    "event": "test",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost2",
+    "status": "pass",
+    "time": 0.14100790023804,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost3"
+}{
+    "event": "test",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost3",
+    "status": "pass",
+    "time": 0.18601107597351,
+    "trace": [],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost6"
+}{
+    "event": "test",
+    "suite": "Extranet\\EchoDataTest",
+    "test": "Extranet\\EchoDataTest::testEchoPost6",
+    "status": "pass",
+    "time": 0.38302206993103,
+    "trace": [],
+    "message": "",
     "output": ""
 }

@@ -66,3 +66,4 @@ composer.lock
 # IUBAR
 /build/
 config.bat
+/logs/
