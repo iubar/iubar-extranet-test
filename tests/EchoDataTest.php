@@ -17,7 +17,7 @@ class EchoDataTest extends Extranet_TestCase {
     public static function setUpBeforeClass() {
         parent::init();
         
-        $this->client = self::factoryClient(self::getHost() . '/echo');
+        self::$client = self::factoryClient(self::getHost() . '/echo');
         
     }
     
@@ -55,7 +55,7 @@ class EchoDataTest extends Extranet_TestCase {
             'query' => $array
         ];
                 
-        $response = $this->client->request(self::GET, self::ECHO_ROUTE, $data);
+        $response = self::$client->request(self::GET, self::ECHO_ROUTE, $data);
         $data = $this->checkResponse($response);
         self::$climate->info('Response Body: ' . PHP_EOL . json_encode($data, JSON_PRETTY_PRINT));
         $this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
@@ -69,7 +69,7 @@ class EchoDataTest extends Extranet_TestCase {
         $headers = ['X-Requested-With' => 'XMLHttpRequest']; // Ok
         $encoded_data = http_build_query($array, null, '&');
         $request = new Request(self::GET, self::ECHO_ROUTE . '?' . $encoded_data, $headers);
-        $response = $this->client->send($request, [
+        $response = self::$client->send($request, [
             'timeout' => self::TIMEOUT
         ]);
         self::$climate->info('Status code: ' . $response->getStatusCode());
@@ -89,7 +89,7 @@ class EchoDataTest extends Extranet_TestCase {
         self::$climate->info('Request data: ' . $encoded_data);
         $headers = ['Content-Type' => 'application/x-www-form-urlencoded', 'X-Requested-With' => 'XMLHttpRequest'];
         $request = new Request(self::POST, self::ECHO_ROUTE, $headers, $encoded_data);
-        $response = $this->client->send($request, [
+        $response = self::$client->send($request, [
             'timeout' => self::TIMEOUT
         ]);        
         $data = $this->checkResponse($response);        
@@ -104,7 +104,7 @@ class EchoDataTest extends Extranet_TestCase {
         );        
         $json = json_encode($array);
         self::$climate->info('Request data: ' . $json);     
-        $response = $this->client->request(self::POST, self::ECHO_ROUTE, [
+        $response = self::$client->request(self::POST, self::ECHO_ROUTE, [
             'headers' => [
                             'Content-Type' => 'application/json; charset=UTF-8', 
                             'X-Requested-With' => 'XMLHttpRequest'
@@ -126,7 +126,7 @@ class EchoDataTest extends Extranet_TestCase {
         
         $encoded_data = json_encode($array);
         self::$climate->info('Request data: ' . $encoded_data);
-        $response = $this->client->request(self::POST, self::ECHO_ROUTE, [
+        $response = self::$client->request(self::POST, self::ECHO_ROUTE, [
             'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded', // obbligatorio quando si usa 'form_params'
                 'X-Requested-With' => 'XMLHttpRequest'
@@ -168,7 +168,7 @@ class EchoDataTest extends Extranet_TestCase {
         
         $encoded_data = json_encode($array);
         self::$climate->info('Request data: ' . $encoded_data);
-        $response = $this->client->request(self::POST, self::ECHO_ROUTE, $array);
+        $response = self::$client->request(self::POST, self::ECHO_ROUTE, $array);
         $data = $this->checkResponse($response);
         self::$climate->info('Response Body: ' . PHP_EOL . json_encode($data, JSON_PRETTY_PRINT));
         $actual_value = $data['data']['files']['Alice']['name'];
@@ -197,7 +197,7 @@ class EchoDataTest extends Extranet_TestCase {
         $headers = ['Content-Type' => 'multipart/form-data; boundary=' . $boundary];
         //$headers = ['Content-Type' => 'multipart/form-data'];
         $request = new Request(self::POST, self::ECHO_ROUTE, $headers, $stream);
-        $response = $this->client->send($request, [
+        $response = self::$client->send($request, [
             'timeout' => self::TIMEOUT
         ]);
         $data = $this->checkResponse($response);

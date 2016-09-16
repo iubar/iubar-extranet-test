@@ -10,13 +10,14 @@ class AuthTest extends Extranet_TestCase {
     
     public static function setUpBeforeClass() {
         parent::init();
+        self::$client = self::factoryClient(self::getHost() . '/echo');
     }
     
     /**
      * Create a Client
      */
-    public function setUp() { // Send a GET request
-        $this->client = self::factoryClient(self::getHost() . '/echo');
+    public function setUp() {
+        
     }
 
     public function testAuth1() {  // Send a GET request
@@ -37,7 +38,7 @@ class AuthTest extends Extranet_TestCase {
             'data' => 'Hello World !'
         );
         $request = new Request(self::GET, self::ROUTE_BASE . $route, $headers, $encoded_data);
-        $response = $this->client->send($request, [
+        $response = self::$client->send($request, [
             'timeout' => self::TIMEOUT
         ]);
         $data = $this->checkResponse($response);

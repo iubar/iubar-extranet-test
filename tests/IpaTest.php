@@ -56,22 +56,18 @@ class IpaTest extends Extranet_TestCase {
         
     public static function setUpBeforeClass() {
         parent::init();
+        self::$client = self::factoryClient(self::getHost() . '/');
     }    
 
     /**
      * Create a Client
      */
     public function setUp() {
-         $this->client = self::factoryClient(self::getHost() . '/');
+         
     }
 
     private function requestIpaApi($route, $data) {
 
-    // Inutile ?        
-    //         if(!$this->client){                                
-    //             $this->client = self::factoryClient(self::ROUTE_BASE);
-    //         }
-                
         self::$climate->info('Route: ' . $route);
         
         $response = null;
@@ -83,7 +79,7 @@ class IpaTest extends Extranet_TestCase {
                 self::$climate->info('Request data: ' . $encoded_data);                
                 $headers = ['Content-Type' => 'application/x-www-form-urlencoded'];
                 $request = new Request(self::POST, self::ROUTE_BASE . $route, $headers, $encoded_data);
-                $response = $this->client->send($request, [
+                $response = self::$client->send($request, [
                     'timeout' => self::TIMEOUT
                 ]);
                 self::$climate->info('Status code: ' . $response->getStatusCode());
@@ -95,14 +91,14 @@ class IpaTest extends Extranet_TestCase {
                 // Probabilmente perchè qui Guzzle non utilizza la codifica "x-www-form-urlencoded"
                 $encoded_data = json_encode($data);
                 self::$climate->info('Request data: ' . $encoded_data);
-                $response = $this->client->request(self::POST, self::ROUTE_BASE . $route, ['body' => $encoded_data]);
+                $response = self::$client->request(self::POST, self::ROUTE_BASE . $route, ['body' => $encoded_data]);
             }
             
             if(false){
                 // 3) SOLUZIONE classica: OK
                 $encoded_data = json_encode($data);
                 self::$climate->info('Request data: ' . $encoded_data);
-                $response = $this->client->request(self::POST, self::ROUTE_BASE . $route, [
+                $response = self::$client->request(self::POST, self::ROUTE_BASE . $route, [
                    'form_params' => $data,
  				   'connect_timeout' => self::TIMEOUT, 	// the number of seconds to wait while trying to connect to a server
  				   'timeout' => self::TIMEOUT 			// the timeout of the request in seconds

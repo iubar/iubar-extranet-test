@@ -46,7 +46,7 @@ class MailingListTest extends Extranet_TestCase {
         
         $base_url = self::getHost() . '/' . 'mailing-list/';
         self::$climate->info('base_url: ' . $base_url);
-        $this->client = self::factoryClient($base_url);
+        self::$client = self::factoryClient($base_url);
     }
     
     /**

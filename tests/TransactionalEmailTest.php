@@ -56,7 +56,7 @@ class TransactionalEmailTest extends Extranet_TestCase {
 
         self::$transact_secret_api_key = getenv('TRANSACT_SECRET_API_KEY');
 
-        $this->client = self::factoryClient(self::getHost() . '/');
+        self::$client = self::factoryClient(self::getHost() . '/');
         $this->pop3 = $this->factoryPop3();
         
     }
