@@ -62,14 +62,14 @@ class IpaTest extends Extranet_TestCase {
      * Create a Client
      */
     public function setUp() {
-         $this->client = parent::factoryClient(self::getHost() . '/');
+         $this->client = self::factoryClient(self::getHost() . '/');
     }
 
     private function requestIpaApi($route, $data) {
 
     // Inutile ?        
     //         if(!$this->client){                                
-    //             $this->client = parent::factoryClient(self::ROUTE_BASE);
+    //             $this->client = self::factoryClient(self::ROUTE_BASE);
     //         }
                 
         self::$climate->info('Route: ' . $route);

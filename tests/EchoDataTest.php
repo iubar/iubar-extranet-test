@@ -17,7 +17,7 @@ class EchoDataTest extends Extranet_TestCase {
     public static function setUpBeforeClass() {
         parent::init();
         
-        $this->client = parent::factoryClient(self::getHost() . '/echo');
+        $this->client = self::factoryClient(self::getHost() . '/echo');
         
     }
     

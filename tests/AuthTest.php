@@ -16,7 +16,7 @@ class AuthTest extends Extranet_TestCase {
      * Create a Client
      */
     public function setUp() { // Send a GET request
-        $this->client = parent::factoryClient(self::getHost() . '/echo');
+        $this->client = self::factoryClient(self::getHost() . '/echo');
     }
 
     public function testAuth1() {  // Send a GET request
