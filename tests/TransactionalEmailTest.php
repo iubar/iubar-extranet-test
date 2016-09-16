@@ -154,7 +154,7 @@ class TransactionalEmailTest extends Extranet_TestCase {
     private function cleanMailbox($expected_subject){
         self::$climate->info('cleanMailbox()...');
         // Connect to the inbox folder of the pop3 server
-        $conn = $this->pop3->pop3_login();
+        $conn = self::$pop3->pop3_login();
         $bOk = false;
         $recipient = getenv('MAIL_USER');
         if (!$conn) {
@@ -162,7 +162,7 @@ class TransactionalEmailTest extends Extranet_TestCase {
         } else {
             $subject = '';
             $msg_num = -1;
-            $messages = $this->pop3->pop3_list();
+            $messages = self::$pop3->pop3_list();
             self::$climate->info('Scanning recipient\'s mailbox: ' . $recipient);
             $tot = count($messages);            
             if ($tot > 0) {
@@ -185,19 +185,19 @@ class TransactionalEmailTest extends Extranet_TestCase {
     
             if ($bOk) {
                 self::$climate->info('I have found the message into the recipient\'s mailbox. Now I\'m trying to delete it...');
-                self::$climate->info('Number of messages into the recipient\'s mailbox: ' . $this->pop3->countMessages() . ' (' . $this->pop3->countMessages2() . ')');
+                self::$climate->info('Number of messages into the recipient\'s mailbox: ' . self::$pop3->countMessages() . ' (' . self::$pop3->countMessages2() . ')');
                 // delete the uniqid msg
-                $del = $this->pop3->pop3_dele($msg_num);
+                $del = self::$pop3->pop3_dele($msg_num);
                 if (!$del) {
                     $this->fail('Can\'t delete the message with id ' . $msg_num . ' with subject ' . $subject);
                 } else {
                     self::$climate->info('Message deleted.');
                 }
-                self::$climate->info('Number of messages into the recipient\'s mailbox after deletion: ' . $this->pop3->countMessages() . ' (' . $this->pop3->countMessages2() . ')');
+                self::$climate->info('Number of messages into the recipient\'s mailbox after deletion: ' . self::$pop3->countMessages() . ' (' . self::$pop3->countMessages2() . ')');
             } else {
                 $this->fail('ERROR: I haven\'t found the message into the recipient\'s mailbox. Please check if in the meantime some other mail client has downloaded the message.');
             }
-            $bOk = $this->pop3->pop3_close();
+            $bOk = self::$pop3->pop3_close();
         }
     }
     
