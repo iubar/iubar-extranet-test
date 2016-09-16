@@ -3,8 +3,6 @@
 namespace Extranet;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Exception\RequestException;
 use Iubar\Net\Pop3;
 use Iubar\Net\MailgunUtil;
 use League\CLImate\CLImate;
@@ -58,14 +56,16 @@ class TransactionalEmailTest extends Extranet_TestCase {
 
         self::$transact_secret_api_key = getenv('TRANSACT_SECRET_API_KEY');
 
+        $this->client = parent::factoryClient(self::getHost() . '/');
+        $this->pop3 = $this->factoryPop3();
+        
     }
     
     /**
      * Create a Client
      */
     public function setUp() {
-        $this->client = parent::factoryClient(self::getHost() . '/');
-        $this->pop3 = $this->factoryPop3();  
+ 
     }
 
     
@@ -113,7 +113,7 @@ class TransactionalEmailTest extends Extranet_TestCase {
      * Send an email with a uniqid subject and delete it
      */
     public function testContact() {
-        self::$climate->info('Testing SendDeleteEmail...');  
+        self::$climate->info('Testing testContact()...');  
         $from_email = self::FROM_USER . '@' . self::EMAIL_DOMAIN;
         
         // 1) Send the message through Mailgun
@@ -143,7 +143,8 @@ class TransactionalEmailTest extends Extranet_TestCase {
         if(!$b){
             $this->fail('ERROR: Mailgun error');
         }else{            
-            // 3) Cleanup the recipient's mailbox                        
+            // 3) Cleanup the recipient's mailbox   
+            self::$climate->info('The e-mail was sent correctly, now I wait its arrival on the target mailbox.');
             $this->sleep(self::EMAIL_WAIT); // Wait until the email arrived
             $this->cleanMailbox($expected_subject);            
         }        
@@ -163,14 +164,15 @@ class TransactionalEmailTest extends Extranet_TestCase {
             $msg_num = -1;
             $messages = $this->pop3->pop3_list();
             self::$climate->info('Scanning recipient\'s mailbox: ' . $recipient);
-            $tot = count($messages);
+            $tot = count($messages);            
             if ($tot > 0) {
+                self::$climate->info($tot . ' messages found');
                 $i = 0;
                 foreach ($messages as $msg) {
                     $i++;
                     $subject = $msg['subject'];
                     $msg_num = $msg['msgno'];
-                    self::$climate->info('Message ' . $i  . '/' . $tot . ' Subject is: ' . $subject);
+                    self::$climate->info('Message ' . $i  . '/' . $tot . ' Subject is: ' . $subject . ' (id:' . $msg_num . ')');
                     $pos = strpos($subject, $expected_subject);
                     if ($pos !== false) {
                         $bOk = true;
@@ -187,13 +189,13 @@ class TransactionalEmailTest extends Extranet_TestCase {
                 // delete the uniqid msg
                 $del = $this->pop3->pop3_dele($msg_num);
                 if (!$del) {
-                    $this->fail('Can\'t delete the message ' . $msg_num . ' with subject ' . $subject);
+                    $this->fail('Can\'t delete the message with id ' . $msg_num . ' with subject ' . $subject);
                 } else {
                     self::$climate->info('Message deleted.');
                 }
                 self::$climate->info('Number of messages into the recipient\'s mailbox after deletion: ' . $this->pop3->countMessages() . ' (' . $this->pop3->countMessages2() . ')');
             } else {
-                $this->fail('ERROR: I haven\'t found the message into the recipient\'s mailbox.');
+                $this->fail('ERROR: I haven\'t found the message into the recipient\'s mailbox. Please check if in the meantime some other mail client has downloaded the message.');
             }
             $bOk = $this->pop3->pop3_close();
         }

@@ -16,6 +16,9 @@ class EchoDataTest extends Extranet_TestCase {
     
     public static function setUpBeforeClass() {
         parent::init();
+        
+        $this->client = parent::factoryClient(self::getHost() . '/echo');
+        
     }
     
     // From Guzzle's doc:
@@ -34,7 +37,7 @@ class EchoDataTest extends Extranet_TestCase {
      * Create a Client
      */
     public function setUp() { // Send a GET request
-        $this->client = parent::factoryClient(self::getHost() . '/echo');
+        
     }
 
     public function testEchoGet() {  // Send a GET request

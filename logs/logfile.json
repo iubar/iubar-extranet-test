@@ -15,7 +15,7 @@
     "suite": "Extranet\\MailingListTest",
     "test": "Extranet\\MailingListTest::testSubscribe",
     "status": "pass",
-    "time": 6.3533630371094,
+    "time": 7.8562889099121,
     "trace": [],
     "message": "",
     "output": ""
@@ -28,7 +28,7 @@
     "suite": "Extranet\\MailingListTest",
     "test": "Extranet\\MailingListTest::testEditSubscription",
     "status": "pass",
-    "time": 0.16900992393494,
+    "time": 0.17600107192993,
     "trace": [],
     "message": "",
     "output": ""
@@ -41,7 +41,7 @@
     "suite": "Extranet\\MailingListTest",
     "test": "Extranet\\MailingListTest::testUnsubscribe",
     "status": "pass",
-    "time": 2.8081610202789,
+    "time": 2.1824350357056,
     "trace": [],
     "message": "",
     "output": ""
@@ -58,10 +58,10 @@
     "suite": "Extranet\\TransactionalEmailTest",
     "test": "Extranet\\TransactionalEmailTest::testContact",
     "status": "pass",
-    "time": 81.504662036896,
+    "time": 91.46609210968,
     "trace": [],
     "message": "",
-    "output": "GuzzleHttp\\Psr7\\Response Object\n(\n    [reasonPhrase:GuzzleHttp\\Psr7\\Response:private] => OK\n    [statusCode:GuzzleHttp\\Psr7\\Response:private] => 200\n    [headers:GuzzleHttp\\Psr7\\Response:private] => Array\n        (\n            [Date] => Array\n                (\n                    [0] => Wed, 14 Sep 2016 07:26:48 GMT\n                )\n\n            [Server] => Array\n                (\n                    [0] => Apache\/2.4.7 (Win32) PHP\/5.5.36\n                )\n\n            [X-Powered-By] => Array\n                (\n                    [0] => PHP\/5.5.36\n                )\n\n            [Access-Control-Allow-Origin] => Array\n                (\n                    [0] => *\n                )\n\n            [Content-Length] => Array\n                (\n                    [0] => 56\n                )\n\n            [Content-Type] => Array\n                (\n                    [0] => application\/json; charset=utf-8\n                )\n\n        )\n\n    [headerNames:GuzzleHttp\\Psr7\\Response:private] => Array\n        (\n            [date] => Date\n            [server] => Server\n            [x-powered-by] => X-Powered-By\n            [access-control-allow-origin] => Access-Control-Allow-Origin\n            [content-length] => Content-Length\n            [content-type] => Content-Type\n        )\n\n    [protocol:GuzzleHttp\\Psr7\\Response:private] => 1.1\n    [stream:GuzzleHttp\\Psr7\\Response:private] => GuzzleHttp\\Psr7\\Stream Object\n        (\n            [stream:GuzzleHttp\\Psr7\\Stream:private] => Resource id #1306\n            [size:GuzzleHttp\\Psr7\\Stream:private] => \n            [seekable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [readable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [writable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [uri:GuzzleHttp\\Psr7\\Stream:private] => php:\/\/temp\n            [customMetadata:GuzzleHttp\\Psr7\\Stream:private] => Array\n                (\n                )\n\n        )\n\n)\nQuery is: \r\n{\n    \"begin\": \"Wed, 14 Sep 2016 09:27:06 +0200\",\n    \"ascending\": \"no\",\n    \"limit\": 10,\n    \"pretty\": \"yes\",\n    \"recipient\": \"info@iubar.it\"\n}\r\nItems fetched: 10\r\nSearch pattern: msgTest57d8fbb88c46c\r\nReading subject: DANIELE-PC: Contatto dal sito - msgTest57d8fbb88c46c - fatturatutto.it\r\nOk: message was delivered !\r\n"
+    "output": "GuzzleHttp\\Psr7\\Response Object\n(\n    [reasonPhrase:GuzzleHttp\\Psr7\\Response:private] => OK\n    [statusCode:GuzzleHttp\\Psr7\\Response:private] => 200\n    [headers:GuzzleHttp\\Psr7\\Response:private] => Array\n        (\n            [Date] => Array\n                (\n                    [0] => Fri, 16 Sep 2016 08:14:37 GMT\n                )\n\n            [Server] => Array\n                (\n                    [0] => Apache\/2.4.7 (Win32) PHP\/5.5.36\n                )\n\n            [X-Powered-By] => Array\n                (\n                    [0] => PHP\/5.5.36\n                )\n\n            [Access-Control-Allow-Origin] => Array\n                (\n                    [0] => *\n                )\n\n            [Content-Length] => Array\n                (\n                    [0] => 56\n                )\n\n            [Content-Type] => Array\n                (\n                    [0] => application\/json; charset=utf-8\n                )\n\n        )\n\n    [headerNames:GuzzleHttp\\Psr7\\Response:private] => Array\n        (\n            [date] => Date\n            [server] => Server\n            [x-powered-by] => X-Powered-By\n            [access-control-allow-origin] => Access-Control-Allow-Origin\n            [content-length] => Content-Length\n            [content-type] => Content-Type\n        )\n\n    [protocol:GuzzleHttp\\Psr7\\Response:private] => 1.1\n    [stream:GuzzleHttp\\Psr7\\Response:private] => GuzzleHttp\\Psr7\\Stream Object\n        (\n            [stream:GuzzleHttp\\Psr7\\Stream:private] => Resource id #1306\n            [size:GuzzleHttp\\Psr7\\Stream:private] => \n            [seekable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [readable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [writable:GuzzleHttp\\Psr7\\Stream:private] => 1\n            [uri:GuzzleHttp\\Psr7\\Stream:private] => php:\/\/temp\n            [customMetadata:GuzzleHttp\\Psr7\\Stream:private] => Array\n                (\n                )\n\n        )\n\n)\nQuery is: \r\n{\n    \"begin\": \"Fri, 16 Sep 2016 10:14:55 +0200\",\n    \"ascending\": \"no\",\n    \"limit\": 10,\n    \"pretty\": \"yes\",\n    \"recipient\": \"info@iubar.it\"\n}\r\nItems fetched: 10\r\nSearch pattern: msgTest57dba9edeffa8\r\nReading subject: DANIELE-PC: Contatto dal sito - msgTest57dba9edeffa8 - fatturatutto.it\r\nOk: message was delivered !\r\n"
 }{
     "event": "suiteStart",
     "suite": "Extranet\\OthersTest",
@@ -75,7 +75,7 @@
     "suite": "Extranet\\OthersTest",
     "test": "Extranet\\OthersTest::testTwitter",
     "status": "pass",
-    "time": 3.3481919765472,
+    "time": 2.6052041053772,
     "trace": [],
     "message": "",
     "output": ""
@@ -88,7 +88,7 @@
     "suite": "Extranet\\OthersTest",
     "test": "Extranet\\OthersTest::testRss",
     "status": "pass",
-    "time": 3.7212128639221,
+    "time": 3.435005903244,
     "trace": [],
     "message": "",
     "output": ""
@@ -101,7 +101,7 @@
     "suite": "Extranet\\OthersTest",
     "test": "Extranet\\OthersTest::testChecksum",
     "status": "pass",
-    "time": 0.23201298713684,
+    "time": 0.18720102310181,
     "trace": [],
     "message": "",
     "output": ""
@@ -114,7 +114,7 @@
     "suite": "Extranet\\OthersTest",
     "test": "Extranet\\OthersTest::testBenchmark",
     "status": "pass",
-    "time": 15.179867982864,
+    "time": 15.178396940231,
     "trace": [],
     "message": "",
     "output": ""
@@ -127,7 +127,7 @@
     "suite": "Extranet\\OthersTest",
     "test": "Extranet\\OthersTest::testGeoDecoder",
     "status": "pass",
-    "time": 1.1940679550171,
+    "time": 1.2054040431976,
     "trace": [],
     "message": "",
     "output": ""
@@ -140,7 +140,7 @@
     "suite": "Extranet\\OthersTest",
     "test": "Extranet\\OthersTest::testGeoReverseDecoder",
     "status": "pass",
-    "time": 0.26701498031616,
+    "time": 0.29640102386475,
     "trace": [],
     "message": "",
     "output": ""
@@ -153,7 +153,7 @@
     "suite": "Extranet\\OthersTest",
     "test": "Extranet\\OthersTest::testIp2Geo",
     "status": "pass",
-    "time": 0.98705697059631,
+    "time": 0.90480208396912,
     "trace": [],
     "message": "",
     "output": ""
@@ -170,7 +170,7 @@
     "suite": "Extranet\\EchoDataTest",
     "test": "Extranet\\EchoDataTest::testEchoGet",
     "status": "pass",
-    "time": 0.19801092147827,
+    "time": 0.22320604324341,
     "trace": [],
     "message": "",
     "output": ""
@@ -183,7 +183,7 @@
     "suite": "Extranet\\EchoDataTest",
     "test": "Extranet\\EchoDataTest::testEchoGet2",
     "status": "pass",
-    "time": 0.17101001739502,
+    "time": 0.30801701545715,
     "trace": [],
     "message": "",
     "output": ""
@@ -196,7 +196,7 @@
     "suite": "Extranet\\EchoDataTest",
     "test": "Extranet\\EchoDataTest::testEchoPost",
     "status": "pass",
-    "time": 0.1360080242157,
+    "time": 0.16600894927979,
     "trace": [],
     "message": "",
     "output": ""
@@ -209,7 +209,7 @@
     "suite": "Extranet\\EchoDataTest",
     "test": "Extranet\\EchoDataTest::testEchoPost2",
     "status": "pass",
-    "time": 0.14100790023804,
+    "time": 0.1340069770813,
     "trace": [],
     "message": "",
     "output": ""
@@ -222,7 +222,7 @@
     "suite": "Extranet\\EchoDataTest",
     "test": "Extranet\\EchoDataTest::testEchoPost3",
     "status": "pass",
-    "time": 0.18601107597351,
+    "time": 0.10240292549133,
     "trace": [],
     "message": "",
     "output": ""
@@ -235,7 +235,7 @@
     "suite": "Extranet\\EchoDataTest",
     "test": "Extranet\\EchoDataTest::testEchoPost6",
     "status": "pass",
-    "time": 0.38302206993103,
+    "time": 0.1560001373291,
     "trace": [],
     "message": "",
     "output": ""

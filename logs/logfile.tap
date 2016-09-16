@@ -11,7 +11,7 @@ ok 4 - Extranet\TransactionalEmailTest::testContact
 #         (
 #             [Date] => Array
 #                 (
-#                     [0] => Wed, 14 Sep 2016 07:26:48 GMT
+#                     [0] => Fri, 16 Sep 2016 08:14:37 GMT
 #                 )
 # 
 #             [Server] => Array
@@ -69,15 +69,15 @@ ok 4 - Extranet\TransactionalEmailTest::testContact
 # )
 # Query is: 
 # {
-#     "begin": "Wed, 14 Sep 2016 09:27:06 +0200",
+#     "begin": "Fri, 16 Sep 2016 10:14:55 +0200",
 #     "ascending": "no",
 #     "limit": 10,
 #     "pretty": "yes",
 #     "recipient": "info@iubar.it"
 # }
 # Items fetched: 10
-# Search pattern: msgTest57d8fbb88c46c
-# Reading subject: DANIELE-PC: Contatto dal sito - msgTest57d8fbb88c46c - fatturatutto.it
+# Search pattern: msgTest57dba9edeffa8
+# Reading subject: DANIELE-PC: Contatto dal sito - msgTest57dba9edeffa8 - fatturatutto.it
 # Ok: message was delivered !
 ok 5 - Extranet\OthersTest::testTwitter
 ok 6 - Extranet\OthersTest::testRss

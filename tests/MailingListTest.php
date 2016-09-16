@@ -43,15 +43,17 @@ class MailingListTest extends Extranet_TestCase {
     public static function setUpBeforeClass() {
         parent::init();
         self::$climate->info('MAILING LIST USER EMAIL: ' . self::ML_EMAIL_EXAMPLE);
+        
+        $base_url = self::getHost() . '/' . 'mailing-list/';
+        self::$climate->info('base_url: ' . $base_url);
+        $this->client = parent::factoryClient($base_url);
     }
     
     /**
      * Create a Client
      */    
     public function setUp() {
-        $base_url = self::getHost() . '/' . 'mailing-list/';
-        self::$climate->info('base_url: ' . $base_url);
-        $this->client = parent::factoryClient($base_url);        
+       
     }           
 
     /**
