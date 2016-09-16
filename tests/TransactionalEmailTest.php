@@ -48,7 +48,7 @@ class TransactionalEmailTest extends Extranet_TestCase {
       
     protected static $transact_secret_api_key = null;
     
-    protected $pop3 = null;
+    protected static $pop3 = null;
  
 
     public static function setUpBeforeClass() {
@@ -57,7 +57,7 @@ class TransactionalEmailTest extends Extranet_TestCase {
         self::$transact_secret_api_key = getenv('TRANSACT_SECRET_API_KEY');
 
         self::$client = self::factoryClient(self::getHost() . '/');
-        $this->pop3 = $this->factoryPop3();
+        self::$pop3 = $this->factoryPop3();
         
     }
     
@@ -69,7 +69,7 @@ class TransactionalEmailTest extends Extranet_TestCase {
     }
 
     
-    public function factoryPop3() {
+    public static function factoryPop3() {
                 
         $host = getenv('MAIL_HOST');
         $port = getenv('MAIL_PORT');
