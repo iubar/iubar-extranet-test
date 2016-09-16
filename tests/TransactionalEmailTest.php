@@ -38,7 +38,7 @@ class TransactionalEmailTest extends Extranet_TestCase {
     /** 
      * seconds to wait before logging to the pop3 mailbox to delete the message
      */
-    const EMAIL_WAIT = 60;
+    const EMAIL_WAIT = 45;
     
     /**
      * seconds to wait before Mailgun writes log
