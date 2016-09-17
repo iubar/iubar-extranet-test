@@ -30,10 +30,9 @@
 
 		<testsuite name="Extranet Api">
 
+ 			<file>./tests/IpaTest.php</file>
+ 			<file>./tests/AuthTest.php</file>
 
-
-<!-- 			<file>./tests/IpaTest.php</file> -->
-<!--  			<file>./tests/AuthTest.php</file> -->
 			<file>./tests/MailingListTest.php</file>			
 			<file>./tests/TransactionalEmailTest.php</file>	
  			<file>./tests/OthersTest.php</file>

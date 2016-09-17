@@ -2,15 +2,15 @@
 
 namespace Extranet;
 
-use Extranet\Base\Extranet_TestCase;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7;
+use Iubar\Tests\RestApi_TestCase;
 
 /*
  * @see: http://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
  * @see: https://httpbin.org/
  */
-class EchoDataTest extends Extranet_TestCase {
+class EchoDataTest extends RestApi_TestCase {
     
     const ECHO_ROUTE = 'echo';
     
@@ -57,7 +57,6 @@ class EchoDataTest extends Extranet_TestCase {
                 
         $response = self::$client->request(self::GET, self::ECHO_ROUTE, $data);
         $data = $this->checkResponse($response);
-        self::$climate->info('Response Body: ' . PHP_EOL . json_encode($data, JSON_PRETTY_PRINT));
         $this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
     }
     
@@ -75,7 +74,6 @@ class EchoDataTest extends Extranet_TestCase {
         self::$climate->info('Status code: ' . $response->getStatusCode());
         self::$climate->info('Content-Type: '  . json_encode($response->getHeader('Content-Type'), JSON_PRETTY_PRINT));
         $data = $this->checkResponse($response);
-        self::$climate->info('Response Body: ' . PHP_EOL . json_encode($data, JSON_PRETTY_PRINT));
         $this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
     }    
     
@@ -170,7 +168,6 @@ class EchoDataTest extends Extranet_TestCase {
         self::$climate->info('Request data: ' . $encoded_data);
         $response = self::$client->request(self::POST, self::ECHO_ROUTE, $array);
         $data = $this->checkResponse($response);
-        self::$climate->info('Response Body: ' . PHP_EOL . json_encode($data, JSON_PRETTY_PRINT));
         $actual_value = $data['data']['files']['Alice']['name'];
         $expected_value = $array['multipart']['2']['filename'];
         $this->assertEquals($expected_value, $actual_value);
@@ -201,7 +198,6 @@ class EchoDataTest extends Extranet_TestCase {
             'timeout' => self::TIMEOUT
         ]);
         $data = $this->checkResponse($response);
-        self::$climate->info('Response Body: ' . PHP_EOL . json_encode($data, JSON_PRETTY_PRINT));
         $this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
     }
     

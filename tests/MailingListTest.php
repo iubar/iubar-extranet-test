@@ -6,7 +6,7 @@ use League\CLImate\CLImate;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
-use Extranet\Base\Extranet_TestCase;
+use Iubar\Tests\RestApi_TestCase;
 
 /**
  * API Test
@@ -14,7 +14,7 @@ use Extranet\Base\Extranet_TestCase;
  * @author Borgo
  * 
  */
-class MailingListTest extends Extranet_TestCase {
+class MailingListTest extends RestApi_TestCase {
     
     const SUBSCRIBE = 'subscribe';
     

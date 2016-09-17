@@ -5,7 +5,7 @@ use League\CLImate\CLImate;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
-use Extranet\Base\Extranet_TestCase;
+use Iubar\Tests\RestApi_TestCase;
 
 /**
  * API Test
@@ -17,7 +17,7 @@ use Extranet\Base\Extranet_TestCase;
  * @global env user
  * @global env password
  */
-class IpaTest extends Extranet_TestCase {
+class IpaTest extends RestApi_TestCase {
 
     const ROUTE_BASE = "http://www.indicepa.gov.it/public-ws/";
     
@@ -31,20 +31,19 @@ class IpaTest extends Extranet_TestCase {
     const INDICE_PA_CODUNIOU_LOCAL_ROUTE = 'indice-pa-coduniou-local';
     
     
-    private static $test_data = ['L21DA2' => 'Tribunale (Giudice Unico di Primo Grado) di Pesaro]'];
-    
-    
+    private static $test_data = ['L21DA2' => 'Tribunale (Giudice Unico di Primo Grado) di Pesaro']; // Le stringhe devono essere presenti nel file txt
+    private static $test_cod_uni_ou = '4FIWYW';
         
     // INDICE DEI SERVIZI
     //
-    // COD ENDPOINT INPUT OUTPUT dati registrati sull IPA di:
-    // 1 WS01_SFE_CF.php COD_FISC Uffici destinatari di Fatturazione Elettronica e dati SFE
-    // 2 WS02_AOO.php COD_AMM, COD_AOO Una o tutte le Aree Organizzative Omogenee di un Ente
-    // 3 WS03_OU.php COD_AMM Unita Organizzative
-    // 4 WS04_SFE.php COD_AMM Uffici destinatari di Fatturazione Elettronica e dati SFE
-    // 5 WS05_AMM.php COD_AMM Dati dell’Ente
+    // COD ENDPOINT         INPUT                   OUTPUT dati registrati sull IPA di:
+    // 1 WS01_SFE_CF.php    CF                      Uffici destinatari di Fatturazione Elettronica e dati SFE
+    // 2 WS02_AOO.php       COD_AMM, COD_AOO        Una o tutte le Aree Organizzative Omogenee di un Ente
+    // 3 WS03_OU.php        COD_AMM                 Unita Organizzative
+    // 4 WS04_SFE.php       COD_AMM                 Uffici destinatari di Fatturazione Elettronica e dati SFE
+    // 5 WS05_AMM.php       COD_AMM                 Dati dell’Ente
     // 6 WS06_OU_CODUNI.php COD_UNI_OU 
-    // 7 WS07_EMAIL.php EMAIL Entità presenti nell’IPA che contengono la EMAIL
+    // 7 WS07_EMAIL.php     EMAIL                   Entità presenti nell’IPA che contengono la EMAIL
     
     const WS1 = "WS01_SFE_CF.php";		// Ricerca per Codice Fiscale di Uffici destinatari di Fatturazione Elettronica
     const WS2 = "WS02_AOO.php"; 		// Lista delle Aree Organizzative Omogenee di un Ente (AOO)
@@ -83,7 +82,6 @@ class IpaTest extends Extranet_TestCase {
                     'timeout' => self::TIMEOUT
                 ]);
                 self::$climate->info('Status code: ' . $response->getStatusCode());
-                print_r($response->getBody());
             }
             
             if(false){
@@ -111,12 +109,8 @@ class IpaTest extends Extranet_TestCase {
             $this->handleException($e);
         }
         
-        // $body = $response->getBody()->getContents();
-        // $obj = json_decode($body);
-        
         $data = $this->checkResponse($response);
         $json = json_encode($data, JSON_PRETTY_PRINT);
-        self::$climate->info('Response Body: ' . PHP_EOL . $json);
         return $json;
     }
     
@@ -136,43 +130,52 @@ class IpaTest extends Extranet_TestCase {
         
         self::$climate->info('Testing testIndicePaRoot...');
         
-        $array1 = array('AUTH_ID' => self::AUTH_ID,  'CF' => '83003310725'); 		// Cod. fisc. servizio di F.E
-        $array2 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'm_dg');
-        $array2 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'm_dg', 'COD_AOO' => '04104402106'); // 04104402106 è "Procura della Repubblica presso il Tribunale (Giudice Unico di Primo Grado) di PESARO"
+        $array1 = array('AUTH_ID' => self::AUTH_ID,  'CF' => '83003310725');    // Cod. fisc. servizio di F.E
+        $array2 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'm_dg', 'COD_AOO' => '04104402106');  // '04104402106' è "Procura della Repubblica presso il Tribunale (Giudice Unico di Primo Grado) di PESARO"
         $array3 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'm_dg');
         $array4 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'm_dg');
-        $array5 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'c_d488');
-        $array6 = array('AUTH_ID' => self::AUTH_ID,  'COD_UNI_OU' => '4FIWYW'); 	// Codice Univoco Ufficio
+        $array5 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'c_d488'); // Comune di Fano
+        $array6 = array('AUTH_ID' => self::AUTH_ID,  'COD_UNI_OU' => self::$test_cod_uni_ou); 	// Codice Univoco Ufficio, Tribunale di Trani
         $array7 = array('AUTH_ID' => self::AUTH_ID,  'EMAIL' => 'filippo.bortone@giustizia.it');
         
+        
+        
+        // COD ENDPOINT         INPUT                   OUTPUT dati registrati sull IPA di:
+        // 1 WS01_SFE_CF.php    COD_FISC                Uffici destinatari di Fatturazione Elettronica e dati SFE
+        // 2 WS02_AOO.php       COD_AMM, COD_AOO        Una o tutte le Aree Organizzative Omogenee di un Ente
+        // 3 WS03_OU.php        COD_AMM                 Unita Organizzative
+        // 4 WS04_SFE.php       COD_AMM                 Uffici destinatari di Fatturazione Elettronica e dati SFE
+        // 5 WS05_AMM.php       COD_AMM                 Dati dell’Ente
+        // 6 WS06_OU_CODUNI.php COD_UNI_OU
+        // 7 WS07_EMAIL.php     EMAIL                   Entità presenti nell’IPA che contengono la EMAIL
+                              
         $body1 = $this->requestIpaApi(self::WS1, $array1);                      
-        // TODO: $this->assertBodyContains($body1, '');
+        $this->assertBodyContains($body1, self::$test_cod_uni_ou);
         
         $body2 = $this->requestIpaApi(self::WS2, $array2);      
-        // TODO: $this->assertBodyContains($body2, '');
-        
-        $body3 = $this->requestIpaApi(self::WS3, $array3);      
-        // TODO: $this->assertBodyContains($body3, '');
+        $this->assertBodyContains($body2, 'PESARO');
+
+        $body3 = $this->requestIpaApi(self::WS3, $array3);
+        $this->assertBodyContains($body3, 'Giudice di Pace di Ivrea');
         
         $body4 = $this->requestIpaApi(self::WS4, $array4);      
-        $this->assertBodyContains($body4, '83003310725');
-        $this->assertBodyContains($body4, '4FIWYW');
+        $this->assertBodyContains($body4, 'Giudice di Pace di Ivrea');
         
         $body5 = $this->requestIpaApi(self::WS5, $array5);      
-        // TODO: $this->assertBodyContains($body5, '');
+        $this->assertBodyContains($body5, 'Fano');
         
         $body6 = $this->requestIpaApi(self::WS6, $array6);      
-        // TODO: $this->assertBodyContains($body6, '');
+        $this->assertBodyContains($body6, self::$test_cod_uni_ou);
         
         $body7 = $this->requestIpaApi(self::WS7, $array7);
-        // TODO: $this->assertBodyContains($body7, '');
+        $this->assertBodyContains($body7, self::$test_cod_uni_ou);
     }
     
     
     public function testIndicePa1() {
         self::$climate->info('Testing IndicePaByCodiceUnivoco...');
         $array = array(
-            'codice_univoco' => '4FIWYW'
+            'codice_univoco' => self::$test_cod_uni_ou
         );
  
         $response = $this->sendGetReq(self::INDICE_PA_ROUTE, $array, self::TIMEOUT);
@@ -203,7 +206,7 @@ class IpaTest extends Extranet_TestCase {
     public function testWhichIsBetter1() {
         self::$climate->info('Testing IndicePaByCodiceUnivoco...');
         $array = array(
-            'codice_univoco' => '4FIWYW'
+            'codice_univoco' => self::$test_cod_uni_ou
         );
 
         $bench = new \Ubench();
@@ -309,10 +312,9 @@ class IpaTest extends Extranet_TestCase {
     public function testByCodiceUnivoco() {
         self::$climate->info('Testing testByCodiceUnivoco...');
         $array = array(
-            'codice_univoco' => '4FIWYW'
+            'codice_univoco' => self::$test_cod_uni_ou
         );
     
-
         $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_LOCAL_ROUTE, $array, self::TIMEOUT);
         $data = $this->checkResponse($response);
         // TODO: $this->assert...;
@@ -323,7 +325,7 @@ class IpaTest extends Extranet_TestCase {
     public function testRemoteCodUniOu() {
         self::$climate->info('Testing testRemoteCodUniOu...');
         $array = array(
-            'codice_univoco' => '4FIWYW'
+            'codice_univoco' => self::$test_cod_uni_ou
         );
  
         $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_REMOTE_ROUTE, $array, self::TIMEOUT);
@@ -335,6 +337,7 @@ class IpaTest extends Extranet_TestCase {
         
     private function assertBodyContains($body, $txt){
         $this->assertRegexp('/' . $txt . '/', $body);
+       //  $this->assertContains($txt, $body);
     }
     
     private function calcPerc($a, $b){

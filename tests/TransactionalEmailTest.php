@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use Iubar\Net\Pop3;
 use Iubar\Net\MailgunUtil;
 use League\CLImate\CLImate;
-use Extranet\Base\Extranet_TestCase;
+use Iubar\Tests\RestApi_TestCase;
 
 /**
  * API Test
@@ -21,7 +21,7 @@ use Extranet\Base\Extranet_TestCase;
  * @see: https://mailgun.com/app/domains/fatturatutto.it 
  * @see: https://documentation.mailgun.com/api-events.html#examples
  */
-class TransactionalEmailTest extends Extranet_TestCase {
+class TransactionalEmailTest extends RestApi_TestCase {
 
     const FROM_USER = 'postmaster';
     

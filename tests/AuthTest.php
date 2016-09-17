@@ -2,9 +2,9 @@
 
 namespace Extranet;
 
-use Extranet\Base\Extranet_TestCase;
+use Iubar\Tests\RestApi_TestCase;
 
-class AuthTest extends Extranet_TestCase {
+class AuthTest extends RestApi_TestCase {
     
     const ECHO_ROUTE = 'auth';
     
@@ -26,9 +26,7 @@ class AuthTest extends Extranet_TestCase {
             'data' => 'Hello World !'
         );
         $response = $this->sendGetReq(self::ECHO_ROUTE, $array);
-        $data = $this->checkResponse($response);
-        $json = json_encode($data, JSON_PRETTY_PRINT);
-        self::$climate->info('Response Body: ' . PHP_EOL . $json);        
+        $data = $this->checkResponse($response);       
         // TODO: $this->assert...;
     }
     
@@ -42,8 +40,6 @@ class AuthTest extends Extranet_TestCase {
             'timeout' => self::TIMEOUT
         ]);
         $data = $this->checkResponse($response);
-        $json = json_encode($data, JSON_PRETTY_PRINT);
-        self::$climate->info('Response Body: ' . PHP_EOL . $json);
         // TODO: $this->assert...;
     }    
     
