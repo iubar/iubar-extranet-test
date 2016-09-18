@@ -14,14 +14,24 @@ function p1(){
 }
 
 function p2(){
+    $b = 'KO';
     try {
         $b = f1();
     } catch (Exception $e) {
         echo "Si e' verificata un'eccezione: " . $e->getMessage() . PHP_EOL;
-        // echo "b: " . $b . PHP_EOL; // PHP Notice: 'Undefined vairiable: b'
-    }
-   
-    
+        echo "b: " . $b . PHP_EOL; // the output is "b: KO"
+    }  
 }
 
-p2();
+function p3(){
+    $b = 'KO';
+    try {
+        $b = 'OK';
+        throw new Exception("Situazione imprevista");
+    } catch (Exception $e) {
+        echo "Si e' verificata un'eccezione: " . $e->getMessage() . PHP_EOL;
+        echo "b: " . $b . PHP_EOL; // the output is "b: OK"
+    }
+}
+
+p3();

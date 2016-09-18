@@ -16,9 +16,7 @@ class EchoDataTest extends RestApi_TestCase {
     
     public static function setUpBeforeClass() {
         parent::init();
-        
-        self::$client = self::factoryClient(self::getHost() . '/echo');
-        
+        self::$client = self::factoryClient();           
     }
     
     // From Guzzle's doc:
@@ -32,16 +30,12 @@ class EchoDataTest extends RestApi_TestCase {
     //
     // POST requests in Guzzle are sent with an application/x-www-form-urlencoded Content-Type header if POST fields are present but no files are being sent in the POST. If files are specified in the POST request, then the Content-Type header will become multipart/form-data.
     
-    
-    /**
-     * Create a Client
-     */
-    public function setUp() { // Send a GET request
-        
+    public function setUp() {
+        // nothing to do
     }
 
     public function testEchoGet() {  // Send a GET request
-        self::$climate->info('Testing Echo->get(...');
+        self::$climate->comment('Testing Echo->get(...');
         $array = array(
             'Foo' => 'Bar1'
         );
@@ -61,7 +55,7 @@ class EchoDataTest extends RestApi_TestCase {
     }
     
     public function testEchoGet2() { // Send a GET request (using Psr7\Request)
-        self::$climate->info('Testing Echo->get(...');
+        self::$climate->comment('Testing Echo->get(...');
         $array = array(
             'Foo' => 'Bar2'
         );
@@ -71,15 +65,13 @@ class EchoDataTest extends RestApi_TestCase {
         $response = self::$client->send($request, [
             'timeout' => self::TIMEOUT
         ]);
-        self::$climate->info('Status code: ' . $response->getStatusCode());
-        self::$climate->info('Content-Type: '  . json_encode($response->getHeader('Content-Type'), JSON_PRETTY_PRINT));
         $data = $this->checkResponse($response);
         $this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
     }    
     
     public function testEchoPost() { // Send an 'application/x-www-form-urlencoded' POST request (using Psr7\Request)
         
-        self::$climate->info('Testing Echo->post(...');
+        self::$climate->comment('Testing Echo->post(...');
         $array = array(
             'Foo' => 'Bar1'
         );
@@ -96,7 +88,7 @@ class EchoDataTest extends RestApi_TestCase {
     
     public function testEchoPost2() { // Post Json data
         
-        self::$climate->info('Testing Echo->post(...');
+        self::$climate->comment('Testing Echo->post(...');
         $array = array(
             'Foo' => 'Bar2'
         );        
@@ -104,26 +96,24 @@ class EchoDataTest extends RestApi_TestCase {
         self::$climate->info('Request data: ' . $json);     
         $response = self::$client->request(self::POST, self::ECHO_ROUTE, [
             'headers' => [
-                            'Content-Type' => 'application/json; charset=UTF-8', 
-                            'X-Requested-With' => 'XMLHttpRequest'
-                         ],
-            'body' => $json
-            
+                'Content-Type' => 'application/json; charset=UTF-8', 
+                'X-Requested-With' => 'XMLHttpRequest'
+                ],
+            'body' => $json 
         ]);
         $data = $this->checkResponse($response);
-        $this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
+        $this->assertJsonStringEqualsJsonString($json, json_encode($data['data']));
     }
    
         
     public function testEchoPost3() { // Send an 'application/x-www-form-urlencoded' POST request
         
-        self::$climate->info('Testing Echo->post(...');
+        self::$climate->comment('Testing Echo->post(...');
         $array = array(
             'Foo' => 'Bar3'
         );
-        
-        $encoded_data = json_encode($array);
-        self::$climate->info('Request data: ' . $encoded_data);
+        $json = json_encode($array);
+        self::$climate->info('Request data: ' . $json);
         $response = self::$client->request(self::POST, self::ECHO_ROUTE, [
             'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded', // obbligatorio quando si usa 'form_params'
@@ -134,7 +124,7 @@ class EchoDataTest extends RestApi_TestCase {
 		   'timeout' => self::TIMEOUT 			// The timeout of the request in seconds
 		]);                       
         $data = $this->checkResponse($response);
-        $this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
+        $this->assertJsonStringEqualsJsonString($json, json_encode($data['data']));
     }    
     
     
@@ -142,7 +132,7 @@ class EchoDataTest extends RestApi_TestCase {
 
 
     public function testEchoPost6() { // Send a 'multipart/form-data' POST request
-        self::$climate->info('Testing Echo->post(...');
+        self::$climate->comment('Testing Echo->post(...');
         $array = [
        
             'headers'  => ['X-Requested-With' => 'XMLHttpRequest'],
@@ -180,13 +170,13 @@ class EchoDataTest extends RestApi_TestCase {
      */
     public function NO_testEchoPost4() { // Send a 'multipart/form-data' POST request (using Psr7\Request)
     
-        self::$climate->info('Testing Echo->post(...');
+        self::$climate->comment('Testing Echo->post(...');
         $array = array(
             'name'     => 'field_name',
             'contents' => 'abc'
         );
-        $encoded_data = json_encode($array);
-        self::$climate->info('Request data: ' . $encoded_data);
+        $json = json_encode($array);
+        self::$climate->info('Request data: ' . $json);
     
         // $stream = GuzzleHttp\Psr7\stream_for('foo');
         $body = new Psr7\stream_for(http_build_query($array)); // http://guzzle.readthedocs.io/en/latest/psr7.html#streams
@@ -198,7 +188,7 @@ class EchoDataTest extends RestApi_TestCase {
             'timeout' => self::TIMEOUT
         ]);
         $data = $this->checkResponse($response);
-        $this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
+        $this->assertJsonStringEqualsJsonString($json, json_encode($data['data']));
     }
     
 }

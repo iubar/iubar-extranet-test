@@ -38,13 +38,11 @@ class OthersTest extends RestApi_TestCase {
  
     public static function setUpBeforeClass() {
         parent::init();
+        self::$client = self::factoryClient();  
     }
     
-    /**
-     * Create a Client
-     */    
     public function setUp() {
-        self::$client = self::factoryClient(self::getHost() . '/');        
+        // nothing to do
     }
 
     /**
@@ -58,18 +56,12 @@ class OthersTest extends RestApi_TestCase {
             'limit' => self::ELEM_LIMIT
         );
         $response = $this->sendGetReq(self::TWITTER_ROUTE, $array);
-        // echo PHP_EOL . $response->getBody()->getContents();
 
         $body = $this->checkResponse($response);
         $data = $body['data'];
         $this->assertEquals(self::ELEM_LIMIT, count($data));
         $first_obj = $data[0];
-        $this->assertArrayHasKey('short_text', $first_obj);
-        
-//         foreach ($response->getHeaders() as $name => $values) {
-//             echo $name . ': ' . implode(', ', $values) . PHP_EOL;         
-//         }
-        
+        $this->assertArrayHasKey('short_text', $first_obj);        
     }
 
     /**

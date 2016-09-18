@@ -30,9 +30,11 @@ class IpaTest extends RestApi_TestCase {
     const INDICE_PA_CODUNIOU_REMOTE_ROUTE = 'indice-pa-coduniou-remote';
     const INDICE_PA_CODUNIOU_LOCAL_ROUTE = 'indice-pa-coduniou-local';
     
+    const TIMEOUT_FOR_LONGER_TASK = 6;
     
-    private static $test_data = ['L21DA2' => 'Tribunale (Giudice Unico di Primo Grado) di Pesaro']; // Le stringhe devono essere presenti nel file txt
-    private static $test_cod_uni_ou = '4FIWYW';
+    private static $test_cod_uni_ou1 = ['L21DA2' => 'Tribunale (Giudice Unico di Primo Grado) di Pesaro'];
+    private static $test_cod_uni_ou2 = ['4FIWYW' => 'Tribunale (Giudice Unico di Primo Grado) di Trani - SPESE DI GIUSTIZIA'];
+    private static $test_cod_uni_ou3 = ['Y783HY' => 'Tribunale (Giudice Unico di Primo Grado) di Pesaro - SPESE DI GIUSTIZIA'];
         
     // INDICE DEI SERVIZI
     //
@@ -55,19 +57,17 @@ class IpaTest extends RestApi_TestCase {
         
     public static function setUpBeforeClass() {
         parent::init();
-        self::$client = self::factoryClient(self::getHost() . '/');
+        self::$climate->comment('Host is: ' . self::getHost());
+        $base_url = self::getHost() . '/';
+        self::$climate->comment('Base url is: ' . $base_url);
+        self::$client = self::factoryClient($base_url);  
     }    
 
-    /**
-     * Create a Client
-     */
     public function setUp() {
-         
+        // nothing to do
     }
 
     private function requestIpaApi($route, $data) {
-
-        self::$climate->info('Route: ' . $route);
         
         $response = null;
         try {        
@@ -81,7 +81,6 @@ class IpaTest extends RestApi_TestCase {
                 $response = self::$client->send($request, [
                     'timeout' => self::TIMEOUT
                 ]);
-                self::$climate->info('Status code: ' . $response->getStatusCode());
             }
             
             if(false){
@@ -100,9 +99,7 @@ class IpaTest extends RestApi_TestCase {
                    'form_params' => $data,
  				   'connect_timeout' => self::TIMEOUT, 	// the number of seconds to wait while trying to connect to a server
  				   'timeout' => self::TIMEOUT 			// the timeout of the request in seconds
-     			]);                
-                self::$climate->info('Status code: ' . $response->getStatusCode());
-                
+     			]);                                
             }                      
             
         } catch (RequestException $e) {
@@ -128,18 +125,15 @@ class IpaTest extends RestApi_TestCase {
         // POST requests in Guzzle are sent with an application/x-www-form-urlencoded Content-Type header if POST fields are present but no files are being sent in the POST. If files are specified in the POST request, then the Content-Type header will become multipart/form-data.
         
         
-        self::$climate->info('Testing testIndicePaRoot...');
+        self::$climate->comment('Testing testIndicePaRoot...');
         
         $array1 = array('AUTH_ID' => self::AUTH_ID,  'CF' => '83003310725');    // Cod. fisc. servizio di F.E
         $array2 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'm_dg', 'COD_AOO' => '04104402106');  // '04104402106' è "Procura della Repubblica presso il Tribunale (Giudice Unico di Primo Grado) di PESARO"
         $array3 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'm_dg');
         $array4 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'm_dg');
         $array5 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'c_d488'); // Comune di Fano
-        $array6 = array('AUTH_ID' => self::AUTH_ID,  'COD_UNI_OU' => self::$test_cod_uni_ou); 	// Codice Univoco Ufficio, Tribunale di Trani
+        $array6 = array('AUTH_ID' => self::AUTH_ID,  'COD_UNI_OU' => key(self::$test_cod_uni_ou2));
         $array7 = array('AUTH_ID' => self::AUTH_ID,  'EMAIL' => 'filippo.bortone@giustizia.it');
-        
-        
-        
         // COD ENDPOINT         INPUT                   OUTPUT dati registrati sull IPA di:
         // 1 WS01_SFE_CF.php    COD_FISC                Uffici destinatari di Fatturazione Elettronica e dati SFE
         // 2 WS02_AOO.php       COD_AMM, COD_AOO        Una o tutte le Aree Organizzative Omogenee di un Ente
@@ -150,7 +144,7 @@ class IpaTest extends RestApi_TestCase {
         // 7 WS07_EMAIL.php     EMAIL                   Entità presenti nell’IPA che contengono la EMAIL
                               
         $body1 = $this->requestIpaApi(self::WS1, $array1);                      
-        $this->assertBodyContains($body1, self::$test_cod_uni_ou);
+        $this->assertBodyContains($body1, key(self::$test_cod_uni_ou2));
         
         $body2 = $this->requestIpaApi(self::WS2, $array2);      
         $this->assertBodyContains($body2, 'PESARO');
@@ -165,17 +159,17 @@ class IpaTest extends RestApi_TestCase {
         $this->assertBodyContains($body5, 'Fano');
         
         $body6 = $this->requestIpaApi(self::WS6, $array6);      
-        $this->assertBodyContains($body6, self::$test_cod_uni_ou);
+        $this->assertBodyContains($body6, key(self::$test_cod_uni_ou2));
         
         $body7 = $this->requestIpaApi(self::WS7, $array7);
-        $this->assertBodyContains($body7, self::$test_cod_uni_ou);
+        $this->assertBodyContains($body7, key(self::$test_cod_uni_ou2));
     }
     
     
     public function testIndicePa1() {
-        self::$climate->info('Testing IndicePaByCodiceUnivoco...');
+        self::$climate->comment('Testing IndicePaByCodiceUnivoco...');
         $array = array(
-            'codice_univoco' => self::$test_cod_uni_ou
+            'codice_univoco' => key(self::$test_cod_uni_ou2)
         );
  
         $response = $this->sendGetReq(self::INDICE_PA_ROUTE, $array, self::TIMEOUT);
@@ -188,9 +182,9 @@ class IpaTest extends RestApi_TestCase {
      * Test for the IndicePa.php class
      */
     public function testIndicePa2() {
-        self::$climate->info('Testing IndicePaByDenominazione...');
+        self::$climate->comment('Testing IndicePaByDenominazione...');
         $array = array(
-            'denominazione' => self::$test_data['L21DA2']
+            'denominazione' => current(self::$test_cod_uni_ou2)
         );
   
         $response = $this->sendGetReq(self::INDICE_PA_ROUTE, $array, self::TIMEOUT);
@@ -204,9 +198,9 @@ class IpaTest extends RestApi_TestCase {
      * Test for the IndicePa.php class
      */
     public function testWhichIsBetter1() {
-        self::$climate->info('Testing IndicePaByCodiceUnivoco...');
+        self::$climate->comment('Testing IndicePaByCodiceUnivoco...');
         $array = array(
-            'codice_univoco' => self::$test_cod_uni_ou
+            'codice_univoco' => key(self::$test_cod_uni_ou2)
         );
 
         $bench = new \Ubench();
@@ -215,7 +209,7 @@ class IpaTest extends RestApi_TestCase {
         $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_LOCAL_ROUTE, $array, self::TIMEOUT);
         $bench->end();
         $elapsed1 = $bench->getTime(true);
-        echo "Elapsed time: " . $bench->getTime() . PHP_EOL;        
+        self::$climate->shout('Elapsed time: ' . $bench->getTime());        
         $data = $this->checkResponse($response);
         // TODO: $this->assert...;
         
@@ -223,7 +217,7 @@ class IpaTest extends RestApi_TestCase {
         $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_REMOTE_ROUTE, $array, self::TIMEOUT);
         $bench->end();
         $elapsed2 = $bench->getTime(true);
-        echo "Elapsed time: " . $bench->getTime() . PHP_EOL;        
+        self::$climate->shout('Elapsed time: ' . $bench->getTime());        
         $data = $this->checkResponse($response);
         // TODO: $this->assert...;
                 
@@ -233,8 +227,8 @@ class IpaTest extends RestApi_TestCase {
         if($elapsed1<=$elapsed2){
             $msg = self::INDICE_PA_CODUNIOU_REMOTE_ROUTE;
         }
-        echo 'La rotta più performante tra ' . self::INDICE_PA_CODUNIOU_LOCAL_ROUTE . ' e ' . self::INDICE_PA_CODUNIOU_REMOTE_ROUTE . ' è ' . $msg . PHP_EOL;
-        echo 'Punteggio ' . $this->calcPerc($elapsed1, $elapsed2) . '%';
+        self::$climate->shout('La rotta più performante tra ' . self::INDICE_PA_CODUNIOU_LOCAL_ROUTE . ' e ' . self::INDICE_PA_CODUNIOU_REMOTE_ROUTE . ' è ' . $msg);
+        self::$climate->shout('Punteggio ' . $this->calcPerc($elapsed1, $elapsed2) . '%');
                                
     }
         
@@ -242,26 +236,26 @@ class IpaTest extends RestApi_TestCase {
      * Test for the IndicePa.php class
      */    
     public function testWhichIsBetter2() {
-        self::$climate->info('Testing IndicePaByDenominazione...');
+        self::$climate->comment('Testing IndicePaByDenominazione...');
         $array = array(
-            'denominazione' => self::$test_data['L21DA2']
+            'denominazione' => current(self::$test_cod_uni_ou2)
         );
         
         $bench = new \Ubench();
         
         $bench->start();
-        $response = $this->sendGetReq(self::INDICE_PA_FULLTEXT_ROUTE, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::INDICE_PA_FULLTEXT_ROUTE, $array, self::TIMEOUT_FOR_LONGER_TASK);
         $bench->end();
         $elapsed1 = $bench->getTime(true);
-        echo "Elapsed time: " . $bench->getTime() . PHP_EOL;
+        self::$climate->shout('Elapsed time: ' . $bench->getTime());
         $data = $this->checkResponse($response);
         // TODO: $this->assert...;                
         
         $bench->start();
-        $response = $this->sendGetReq(self::INDICE_PA_DESC_ROUTE, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::INDICE_PA_DESC_ROUTE, $array, self::TIMEOUT_FOR_LONGER_TASK);
         $bench->end();
         $elapsed2 = $bench->getTime(true);
-        echo "Elapsed time: " . $bench->getTime() . PHP_EOL;
+        self::$climate->shout('Elapsed time: ' . $bench->getTime());
         $data = $this->checkResponse($response);
         // TODO: $this->assert...;
         
@@ -271,38 +265,30 @@ class IpaTest extends RestApi_TestCase {
         if($elapsed1<=$elapsed2){
             $msg = self::INDICE_PA_DESC_ROUTE;
         }
-        echo 'La rotta più performante tra ' . self::INDICE_PA_FULLTEXT_ROUTE . ' e ' . self::INDICE_PA_DESC_ROUTE . ' è ' . $msg . PHP_EOL;
-        echo 'Punteggio ' . $this->calcPerc($elapsed1, $elapsed2) . '%';        
+        self::$climate->shout('La rotta più performante tra ' . self::INDICE_PA_FULLTEXT_ROUTE . ' e ' . self::INDICE_PA_DESC_ROUTE . ' è ' . $msg);
+        self::$climate->shout('Punteggio ' . $this->calcPerc($elapsed1, $elapsed2) . '%');        
         
     }    
         
     public function testLocalDescSearch() {
-        self::$climate->info('Testing testLocalDescSearch...');
+        self::$climate->comment('Testing testLocalDescSearch...');
         $array = array(
-            'denominazione' => self::$test_data['L21DA2']
+            'denominazione' => current(self::$test_cod_uni_ou2)
         );
         
-        $response = $this->sendGetReq(self::INDICE_PA_DESC_ROUTE, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::INDICE_PA_DESC_ROUTE, $array, self::TIMEOUT_FOR_LONGER_TASK);
         $data = $this->checkResponse($response);
         // TODO: $this->assert...;
-        
-        $msg = self::INDICE_PA_CODUNIOU_LOCAL_ROUTE;
-        if($elapsed1<=$elapsed2){
-            $msg = self::INDICE_PA_CODUNIOU_REMOTE_ROUTE;
-        }
-        echo 'La rotta più performante tra ' . self::INDICE_PA_CODUNIOU_LOCAL_ROUTE . ' e ' . self::INDICE_PA_CODUNIOU_REMOTE_ROUTE . ' è ' . $msg . PHP_EOL;
-        $perc = $this->getPerc($e);
-        echo 'Punteggio ' . $perc . '%';        
     
     }
     
     public function testFullTextSearch() {
-        self::$climate->info('Testing testFullTextSearch...');
+        self::$climate->comment('Testing testFullTextSearch...');
         $array = array(
             'denominazione' => 'Tribunale di Pesaro'
         );
     
-        $response = $this->sendGetReq(self::INDICE_PA_FULLTEXT_ROUTE, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::INDICE_PA_FULLTEXT_ROUTE, $array, self::TIMEOUT_FOR_LONGER_TASK);
         $data = $this->checkResponse($response);
         // TODO: $this->assert...;
     
@@ -310,22 +296,21 @@ class IpaTest extends RestApi_TestCase {
         
     
     public function testByCodiceUnivoco() {
-        self::$climate->info('Testing testByCodiceUnivoco...');
+        self::$climate->comment('Testing testByCodiceUnivoco...');
         $array = array(
-            'codice_univoco' => self::$test_cod_uni_ou
+            'codice_univoco' => key(self::$test_cod_uni_ou2)
         );
     
         $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_LOCAL_ROUTE, $array, self::TIMEOUT);
         $data = $this->checkResponse($response);
         // TODO: $this->assert...;
-
          
     }
         
     public function testRemoteCodUniOu() {
-        self::$climate->info('Testing testRemoteCodUniOu...');
+        self::$climate->comment('Testing testRemoteCodUniOu...');
         $array = array(
-            'codice_univoco' => self::$test_cod_uni_ou
+            'codice_univoco' => key(self::$test_cod_uni_ou2)
         );
  
         $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_REMOTE_ROUTE, $array, self::TIMEOUT);
@@ -347,7 +332,7 @@ class IpaTest extends RestApi_TestCase {
         return $perc;
     }
     
-    
+  
 }
 
 

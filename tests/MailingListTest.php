@@ -43,19 +43,14 @@ class MailingListTest extends RestApi_TestCase {
     public static function setUpBeforeClass() {
         parent::init();
         self::$climate->info('MAILING LIST USER EMAIL: ' . self::ML_EMAIL_EXAMPLE);
-        
         $base_url = self::getHost() . '/' . 'mailing-list/';
-        self::$climate->info('base_url: ' . $base_url);
         self::$client = self::factoryClient($base_url);
     }
     
-    /**
-     * Create a Client
-     */    
     public function setUp() {
-       
-    }           
-
+        // nothing to do
+    }
+    
     /**
      * Subscribe into the mailing list
      */

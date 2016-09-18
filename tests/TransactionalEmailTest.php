@@ -52,22 +52,15 @@ class TransactionalEmailTest extends RestApi_TestCase {
  
 
     public static function setUpBeforeClass() {
-        parent::init();
-
-        self::$transact_secret_api_key = getenv('TRANSACT_SECRET_API_KEY');
-
-        self::$client = self::factoryClient(self::getHost() . '/');
-        self::$pop3 = self::factoryPop3();
-        
+        parent::init();        
+        self::$transact_secret_api_key = getenv('TRANSACT_SECRET_API_KEY');        
+        self::$client = self::factoryClient();
+        self::$pop3 = self::factoryPop3();        
     }
     
-    /**
-     * Create a Client
-     */
     public function setUp() {
- 
+        // nothing to do
     }
-
     
     public static function factoryPop3() {
                 
