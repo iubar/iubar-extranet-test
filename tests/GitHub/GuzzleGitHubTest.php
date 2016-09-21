@@ -23,8 +23,9 @@ class GuzzleGitHubTest extends PHPUnit_Framework_TestCase {
 
 		$res = null;
 		
-		$github_user = getenv('GITHUB_USER');
+		$github_user = getenv('GITHUB_USER');         // eg: borgo***@iubar.**    
 		$github_password = getenv('GITHUB_PASSWORD');
+		$github_user_id = getenv('GITHUB_USER_ID');   // eg: '7045594'
 		
 		try {
 		    
@@ -51,7 +52,7 @@ class GuzzleGitHubTest extends PHPUnit_Framework_TestCase {
 		$body = $res->getBody();		
 		$obj = json_decode($body);
 		$id = $obj->{'id'};	 				
-		$this->assertEquals($id, '7045594');
+		$this->assertEquals($id, $github_user_id);
 	
 	}
 
