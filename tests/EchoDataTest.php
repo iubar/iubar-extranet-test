@@ -54,7 +54,7 @@ class EchoDataTest extends RestApi_TestCase {
         $this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
     }
     
-    public function testEchoGet2() { // Send a GET request (using Psr7\Request)
+    public function testEchoGet2() { // Send a GET request (using Psr7\Request) (encoding data with http_build_query())
         self::$climate->comment('Testing Echo->get(...');
         $array = array(
             'Foo' => 'Bar2'
@@ -64,6 +64,21 @@ class EchoDataTest extends RestApi_TestCase {
         $request = new Request(self::GET, self::ECHO_ROUTE . '?' . $encoded_data, $headers);
         $response = self::$client->send($request, [
             'timeout' => self::TIMEOUT
+        ]);
+        $data = $this->checkResponse($response);
+        $this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
+    }
+    
+    public function testEchoGet3() { // Send a GET request (using Psr7\Request without encoding data)
+        self::$climate->comment('Testing Echo->get(...');
+        $array = array(
+            'Foo' => 'Bar2'
+        );
+        $headers = ['X-Requested-With' => 'XMLHttpRequest']; // Ok
+        $request = new Request(self::GET, self::ECHO_ROUTE, $headers);
+        $response = self::$client->send($request, [
+            'timeout' => self::TIMEOUT,
+            'query' => $array
         ]);
         $data = $this->checkResponse($response);
         $this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
@@ -168,7 +183,7 @@ class EchoDataTest extends RestApi_TestCase {
      * Metodo incompleto: restituisce error 'Fatal error: Class 'GuzzleHttp\Psr7\stream_for' not found'
      * @see http://guzzle.readthedocs.io/en/latest/psr7.html#streams
      */
-    public function NO_testEchoPost4() { // Send a 'multipart/form-data' POST request (using Psr7\Request)
+    public function NON_VA_testEchoPost4() { // Send a 'multipart/form-data' POST request (using Psr7\Request)
     
         self::$climate->comment('Testing Echo->post(...');
         $array = array(
@@ -190,5 +205,35 @@ class EchoDataTest extends RestApi_TestCase {
         $data = $this->checkResponse($response);
         $this->assertJsonStringEqualsJsonString($json, json_encode($data['data']));
     }
+    
+    // ALTRI ESEMPI
+        
+    // Esempio di chiamata asincrona
+    //
+    // public function sendReqAsync(){
+    // $client = new GuzzleHttp\Client();
+    // Send an asynchronous request.
+    //
+    // 	$response = $client->sendAsync('GET', $this->$url, [
+    // 			'auth' => ['user', 'pass'],
+    // 			'query' => [
+    //				....
+    // 			]
+    // 	]);
+    // oppure...
+    // $request = new \GuzzleHttp\Psr7\Request('GET', $this->url);
+    // $promise = $client->sendAsync($request, ['timeout' => 6, 'query' => $this->getQuery()])->then(
+    //          	
+    // function (ResponseInterface $response) {
+    // echo $response->getStatusCode() . PHP_EOL;
+    // echo 'I completed! ' . $response->getBody();
+    // },
+    // function (RequestException $e) {
+    // echo $e->getMessage() . PHP_EOL;
+    // }
+    //            	
+    // );
+    // $promise->wait();
+    // }    
     
 }
