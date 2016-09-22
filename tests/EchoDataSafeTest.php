@@ -14,6 +14,8 @@ class EchoDataSafeTest extends SafeRestApi_TestCase {
     
     const ECHO_ROUTE = 'echo2';
     
+    private $users = ['daniele.montesi@iubar.it' => '1234567890'];
+    
     public static function setUpBeforeClass() {
         parent::init();
         self::$client = self::factoryClient();    
@@ -30,9 +32,9 @@ class EchoDataSafeTest extends SafeRestApi_TestCase {
     //
     // POST requests in Guzzle are sent with an application/x-www-form-urlencoded Content-Type header if POST fields are present but no files are being sent in the POST. If files are specified in the POST request, then the Content-Type header will become multipart/form-data.
     
-    public function setUp() {       
-        $this->api_key = '12345678';
-        $this->$user = 'daniele.montesi@iubar.it';    
+    public function setUp() {
+        $this->user = key($this->users);
+        $this->api_key = current($this->users);        
     }
 
     public function testEchoGet() {  // Send a GET request

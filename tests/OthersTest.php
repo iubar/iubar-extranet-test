@@ -31,7 +31,9 @@ class OthersTest extends RestApi_TestCase {
     CONST GEODECODER_ROUTE = 'geodecode';
     
     CONST GEOREVERSEDECODER_ROUTE = 'georeversedecode';
-        
+    
+    CONST BENCHMARK_ROUTE = 'benchmark';
+    
     const ELEM_LIMIT = 3;
 
     const LENGTH = 100;
@@ -130,17 +132,7 @@ class OthersTest extends RestApi_TestCase {
         $bench->start();            
         $sec = 15;
         $array = array(); // no params required
-        $route = null;
-        if(self::getHost()  == 'http://www.iubar.it/extranet/api'){
-            $route = 'http://www.iubar.it/extranet/sandbox/benchmark';
-        }else if(self::getHost()  == 'http://extranet/api'){
-            $route = 'http://extranet/sandbox/benchmark';
-        }else{
-            $this->fail('Test config error');
-        }
-        
-        
-        $response = $this->sendGetReq($route. '/' . $sec, $array, 20);
+        $response = $this->sendGetReq(self::BENCHMARK_ROUTE . '/' . $sec, $array, 20);
         $data = $this->checkResponse($response);          
         $bench->end();
         self::$climate->info('TIME: ' . $bench->getTime());

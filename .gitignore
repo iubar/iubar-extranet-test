@@ -64,6 +64,7 @@ composer.phar
 composer.lock
 
 # IUBAR
-/build/
+/build
 config.bat
-/logs/
+config.ini
+logs/*
