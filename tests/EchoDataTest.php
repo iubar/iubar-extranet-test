@@ -121,7 +121,7 @@ class EchoDataTest extends RestApi_TestCase {
     }
    
         
-    public function testEchoPost3() { // Send an 'application/x-www-form-urlencoded' POST request
+    public function testEchoPost3() { // Send an 'application/x-www-form-urlencoded' POST request (using request() method)
         
         self::$climate->comment('Testing Echo->post(...');
         $array = array(
