@@ -35,8 +35,7 @@
  			<file>./tests/OthersTest.php</file>			
  			<file>./tests/IpaTest.php</file>
 			<file>./tests/TransactionalEmailTest.php</file>
-			<file>./tests/ValidazioneCedolinoTest.php</file>
-			
+			<file>./tests/ValidazioneCedolinoTest.php</file>			
 		</testsuite>
 				
 		<!-- <testsuite name="All Tests"> -->

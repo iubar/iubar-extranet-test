@@ -37,7 +37,7 @@ class EchoDataSafeTest extends SafeRestApi_TestCase {
         $this->api_key = current($this->users);        
     }
 
-    public function _testEchoGet() {  // Send a GET request
+    public function testEchoGet() {  // Send a GET request
         self::$climate->comment('Testing Echo->get(...');
         $array0 = array(
             'Foo' => 'Bar1'
@@ -58,7 +58,7 @@ class EchoDataSafeTest extends SafeRestApi_TestCase {
         $this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
     }
     
-    public function _testEchoGet2() { // Send a GET request (using Psr7\Request)
+    public function testEchoGet2() { // Send a GET request (using Psr7\Request)
         self::$climate->comment('Testing Echo->get(...');
         $array0 = array(
             'Foo' => 'Bar2'
@@ -94,9 +94,9 @@ class EchoDataSafeTest extends SafeRestApi_TestCase {
     
     public function testEchoPost2() { // Post Json data
         
-        $this->markTestSkipped(
-            'Method not implemented server-side'
-            );
+//         $this->markTestSkipped(
+//             'Method not implemented server-side'
+//             );
         
         self::$climate->comment('Testing Echo->post(...');
         $array0 = array(
