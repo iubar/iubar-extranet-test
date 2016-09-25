@@ -1,9 +1,7 @@
 <?php
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Promise;
 use GuzzleHttp\Psr7\Request;
-use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
 
@@ -11,7 +9,13 @@ class GuzzleGitHubTest extends PHPUnit_Framework_TestCase {
 	
 	protected $client = null;
 
-	protected function setUp(){		
+	public static function setUpBeforeClass() {
+	    self::$github_user = getenv('GITHUB_USER');         // eg: borgo***@iubar.**
+	    self::$github_password = getenv('GITHUB_PASSWORD');
+	    self::$github_user_id = getenv('GITHUB_USER_ID');   // eg: '7045594'	    
+	}
+	
+	public function setUp(){		
 		echo "Class " . get_class($this) . PHP_EOL;		
 		$this->client = new GuzzleHttp\Client([
 				// Base URI is used with relative requests
@@ -19,18 +23,14 @@ class GuzzleGitHubTest extends PHPUnit_Framework_TestCase {
 		]);
 	}
 
-	public function testAuth_Github() {
+	public function testAuthGithub() {
 
 		$res = null;
-		
-		$github_user = getenv('GITHUB_USER');         // eg: borgo***@iubar.**    
-		$github_password = getenv('GITHUB_PASSWORD');
-		$github_user_id = getenv('GITHUB_USER_ID');   // eg: '7045594'
 		
 		try {
 		    
 			$res = $this->client->request('GET', '/user', [
-					'auth' => [$github_user, $github_password]
+					'auth' => [self::$github_user, self::$github_password]
 					// oppure 'query' => ['bookId' => 'hitchhikers-guide-to-the-galaxy']
 			]);
 		} catch (ClientException $e) {
@@ -52,7 +52,7 @@ class GuzzleGitHubTest extends PHPUnit_Framework_TestCase {
 		$body = $res->getBody();		
 		$obj = json_decode($body);
 		$id = $obj->{'id'};	 				
-		$this->assertEquals($id, $github_user_id);
+		$this->assertEquals($id, self::$github_user_id);
 	
 	}
 
