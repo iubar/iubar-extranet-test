@@ -30,7 +30,7 @@
  
     "require-dev": {
         "php": ">=5.5.0",
-        "guzzlehttp/guzzle": "~6.0",
+        "guzzlehttp/guzzle": "*",
         "guzzlehttp/psr7" : "*",
         "league/climate": "*",
         "mailgun/mailgun-php": "*",        
