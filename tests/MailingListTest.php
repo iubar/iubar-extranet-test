@@ -119,7 +119,7 @@ class MailingListTest extends RestApi_TestCase {
             'list_id' => self::MAILING_LIST_ID
         );
         $is_unsub = $this->isUnsubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
-        $response = $this->sendGetReq(self::UNSUBSCRIBE, $array);        
+        $response = $this->sendGetReq(self::UNSUBSCRIBE, $array, self::TIMEOUT_FOR_LONGER_TASK);        
         if($is_unsub){
             $this->assertEquals(self::HTTP_BAD_REQUEST, $response->getStatusCode());
             // $body = $response->getBody()->getContents();
