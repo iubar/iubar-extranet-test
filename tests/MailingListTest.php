@@ -4,8 +4,6 @@ namespace Extranet;
 
 use League\CLImate\CLImate;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Exception\RequestException;
 use Iubar\Tests\RestApi_TestCase;
 
 /**
@@ -25,6 +23,8 @@ class MailingListTest extends RestApi_TestCase {
     const WAS_SUBSCRIBED = 'wassubscribed';
 
     const UNSUBSCRIBE = 'unsubscribe';
+    
+    const COUNT = 'count';
     
     const EDIT = 'edit';
 
@@ -132,6 +132,20 @@ class MailingListTest extends RestApi_TestCase {
             $this->fail('The user ' . self::ML_EMAIL_EXAMPLE . ' is subscribed to the list ' . self::MAILING_LIST_ID);
         }
     }
+    
+    /**
+     * Count  mailing list users
+     */
+    public function testCount() {
+        self::$climate->info('testCount...');
+        $array = array();
+        $encoded_data = json_encode($array);
+        $response = $this->sendGetReq(self::COUNT, $array, self::TIMEOUT);
+        
+        $body = $this->checkResponse($response);
+        $response = $body['data']['count'];
+        $this->assertTrue(is_numeric($response));
+    }
 
     private function wasSubscribed($email, $list_id){
         return $this->getSubscribed(self::WAS_SUBSCRIBED, $email, $list_id);
@@ -179,9 +193,4 @@ class MailingListTest extends RestApi_TestCase {
         self::$climate->info('..,isSubscribed() end');
         return $b;
     }
-    
-
-    
-
-
 }
