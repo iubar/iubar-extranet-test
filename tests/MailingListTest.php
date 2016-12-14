@@ -70,11 +70,11 @@ class MailingListTest extends RestApi_TestCase {
             $response = $this->sendGetReq(self::SUBSCRIBE, $array);
 
             if($is_subscribed){   
-                $this->assertEquals(self::HTTP_METHOD_NOT_ALLOWED, $response->getStatusCode());
+                $this->assertEquals(self::HTTP_BAD_REQUEST, $response->getStatusCode());
                 // $body = $response->getBody()->getContents();
                 // $data = json_decode($body, true);
             }else if(!$this->force && $is_unsubscribed){
-                $this->assertEquals(self::HTTP_METHOD_NOT_ALLOWED, $response->getStatusCode());
+                $this->assertEquals(self::HTTP_BAD_REQUEST, $response->getStatusCode());
             }else{
                 $data = $this->checkResponse($response);
             }
@@ -121,7 +121,7 @@ class MailingListTest extends RestApi_TestCase {
         $is_unsub = $this->isUnsubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
         $response = $this->sendGetReq(self::UNSUBSCRIBE, $array);        
         if($is_unsub){
-            $this->assertEquals(self::HTTP_METHOD_NOT_ALLOWED, $response->getStatusCode());
+            $this->assertEquals(self::HTTP_BAD_REQUEST, $response->getStatusCode());
             // $body = $response->getBody()->getContents();
             // $data = json_decode($body, true);
         }else{
