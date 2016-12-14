@@ -69,7 +69,7 @@ class MailingListTest extends RestApi_TestCase {
                         
             $is_subscribed = $this->isSubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
             $is_unsubscribed = $this->isUnsubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
-            $response = $this->sendGetReq(self::SUBSCRIBE, $array);
+            $response = $this->sendGetReq(self::SUBSCRIBE, $array, self::TIMEOUT_FOR_LONGER_TASK);
 
             if($is_subscribed){   
                 $this->assertEquals(self::HTTP_BAD_REQUEST, $response->getStatusCode());
