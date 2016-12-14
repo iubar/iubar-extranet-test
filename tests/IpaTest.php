@@ -172,7 +172,7 @@ class IpaTest extends RestApi_TestCase {
             'codice_univoco' => key(self::$test_cod_uni_ou2)
         );
  
-        $response = $this->sendGetReq(self::INDICE_PA_ROUTE, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::INDICE_PA_ROUTE, $array);
         $data = $this->checkResponse($response);
         $this->assertEquals($data['data']['des_ou'], current(self::$test_cod_uni_ou2));
         $this->assertEquals($data['data']['cod_uni_ou'], key(self::$test_cod_uni_ou2));
@@ -215,7 +215,7 @@ class IpaTest extends RestApi_TestCase {
             'codice_univoco' => key(self::$test_cod_uni_ou2)
         );
     
-        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_LOCAL_ROUTE, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_LOCAL_ROUTE, $array);
         $data = $this->checkResponse($response);
     
         $this->assertEquals($data['data']['des_ou'], current(self::$test_cod_uni_ou2));
@@ -229,7 +229,7 @@ class IpaTest extends RestApi_TestCase {
             'codice_univoco' => key(self::$test_cod_uni_ou2)
         );
     
-        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_REMOTE_ROUTE, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_REMOTE_ROUTE, $array);
         $data = $this->checkResponse($response);
     
         $this->assertEquals($data['data']['des_ou'], current(self::$test_cod_uni_ou2));
@@ -250,7 +250,7 @@ class IpaTest extends RestApi_TestCase {
         $bench = new \Ubench();
         
         $bench->start();
-        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_LOCAL_ROUTE, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_LOCAL_ROUTE, $array);
         $bench->end();
         $elapsed1 = $bench->getTime(true);
         self::$climate->shout('Elapsed time: ' . $bench->getTime());        
@@ -258,7 +258,7 @@ class IpaTest extends RestApi_TestCase {
         $this->assertEquals($data1['data']['des_ou'], current(self::$test_cod_uni_ou2));
         
         $bench->start();
-        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_REMOTE_ROUTE, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_REMOTE_ROUTE, $array);
         $bench->end();
         $elapsed2 = $bench->getTime(true);
         self::$climate->shout('Elapsed time: ' . $bench->getTime());        

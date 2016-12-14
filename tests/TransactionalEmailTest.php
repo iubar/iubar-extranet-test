@@ -122,7 +122,7 @@ class TransactionalEmailTest extends RestApi_TestCase {
         
         // e.g.: http://extranet/api/contact?%27from_name=borgo&from_email=postmaster@fatturatutto.it&from_domain=fatturatutto.it&subject=titolo&message=This%20is%20an%20api%20test
  
-        $response = $this->sendGetReq(self::CONTACT, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::CONTACT, $array);
 
         print_r($response);
         // $data = $this->checkResponse($response);

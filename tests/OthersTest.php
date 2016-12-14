@@ -131,8 +131,9 @@ class OthersTest extends RestApi_TestCase {
         $bench = new \Ubench();            
         $bench->start();            
         $sec = 15;
+        $timeout = $sec + self::TIMEOUT;
         $array = array(); // no params required
-        $response = $this->sendGetReq(self::BENCHMARK_ROUTE . '/' . $sec, $array, 20);
+        $response = $this->sendGetReq(self::BENCHMARK_ROUTE . '/' . $sec, $array, $timeout);
         $data = $this->checkResponse($response);          
         $bench->end();
         self::$climate->info('TIME: ' . $bench->getTime());

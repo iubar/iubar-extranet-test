@@ -67,7 +67,7 @@ class MailingListTest extends RestApi_TestCase {
                         
             $is_subscribed = $this->isSubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
             $is_unsubscribed = $this->isUnsubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
-            $response = $this->sendGetReq(self::SUBSCRIBE, $array, self::TIMEOUT);
+            $response = $this->sendGetReq(self::SUBSCRIBE, $array);
 
             if($is_subscribed){   
                 $this->assertEquals(self::HTTP_METHOD_NOT_ALLOWED, $response->getStatusCode());
@@ -102,7 +102,7 @@ class MailingListTest extends RestApi_TestCase {
             'cognome' => self::SECOND_NAME,
             'idprofessione' => self::MAILING_LIST_PROFESSION_ID
         );
-        $response = $this->sendGetReq(self::EDIT, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::EDIT, $array);
         $data = $this->checkResponse($response);
     }
     
@@ -119,7 +119,7 @@ class MailingListTest extends RestApi_TestCase {
             'list_id' => self::MAILING_LIST_ID
         );
         $is_unsub = $this->isUnsubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
-        $response = $this->sendGetReq(self::UNSUBSCRIBE, $array, self::TIMEOUT);        
+        $response = $this->sendGetReq(self::UNSUBSCRIBE, $array);        
         if($is_unsub){
             $this->assertEquals(self::HTTP_METHOD_NOT_ALLOWED, $response->getStatusCode());
             // $body = $response->getBody()->getContents();
@@ -140,7 +140,7 @@ class MailingListTest extends RestApi_TestCase {
         self::$climate->info('testCount...');
         $array = array();
         $encoded_data = json_encode($array);
-        $response = $this->sendGetReq(self::COUNT, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::COUNT, $array);
         
         $body = $this->checkResponse($response);
         $response = $body['data']['count'];
@@ -167,7 +167,7 @@ class MailingListTest extends RestApi_TestCase {
             'list_id' => self::MAILING_LIST_ID
         );
 
-        $response = $this->sendGetReq($route, $array, self::TIMEOUT);
+        $response = $this->sendGetReq($route, $array);
                 
         $this->assertContains(self::APP_JSON_CT, $response->getHeader(self::CONTENT_TYPE)[0]);                              
         if($response->getStatusCode() == self::HTTP_OK){
