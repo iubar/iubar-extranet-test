@@ -226,7 +226,7 @@ class EchoDataTest extends RestApi_TestCase {
     //          	
     // function (ResponseInterface $response) {
     // echo $response->getStatusCode() . PHP_EOL;
-    // echo 'I completed! ' . $response->getBody();
+    // echo 'I completed! ' . $response->getBody()->getContents();
     // },
     // function (RequestException $e) {
     // echo $e->getMessage() . PHP_EOL;

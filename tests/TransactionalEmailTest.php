@@ -123,8 +123,10 @@ class TransactionalEmailTest extends RestApi_TestCase {
         // e.g.: http://extranet/api/contact?%27from_name=borgo&from_email=postmaster@fatturatutto.it&from_domain=fatturatutto.it&subject=titolo&message=This%20is%20an%20api%20test
  
         $response = $this->sendGetReq(self::CONTACT, $array);
-
-        print_r($response);
+        $this->assertEquals(self::HTTP_OK, $response->getStatusCode());
+        self::$climate->info($response->getBody()->getContents());
+        
+        
         // $data = $this->checkResponse($response);
         
         // 2) Read the Mailgun event log
