@@ -37,6 +37,8 @@ class MailingListTest extends RestApi_TestCase {
     const SECOND_NAME = 'CognomeTest';
     
     const ML_EMAIL_EXAMPLE = 'pippo@iubar.it';
+    
+    const TIMEOUT_FOR_LONGER_TASK = 12; // seconds
  
     private $force = true;
     

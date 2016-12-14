@@ -30,7 +30,7 @@ class IpaTest extends RestApi_TestCase {
     const INDICE_PA_CODUNIOU_REMOTE_ROUTE = 'indice-pa-coduniou-remote';
     const INDICE_PA_CODUNIOU_LOCAL_ROUTE = 'indice-pa-coduniou-local';
     
-    const TIMEOUT_FOR_LONGER_TASK = 6;
+    const TIMEOUT_FOR_LONGER_TASK = 8; // seconds
     
     private static $test_cod_uni_ou1 = ['L21DA2' => 'Tribunale (Giudice Unico di Primo Grado) di Pesaro'];
     private static $test_cod_uni_ou2 = ['4FIWYW' => 'Tribunale (Giudice Unico di Primo Grado) di Trani - SPESE DI GIUSTIZIA'];
