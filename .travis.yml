@@ -1,8 +1,13 @@
 language: php
-sudo: required
-dist: trusty
+#dist: trusty
 php:
- # - 5.5.9 
+#  - '5.4'
+#  - '5.5'
+  - '5.6'
+#  - '7.0'
+#  - '7.1'
+#  - hhvm
+#  - nightly
 env:
   global:
     # - APP_HOST="iubar.it"
