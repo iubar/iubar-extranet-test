@@ -38,13 +38,13 @@ class TransactionalEmailTest extends RestApi_TestCase {
     /** 
      * seconds to wait before logging to the pop3 mailbox to delete the message
      */
-    const EMAIL_WAIT = 45;
+    const EMAIL_WAIT = 30;
     
     /**
      * seconds to wait before Mailgun writes log
      *  @see: https://documentation.mailgun.com/api-events.html#event-polling
      */
-    const LOG_WAIT = 15;
+    const LOG_WAIT = 10;
       
     protected static $transact_secret_api_key = null;
     

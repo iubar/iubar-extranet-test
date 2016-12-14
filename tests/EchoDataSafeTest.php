@@ -53,7 +53,6 @@ class EchoDataSafeTest extends SafeRestApi_TestCase {
             'query' => $array
         ];
                 
-       // echo "ROUTE: " . self::ECHO_ROUTE . PHP_EOL;
         $response = self::$client->request(self::GET, self::ECHO_ROUTE, $data);
         $data = $this->checkResponse($response);
         $this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));

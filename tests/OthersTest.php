@@ -89,19 +89,19 @@ class OthersTest extends RestApi_TestCase {
         if(self::getHost() == 'http://www.iubar.it/extranet/api'){
             $host = 'iubar.it';
  
-            $file = 'downloads/assistenza/TeamViewerQS_9_it.exe';
-            $remote_file = '/web/htdocs/www.' . $host . '/home/' . $file;
+            $file = 'downloads/assistenza/TeamViewerQS_it.exe';
+            $remote_file = '/var/www/iubar.it/downloads/assistenza/' . $file;
             
             $remote_url = 'http://www.' . $host . '/' . $file;        
             $exists = $this->remoteFileExists($remote_url);
             if (!$exists) {
                $this->fail('Remote file ' . $file  . ' does not exist on host ' . $host);
             }
-        }else if(self::getHost() == 'http://extranet/api'){
-            $host = 'extranet';
+        }else if(self::getHost() == 'http://extranet.dev/api'){
+            $host = 'extranet.dev';
  
             $file = 'public/img/iubar_logo_75.png';
-            $remote_file = 'C:/Users/Daniele/workspace_php/php_www_iubar_extranet/www/' . $file;
+            $remote_file = 'C:/Users/Daniele/workspace_php/php-extranet/www/' . $file;
             
             $remote_url = 'http://' . $host . '/' . $file;
             $exists = $this->remoteFileExists($remote_url);
