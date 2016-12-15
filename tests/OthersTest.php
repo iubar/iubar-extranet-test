@@ -90,7 +90,7 @@ class OthersTest extends RestApi_TestCase {
             $host = 'iubar.it';
  
             $file = 'downloads/assistenza/TeamViewerQS_it.exe';
-            $remote_file = '/var/www/iubar.it/downloads/assistenza/' . $file;
+            $remote_file = '/var/www/iubar.it/' . $file;
             
             $remote_url = 'http://www.' . $host . '/' . $file;        
             $exists = $this->remoteFileExists($remote_url);
@@ -133,6 +133,7 @@ class OthersTest extends RestApi_TestCase {
         $sec = 15;
         $timeout = $sec + self::TIMEOUT;
         $array = array(); // no params required
+        self::$climate->info('Waiting the long response...');
         $response = $this->sendGetReq(self::BENCHMARK_ROUTE . '/' . $sec, $array, $timeout);
         $data = $this->checkResponse($response);          
         $bench->end();

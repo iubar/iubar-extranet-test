@@ -35,6 +35,8 @@ class TransactionalEmailTest extends RestApi_TestCase {
 
     const PREFIX_SUBJECT = 'msgTest';
     
+    const TIMEOUT_FOR_LONGER_TASK = 200; // seconds
+    
     /** 
      * seconds to wait before logging to the pop3 mailbox to delete the message
      */
@@ -122,7 +124,7 @@ class TransactionalEmailTest extends RestApi_TestCase {
         
         // e.g.: http://extranet/api/contact?%27from_name=borgo&from_email=postmaster@fatturatutto.it&from_domain=fatturatutto.it&subject=titolo&message=This%20is%20an%20api%20test
  
-        $response = $this->sendGetReq(self::CONTACT, $array);
+        $response = $this->sendGetReq(self::CONTACT, $array, self::TIMEOUT_FOR_LONGER_TASK);
         $this->assertEquals(self::HTTP_OK, $response->getStatusCode());
         self::$climate->info($response->getBody()->getContents());
         
