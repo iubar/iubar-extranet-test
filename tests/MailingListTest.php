@@ -71,15 +71,15 @@ class MailingListTest extends RestApi_TestCase {
             $bench->start();            
             $is_subscribed = $this->isSubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
             $bench->end();
-            self::$climate->debug('Time: ' . $bench->getTime(false, '%d%s'));
+            self::$climate->debug('UBench: ' . $bench->getTime(false, '%d%s'));
             $bench->start();
             $is_unsubscribed = $this->isUnsubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
             $bench->end();          
-            self::$climate->debug('Time: ' . $bench->getTime(false, '%d%s'));
+            self::$climate->debug('UBench: ' . $bench->getTime(false, '%d%s'));
             $bench->start();
             $response = $this->sendGetReq(self::SUBSCRIBE, $array, self::TIMEOUT_FOR_LONGER_TASK);
             $bench->end();           
-            self::$climate->debug('Time: ' . $bench->getTime(false, '%d%s'));
+            self::$climate->debug('UBench: ' . $bench->getTime(false, '%d%s'));
             $bench->start();
 
             if($is_subscribed){   
@@ -99,7 +99,7 @@ class MailingListTest extends RestApi_TestCase {
             }
             
             $bench->end();
-            self::$climate->debug('Time: ' . $bench->getTime(false, '%d%s'));
+            self::$climate->debug('UBench: ' . $bench->getTime(false, '%d%s'));
             
 
     }
@@ -178,7 +178,7 @@ class MailingListTest extends RestApi_TestCase {
     
     private function getSubscribed($route, $email, $list_id){
         $b = false;
-        self::$climate->info('getSubscribed() beging...');
+        self::$climate->info('getSubscribed() begin: route is $route ...');
         $array = array(
             'email' => self::ML_EMAIL_EXAMPLE,
             'list_id' => self::MAILING_LIST_ID
