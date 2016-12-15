@@ -68,14 +68,19 @@ class MailingListTest extends RestApi_TestCase {
             );
               
             $bench = new \Ubench;
-            $bench->start();
-            
+            $bench->start();            
             $is_subscribed = $this->isSubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
+            $bench->end();
             self::$climate->debug('Time: ' . $bench->getTime(false, '%d%s'));
+            $bench->start();
             $is_unsubscribed = $this->isUnsubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
+            $bench->end();          
             self::$climate->debug('Time: ' . $bench->getTime(false, '%d%s'));
+            $bench->start();
             $response = $this->sendGetReq(self::SUBSCRIBE, $array, self::TIMEOUT_FOR_LONGER_TASK);
+            $bench->end();           
             self::$climate->debug('Time: ' . $bench->getTime(false, '%d%s'));
+            $bench->start();
 
             if($is_subscribed){   
                 $this->assertEquals(self::HTTP_BAD_REQUEST, $response->getStatusCode());
@@ -93,8 +98,9 @@ class MailingListTest extends RestApi_TestCase {
                 $this->fail('The user ' . self::ML_EMAIL_EXAMPLE . ' was not subscribed to the list ' . self::MAILING_LIST_ID);
             }
             
-            self::$climate->debug('Time: ' . $bench->getTime(false, '%d%s'));
             $bench->end();
+            self::$climate->debug('Time: ' . $bench->getTime(false, '%d%s'));
+            
 
     }
 
