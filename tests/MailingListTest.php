@@ -38,7 +38,7 @@ class MailingListTest extends RestApi_TestCase {
     
     const ML_EMAIL_EXAMPLE = 'pippo@iubar.it';
     
-    const TIMEOUT_FOR_LONGER_TASK = 20; // seconds
+    const TIMEOUT_FOR_LONGER_TASK = 10; // seconds
  
     private $force = true;
     
@@ -73,12 +73,10 @@ class MailingListTest extends RestApi_TestCase {
             $bench->end();
             self::$climate->debug('UBench for the "' . self::IS_SUBSCRIBED . '" route: ' . $bench->getTime(false, '%d%s'));
             $bench->start();
-            sleep(1);
             $is_unsubscribed = $this->isUnsubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
             $bench->end();        
             self::$climate->debug('UBench for the "' . self::IS_UNSUBSCRIBED . '" route: ' . $bench->getTime(false, '%d%s'));
             $bench->start();
-            sleep(1);
             $response = $this->sendGetReq(self::SUBSCRIBE, $array, self::TIMEOUT_FOR_LONGER_TASK);
             $bench->end();         
             self::$climate->red('UBench for the "' . self::SUBSCRIBE . '" route: ' . $bench->getTime(false, '%d%s'));
@@ -134,12 +132,10 @@ class MailingListTest extends RestApi_TestCase {
         
         $bench = new \Ubench;
         $bench->start();
-        sleep(1);
         $is_unsub = $this->isUnsubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
         $bench->end();
         self::$climate->debug('UBench for the "' . self::IS_SUBSCRIBED . '" route: ' . $bench->getTime(false, '%d%s'));
         $bench->start();
-        sleep(1);
         $response = $this->sendGetReq(self::UNSUBSCRIBE, $array, self::TIMEOUT_FOR_LONGER_TASK);
         $bench->end();
         self::$climate->red('UBench for the "' . self::UNSUBSCRIBE . '" route: ' . $bench->getTime(false, '%d%s'));
