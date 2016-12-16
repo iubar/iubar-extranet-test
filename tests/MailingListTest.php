@@ -141,13 +141,14 @@ class MailingListTest extends RestApi_TestCase {
         self::$climate->red('UBench for the "' . self::UNSUBSCRIBE . '" route: ' . $bench->getTime(false, '%d%s'));
         
         if($is_unsub){
+            self::$climate->red('\$is_unsub is true');
             $this->assertEquals(self::HTTP_BAD_REQUEST, $response->getStatusCode());
             // $body = $response->getBody()->getContents();
             // $data = json_decode($body, true);
         }else{
+            self::$climate->red('\$is_unsub is false');
             $data = $this->checkResponse($response);
         }
-
 //         if($this->isSubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID)){
 //             $this->fail('The user ' . self::ML_EMAIL_EXAMPLE . ' is subscribed to the list ' . self::MAILING_LIST_ID);
 //         }
