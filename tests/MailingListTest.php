@@ -12,6 +12,7 @@ use Iubar\Tests\RestApi_TestCase;
  * API Test
  *
  * @author Borgo
+ * @link http://docs.guzzlephp.org/en/5.3/clients.html base_url resolution (RFC 3986)
  * 
  */
 class MailingListTest extends RestApi_TestCase {
@@ -176,7 +177,7 @@ class MailingListTest extends RestApi_TestCase {
         // Getting data
         // $data = json_decode($response->getBody()->getContents(), true);
         
-        self::$climate->info('..,isSubscribed() end');
+        self::$climate->info('...getSubscribed() end');
         return $b;
     }
     

@@ -57,10 +57,7 @@ class IpaTest extends RestApi_TestCase {
         
     public static function setUpBeforeClass() {
         parent::init();
-        self::$climate->comment('Host is: ' . self::getHost());
-        $base_url = self::getHost() . '/';
-        self::$climate->comment('Base url is: ' . $base_url);
-        self::$client = self::factoryClient($base_url);  
+        self::$client = self::factoryClient();
     }    
 
     public function setUp() {
