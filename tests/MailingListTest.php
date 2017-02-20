@@ -4,15 +4,12 @@ namespace Extranet;
 
 use League\CLImate\CLImate;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Exception\RequestException;
 use Iubar\Tests\RestApi_TestCase;
 
 /**
  * API Test
  *
  * @author Borgo
- * @link http://docs.guzzlephp.org/en/5.3/clients.html base_url resolution (RFC 3986)
  * 
  */
 class MailingListTest extends RestApi_TestCase {
@@ -27,6 +24,8 @@ class MailingListTest extends RestApi_TestCase {
 
     const UNSUBSCRIBE = 'unsubscribe';
     
+    const COUNT = 'count';
+    
     const EDIT = 'edit';
 
     const MAILING_LIST_ID = 1;
@@ -38,6 +37,8 @@ class MailingListTest extends RestApi_TestCase {
     const SECOND_NAME = 'CognomeTest';
     
     const ML_EMAIL_EXAMPLE = 'pippo@iubar.it';
+    
+    const TIMEOUT_FOR_LONGER_TASK = 10; // seconds
  
     private $force = true;
     
@@ -65,17 +66,27 @@ class MailingListTest extends RestApi_TestCase {
                 'list_id' => self::MAILING_LIST_ID,
                 'force' => $this->force                 
             );
-                        
+
+            $bench = new \Ubench;
+            $bench->start();            
             $is_subscribed = $this->isSubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
+            $bench->end();
+            self::$climate->debug('UBench for the "' . self::IS_SUBSCRIBED . '" route: ' . $bench->getTime(false, '%d%s'));
+            $bench->start();
             $is_unsubscribed = $this->isUnsubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
-            $response = $this->sendGetReq(self::SUBSCRIBE, $array, self::TIMEOUT);
+            $bench->end();        
+            self::$climate->debug('UBench for the "' . self::IS_UNSUBSCRIBED . '" route: ' . $bench->getTime(false, '%d%s'));
+            $bench->start();
+            $response = $this->sendGetReq(self::SUBSCRIBE, $array, self::TIMEOUT_FOR_LONGER_TASK);
+            $bench->end();         
+            self::$climate->red('UBench for the "' . self::SUBSCRIBE . '" route: ' . $bench->getTime(false, '%d%s'));
 
             if($is_subscribed){   
-                $this->assertEquals(self::HTTP_METHOD_NOT_ALLOWED, $response->getStatusCode());
+                $this->assertEquals(self::HTTP_BAD_REQUEST, $response->getStatusCode());
                 // $body = $response->getBody()->getContents();
                 // $data = json_decode($body, true);
             }else if(!$this->force && $is_unsubscribed){
-                $this->assertEquals(self::HTTP_METHOD_NOT_ALLOWED, $response->getStatusCode());
+                $this->assertEquals(self::HTTP_BAD_REQUEST, $response->getStatusCode());
             }else{
                 $data = $this->checkResponse($response);
             }
@@ -84,8 +95,7 @@ class MailingListTest extends RestApi_TestCase {
                 $this->fail('The user ' . self::ML_EMAIL_EXAMPLE . ' is subscribed to the list ' . self::MAILING_LIST_ID);
             }else if(!$this->force && !$this->wasSubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID)){
                 $this->fail('The user ' . self::ML_EMAIL_EXAMPLE . ' was not subscribed to the list ' . self::MAILING_LIST_ID);
-            }
-
+            }            
     }
 
     /**
@@ -103,7 +113,7 @@ class MailingListTest extends RestApi_TestCase {
             'cognome' => self::SECOND_NAME,
             'idprofessione' => self::MAILING_LIST_PROFESSION_ID
         );
-        $response = $this->sendGetReq(self::EDIT, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::EDIT, $array);
         $data = $this->checkResponse($response);
     }
     
@@ -119,19 +129,43 @@ class MailingListTest extends RestApi_TestCase {
             'email' => self::ML_EMAIL_EXAMPLE,
             'list_id' => self::MAILING_LIST_ID
         );
+        
+        $bench = new \Ubench;
+        $bench->start();
         $is_unsub = $this->isUnsubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID);
-        $response = $this->sendGetReq(self::UNSUBSCRIBE, $array, self::TIMEOUT);        
+        $bench->end();
+        self::$climate->debug('UBench for the "' . self::IS_SUBSCRIBED . '" route: ' . $bench->getTime(false, '%d%s'));
+        $bench->start();
+        $response = $this->sendGetReq(self::UNSUBSCRIBE, $array, self::TIMEOUT_FOR_LONGER_TASK);
+        $bench->end();
+        self::$climate->red('UBench for the "' . self::UNSUBSCRIBE . '" route: ' . $bench->getTime(false, '%d%s'));
+        
         if($is_unsub){
-            $this->assertEquals(self::HTTP_METHOD_NOT_ALLOWED, $response->getStatusCode());
+            self::$climate->red('\$is_unsub is true');
+            $this->assertEquals(self::HTTP_BAD_REQUEST, $response->getStatusCode());
             // $body = $response->getBody()->getContents();
             // $data = json_decode($body, true);
         }else{
+            self::$climate->red('\$is_unsub is false');
             $data = $this->checkResponse($response);
         }
-
-        if($this->isSubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID)){
-            $this->fail('The user ' . self::ML_EMAIL_EXAMPLE . ' is subscribed to the list ' . self::MAILING_LIST_ID);
-        }
+//         if($this->isSubscribed(self::ML_EMAIL_EXAMPLE, self::MAILING_LIST_ID)){
+//             $this->fail('The user ' . self::ML_EMAIL_EXAMPLE . ' is subscribed to the list ' . self::MAILING_LIST_ID);
+//         }
+    }
+    
+    /**
+     * Count  mailing list users
+     */
+    public function testCount() {
+        self::$climate->info('testCount...');
+        $array = array();
+        $encoded_data = json_encode($array);
+        $response = $this->sendGetReq(self::COUNT, $array);
+        
+        $body = $this->checkResponse($response);
+        $response = $body['data']['count'];
+        $this->assertTrue(is_numeric($response));
     }
 
     private function wasSubscribed($email, $list_id){
@@ -148,15 +182,15 @@ class MailingListTest extends RestApi_TestCase {
     
     private function getSubscribed($route, $email, $list_id){
         $b = false;
-        self::$climate->info('getSubscribed() beging...');
+        self::$climate->info('getSubscribed() begin: route is $route ...');
         $array = array(
             'email' => self::ML_EMAIL_EXAMPLE,
             'list_id' => self::MAILING_LIST_ID
         );
 
-        $response = $this->sendGetReq($route, $array, self::TIMEOUT);
-                
-        $this->assertContains(self::APP_JSON_CT, $response->getHeader(self::CONTENT_TYPE)[0]);                              
+        $response = $this->sendGetReq($route, $array);
+
+        $this->assertContains(self::APP_JSON_CT, $response->getHeader(self::CONTENT_TYPE)[0]);
         if($response->getStatusCode() == self::HTTP_OK){
                 $body = $response->getBody()->getContents();
                 $data = json_decode($body, true);
@@ -177,12 +211,8 @@ class MailingListTest extends RestApi_TestCase {
         // Getting data
         // $data = json_decode($response->getBody()->getContents(), true);
         
-        self::$climate->info('...getSubscribed() end');
+        self::$climate->info('..,isSubscribed() end');
         return $b;
     }
-    
-
-    
-
 
 }
