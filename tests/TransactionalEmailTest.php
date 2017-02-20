@@ -38,13 +38,13 @@ class TransactionalEmailTest extends RestApi_TestCase {
     /** 
      * seconds to wait before logging to the pop3 mailbox to delete the message
      */
-    const EMAIL_WAIT = 45;
+    const EMAIL_WAIT = 30;
     
     /**
      * seconds to wait before Mailgun writes log
      *  @see: https://documentation.mailgun.com/api-events.html#event-polling
      */
-    const LOG_WAIT = 15;
+    const LOG_WAIT = 10;
       
     protected static $transact_secret_api_key = null;
     
@@ -122,9 +122,11 @@ class TransactionalEmailTest extends RestApi_TestCase {
         
         // e.g.: http://extranet/api/contact?%27from_name=borgo&from_email=postmaster@fatturatutto.it&from_domain=fatturatutto.it&subject=titolo&message=This%20is%20an%20api%20test
  
-        $response = $this->sendGetReq(self::CONTACT, $array, self::TIMEOUT);
-
-        print_r($response);
+        $response = $this->sendGetReq(self::CONTACT, $array);
+        $this->assertEquals(self::HTTP_OK, $response->getStatusCode());
+        self::$climate->info($response->getBody()->getContents());
+        
+        
         // $data = $this->checkResponse($response);
         
         // 2) Read the Mailgun event log

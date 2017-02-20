@@ -21,7 +21,7 @@ class IpaTest extends RestApi_TestCase {
 
     const ROUTE_BASE = "http://www.indicepa.gov.it/public-ws/";
     
-    const AUTH_ID = 'JYMAINOL';
+    const AUTH_ID = 'JYMAINOL'; // TODO: mutare in variabile d'ambiente
     
     const INDICE_PA_ROUTE = 'indice-pa';
     
@@ -30,7 +30,7 @@ class IpaTest extends RestApi_TestCase {
     const INDICE_PA_CODUNIOU_REMOTE_ROUTE = 'indice-pa-coduniou-remote';
     const INDICE_PA_CODUNIOU_LOCAL_ROUTE = 'indice-pa-coduniou-local';
     
-    const TIMEOUT_FOR_LONGER_TASK = 6;
+    const TIMEOUT_FOR_LONGER_TASK = 8; // seconds
     
     private static $test_cod_uni_ou1 = ['L21DA2' => 'Tribunale (Giudice Unico di Primo Grado) di Pesaro'];
     private static $test_cod_uni_ou2 = ['4FIWYW' => 'Tribunale (Giudice Unico di Primo Grado) di Trani - SPESE DI GIUSTIZIA'];
@@ -141,61 +141,105 @@ class IpaTest extends RestApi_TestCase {
         // 7 WS07_EMAIL.php     EMAIL                   Entità presenti nell’IPA che contengono la EMAIL
                               
         $body1 = $this->requestIpaApi(self::WS1, $array1);                      
-        $this->assertBodyContains($body1, key(self::$test_cod_uni_ou2));
+        $this->assertStringContains($body1, key(self::$test_cod_uni_ou2));
         
         $body2 = $this->requestIpaApi(self::WS2, $array2);      
-        $this->assertBodyContains($body2, 'PESARO');
+        $this->assertStringContains($body2, 'PESARO');
 
         $body3 = $this->requestIpaApi(self::WS3, $array3);
-        $this->assertBodyContains($body3, 'Giudice di Pace di Ivrea');
+        $this->assertStringContains($body3, 'Giudice di Pace di Ivrea');
         
         $body4 = $this->requestIpaApi(self::WS4, $array4);      
-        $this->assertBodyContains($body4, 'Giudice di Pace di Ivrea');
+        $this->assertStringContains($body4, 'Giudice di Pace di Ivrea');
         
         $body5 = $this->requestIpaApi(self::WS5, $array5);      
-        $this->assertBodyContains($body5, 'Fano');
+        $this->assertStringContains($body5, 'Fano');
         
         $body6 = $this->requestIpaApi(self::WS6, $array6);      
-        $this->assertBodyContains($body6, key(self::$test_cod_uni_ou2));
+        $this->assertStringContains($body6, key(self::$test_cod_uni_ou2));
         
         $body7 = $this->requestIpaApi(self::WS7, $array7);
-        $this->assertBodyContains($body7, key(self::$test_cod_uni_ou2));
+        $this->assertStringContains($body7, key(self::$test_cod_uni_ou2));
     }
     
     
     public function testIndicePa1() {
-        self::$climate->comment('Testing IndicePaByCodiceUnivoco...');
+        self::$climate->comment('Testing testIndicePa1...');
         $array = array(
             'codice_univoco' => key(self::$test_cod_uni_ou2)
         );
  
-        $response = $this->sendGetReq(self::INDICE_PA_ROUTE, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::INDICE_PA_ROUTE, $array);
         $data = $this->checkResponse($response);
-        // TODO: $this->assert...;
-    
-    }
-    
-    /**
-     * Test for the IndicePa.php class
-     */
-    public function testIndicePa2() {
-        self::$climate->comment('Testing IndicePaByDenominazione...');
-        $array = array(
-            'denominazione' => current(self::$test_cod_uni_ou2)
-        );
-  
-        $response = $this->sendGetReq(self::INDICE_PA_ROUTE, $array, self::TIMEOUT);
-        $data = $this->checkResponse($response);
-        // TODO: $this->assert...;
-    
+        $this->assertEquals($data['data']['des_ou'], current(self::$test_cod_uni_ou2));
+        $this->assertEquals($data['data']['cod_uni_ou'], key(self::$test_cod_uni_ou2));
     }
         
+    public function testLocalDescSearch() {
+        self::$climate->comment('Testing testLocalDescSearch...');
+        $array = array(
+            'desc' => 'Tribunale Giudice Trani'
+        );
+    
+        $response = $this->sendGetReq(self::INDICE_PA_DESC_ROUTE, $array, self::TIMEOUT_FOR_LONGER_TASK);
+        $data = $this->checkResponse($response);
+    
+        $body = json_encode($data, JSON_PRETTY_PRINT);
+        $this->assertStringContains($body, current(self::$test_cod_uni_ou2));
+        $this->assertStringContains($body, key(self::$test_cod_uni_ou2));
+    
+    }
+    
+    public function testFullTextSearch() {
+        self::$climate->comment('Testing testFullTextSearch...');
+        $array = array(
+            'desc' => 'Tribunale di Pesaro'
+        );
+    
+        $response = $this->sendGetReq(self::INDICE_PA_FULLTEXT_ROUTE, $array, self::TIMEOUT_FOR_LONGER_TASK);
+        $data = $this->checkResponse($response);
+    
+        $body = json_encode($data, JSON_PRETTY_PRINT);
+        $this->assertStringContains($body, current(self::$test_cod_uni_ou1));
+        $this->assertStringContains($body, key(self::$test_cod_uni_ou1));
+    
+    }
+    
+    
+    public function testByCodiceUnivoco() {
+        self::$climate->comment('Testing testByCodiceUnivoco...');
+        $array = array(
+            'codice_univoco' => key(self::$test_cod_uni_ou2)
+        );
+    
+        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_LOCAL_ROUTE, $array);
+        $data = $this->checkResponse($response);
+    
+        $this->assertEquals($data['data']['des_ou'], current(self::$test_cod_uni_ou2));
+        $this->assertEquals($data['data']['cod_uni_ou'], key(self::$test_cod_uni_ou2));
+         
+    }
+    
+    public function testRemoteCodUniOu() {
+        self::$climate->comment('Testing testByCodiceUnivoco...');
+        $array = array(
+            'codice_univoco' => key(self::$test_cod_uni_ou2)
+        );
+    
+        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_REMOTE_ROUTE, $array);
+        $data = $this->checkResponse($response);
+    
+        $this->assertEquals($data['data']['des_ou'], current(self::$test_cod_uni_ou2));
+        $this->assertEquals($data['data']['cod_uni_ou'], key(self::$test_cod_uni_ou2));
+    
+    }
+    
     
     /**
      * Test for the IndicePa.php class
      */
     public function testWhichIsBetter1() {
-        self::$climate->comment('Testing IndicePaByCodiceUnivoco...');
+        self::$climate->comment('Testing testWhichIsBetter1...');
         $array = array(
             'codice_univoco' => key(self::$test_cod_uni_ou2)
         );
@@ -203,22 +247,23 @@ class IpaTest extends RestApi_TestCase {
         $bench = new \Ubench();
         
         $bench->start();
-        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_LOCAL_ROUTE, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_LOCAL_ROUTE, $array);
         $bench->end();
         $elapsed1 = $bench->getTime(true);
         self::$climate->shout('Elapsed time: ' . $bench->getTime());        
-        $data = $this->checkResponse($response);
-        // TODO: $this->assert...;
+        $data1 = $this->checkResponse($response);
+        $this->assertEquals($data1['data']['des_ou'], current(self::$test_cod_uni_ou2));
         
         $bench->start();
-        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_REMOTE_ROUTE, $array, self::TIMEOUT);
+        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_REMOTE_ROUTE, $array);
         $bench->end();
         $elapsed2 = $bench->getTime(true);
         self::$climate->shout('Elapsed time: ' . $bench->getTime());        
-        $data = $this->checkResponse($response);
-        // TODO: $this->assert...;
+        $data2 = $this->checkResponse($response);
+        $this->assertEquals($data2['data']['des_ou'], current(self::$test_cod_uni_ou2));
                 
-        // TODO: assert both results are the same...
+        // Assert both results are the same
+        $this->assertEquals($data1['data']['des_ou'], $data2['data']['des_ou']);
         
         $msg = self::INDICE_PA_CODUNIOU_LOCAL_ROUTE;
         if($elapsed1<=$elapsed2){
@@ -233,9 +278,9 @@ class IpaTest extends RestApi_TestCase {
      * Test for the IndicePa.php class
      */    
     public function testWhichIsBetter2() {
-        self::$climate->comment('Testing IndicePaByDenominazione...');
+        self::$climate->comment('Testing testWhichIsBetter2...');
         $array = array(
-            'denominazione' => current(self::$test_cod_uni_ou2)
+            'desc' => 'Tribunale Giudice Trani'
         );
         
         $bench = new \Ubench();
@@ -245,18 +290,25 @@ class IpaTest extends RestApi_TestCase {
         $bench->end();
         $elapsed1 = $bench->getTime(true);
         self::$climate->shout('Elapsed time: ' . $bench->getTime());
-        $data = $this->checkResponse($response);
-        // TODO: $this->assert...;                
+        $data1 = $this->checkResponse($response);
+        
+        $body1 = json_encode($data1, JSON_PRETTY_PRINT);
+        $this->assertStringContains($body1, current(self::$test_cod_uni_ou2));
+        $this->assertStringContains($body1, key(self::$test_cod_uni_ou2));
+        
         
         $bench->start();
         $response = $this->sendGetReq(self::INDICE_PA_DESC_ROUTE, $array, self::TIMEOUT_FOR_LONGER_TASK);
         $bench->end();
         $elapsed2 = $bench->getTime(true);
         self::$climate->shout('Elapsed time: ' . $bench->getTime());
-        $data = $this->checkResponse($response);
-        // TODO: $this->assert...;
+        $data2 = $this->checkResponse($response);
         
-        // TODO: assert both results are the same...
+        $body2 = json_encode($data2, JSON_PRETTY_PRINT);
+        $this->assertStringContains($body2, current(self::$test_cod_uni_ou2));
+        $this->assertStringContains($body2, key(self::$test_cod_uni_ou2));
+        
+        // TODO: Assert both results ($body1 and $body2) are ALMOST the same
         
         $msg = self::INDICE_PA_FULLTEXT_ROUTE;
         if($elapsed1<=$elapsed2){
@@ -266,60 +318,10 @@ class IpaTest extends RestApi_TestCase {
         self::$climate->shout('Punteggio ' . $this->calcPerc($elapsed1, $elapsed2) . '%');        
         
     }    
-        
-    public function testLocalDescSearch() {
-        self::$climate->comment('Testing testLocalDescSearch...');
-        $array = array(
-            'denominazione' => current(self::$test_cod_uni_ou2)
-        );
-        
-        $response = $this->sendGetReq(self::INDICE_PA_DESC_ROUTE, $array, self::TIMEOUT_FOR_LONGER_TASK);
-        $data = $this->checkResponse($response);
-        // TODO: $this->assert...;
     
-    }
-    
-    public function testFullTextSearch() {
-        self::$climate->comment('Testing testFullTextSearch...');
-        $array = array(
-            'denominazione' => 'Tribunale di Pesaro'
-        );
-    
-        $response = $this->sendGetReq(self::INDICE_PA_FULLTEXT_ROUTE, $array, self::TIMEOUT_FOR_LONGER_TASK);
-        $data = $this->checkResponse($response);
-        // TODO: $this->assert...;
-    
-    }    
-        
-    
-    public function testByCodiceUnivoco() {
-        self::$climate->comment('Testing testByCodiceUnivoco...');
-        $array = array(
-            'codice_univoco' => key(self::$test_cod_uni_ou2)
-        );
-    
-        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_LOCAL_ROUTE, $array, self::TIMEOUT);
-        $data = $this->checkResponse($response);
-        // TODO: $this->assert...;
-         
-    }
-        
-    public function testRemoteCodUniOu() {
-        self::$climate->comment('Testing testRemoteCodUniOu...');
-        $array = array(
-            'codice_univoco' => key(self::$test_cod_uni_ou2)
-        );
- 
-        $response = $this->sendGetReq(self::INDICE_PA_CODUNIOU_REMOTE_ROUTE, $array, self::TIMEOUT);
-        $data = $this->checkResponse($response);
-        // TODO: $this->assert...;
-          
-    }
-    
-        
-    private function assertBodyContains($body, $txt){
-        $this->assertRegexp('/' . $txt . '/', $body);
-       //  $this->assertContains($txt, $body);
+    private function assertStringContains($body, $txt){
+     $this->assertRegexp('/' . preg_quote($txt)  . '/', $body); // The special regular expression characters are: . \ + * ? [ ^ ] $ ( ) { } = ! < > | : -
+      //  $this->assertContains($txt, $body);
     }
     
     private function calcPerc($a, $b){
