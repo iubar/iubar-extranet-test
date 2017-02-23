@@ -152,7 +152,7 @@ class OthersTest extends RestApi_TestCase {
         );
         $response = $this->sendGetReq(self::GEODECODER_ROUTE, $array);
         $data = $this->checkResponse($response);
-        
+        self::$climate->dump($data);
         $this->assertEquals('Via Arco D\'Augusto', $data['data']['results'][0]['address_components'][2]['long_name']);
 
     }
