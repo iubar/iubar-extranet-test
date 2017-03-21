@@ -19,6 +19,8 @@ use Iubar\Tests\RestApi_TestCase;
  */
 class OthersTest extends RestApi_TestCase {
 
+	const API_REG_GRATUITA = 'http://www.iubar.it/crm/api/crm/v1/register-client/1';
+
 	const TWITTER_ROUTE = 'twitter';
 
 	const RSS_ROUTE = 'rss';
@@ -44,6 +46,20 @@ class OthersTest extends RestApi_TestCase {
 
 	public function setUp() {
 		// nothing to do
+	}
+
+	public function testRegGratuitaApi(){
+		self::$climate->info('Testing Registrazione gratuita...');
+		$data = [];
+		$encoded_data = http_build_query($data, null, '&'); // @see: http://php.net/manual/en/function.http-build-query.php
+		self::$climate->info('Request data: ' . $encoded_data);
+		$headers = ['Content-Type' => 'application/x-www-form-urlencoded'];
+		$request = new Request(self::POST, self::API_REG_GRATUITA, $headers, $encoded_data);
+		$response = self::$client->send($request, [
+			'timeout' => self::TIMEOUT
+		]);
+
+		$this->checkResponse($response, self::HTTP_BAD_REQUEST);
 	}
 
 	/**
