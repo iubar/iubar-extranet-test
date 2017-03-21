@@ -155,7 +155,7 @@ class OthersTest extends RestApi_TestCase {
 
 	public function testGeoDecoder() {
 		// e.g.: http://extranet/api/geodecode?address=Via%20Arco%20di%20Augusto%2076,%20Fano%20(PU),%20Italy
-		self::$climate->info('Testing testIp2Geo(...');
+		self::$climate->info('Testing testGeoDecoder(...');
 		$address = 'Via Arco di Augusto 76, Fano (PU), Italy';
 		$array = array(
 			'address' => $address
@@ -163,7 +163,8 @@ class OthersTest extends RestApi_TestCase {
 		$response = $this->sendGetReq(self::GEODECODER_ROUTE, $array);
 		$data = $this->checkResponse($response);
 		self::$climate->dump($data);
-		$this->assertEquals('Via Arco D\'Augusto', $data['data']['results'][0]['address_components'][1]['long_name']);
+		$expected1 = 'Via Arco D\'Augusto';
+		$this->assertEquals($expected1, $data['data']['results'][0]['address_components'][1]['long_name']);
 		$this->assertEquals(substr('43.8445061', 0, 5), substr($data['data']['results'][0]['geometry']['location']['lat'], 0, 5));
 	}
 
@@ -177,7 +178,9 @@ class OthersTest extends RestApi_TestCase {
 		$response = $this->sendGetReq(self::GEOREVERSEDECODER_ROUTE, $array);
 		// $data = $this->checkResponse($response);
 		$data = json_decode($response->getBody()->getContents(), true);
-		$this->assertEquals('Via dè da Carignano', $data['data']['results'][0]['address_components'][1]['long_name']);
+		$expected1 = 'Piazza Andrea Costa';
+		$expected2 = 'Via dè da Carignano';
+		$this->assertEquals($expected1, $data['data']['results'][0]['address_components'][1]['long_name']);
 	}
 
 	public function testIp2Geo() {
