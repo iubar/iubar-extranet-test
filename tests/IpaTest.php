@@ -127,7 +127,7 @@ class IpaTest extends RestApi_TestCase {
         $array1 = array('AUTH_ID' => self::AUTH_ID,  'CF' => '83003310725');    // Cod. fisc. servizio di F.E
         $array2 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'm_dg', 'COD_AOO' => '04104402106');  // '04104402106' è "Procura della Repubblica presso il Tribunale (Giudice Unico di Primo Grado) di PESARO"
         $array3 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'm_dg');
-        $array4 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'm_dg');
+
         $array5 = array('AUTH_ID' => self::AUTH_ID,  'COD_AMM' => 'c_d488'); // Comune di Fano
         $array6 = array('AUTH_ID' => self::AUTH_ID,  'COD_UNI_OU' => key(self::$test_cod_uni_ou2));
         $array7 = array('AUTH_ID' => self::AUTH_ID,  'EMAIL' => 'filippo.bortone@giustizia.it');
@@ -148,9 +148,6 @@ class IpaTest extends RestApi_TestCase {
 
         $body3 = $this->requestIpaApi(self::WS3, $array3);
         $this->assertStringContains($body3, 'Giudice di Pace di Ivrea');
-        
-        $body4 = $this->requestIpaApi(self::WS4, $array4);      
-        $this->assertStringContains($body4, 'Giudice di Pace di Ivrea');
         
         $body5 = $this->requestIpaApi(self::WS5, $array5);      
         $this->assertStringContains($body5, 'Fano');
