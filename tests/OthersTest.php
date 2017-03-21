@@ -164,7 +164,7 @@ class OthersTest extends RestApi_TestCase {
 		$data = $this->checkResponse($response);
 		self::$climate->dump($data);
 		$this->assertEquals('Via Arco D\'Augusto', $data['data']['results'][0]['address_components'][1]['long_name']);
-		$this->assertEquals(substr('43.8445061', 0, 5), substr($data['data']['results'][0]['geometry'][location]['lat'], 0, 5));
+		$this->assertEquals(substr('43.8445061', 0, 5), substr($data['data']['results'][0]['geometry']['location']['lat'], 0, 5));
 	}
 
 	public function testGeoReverseDecoder() {
