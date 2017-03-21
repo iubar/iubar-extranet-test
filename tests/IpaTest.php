@@ -76,7 +76,7 @@ class IpaTest extends RestApi_TestCase {
                 $headers = ['Content-Type' => 'application/x-www-form-urlencoded'];
                 $request = new Request(self::POST, self::ROUTE_BASE . $route, $headers, $encoded_data);
                 $response = self::$client->send($request, [
-                    'timeout' => self::TIMEOUT
+                    'timeout' => self::TIMEOUT_FOR_LONGER_TASK
                 ]);
             }
             

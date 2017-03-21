@@ -64,6 +64,10 @@ class TransactionalEmailTest extends RestApi_TestCase {
     
     public static function factoryPop3() {
                 
+		if (!extension_loaded('imap')) {
+			die("Attivare estensione imap in php.ini");
+		}
+
         $host = getenv('MAIL_HOST');
         $port = getenv('MAIL_PORT');
         $ssl = getenv('MAIL_SSL');
