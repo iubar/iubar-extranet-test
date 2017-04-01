@@ -111,9 +111,10 @@ class OthersTest extends RestApi_TestCase {
 		} else
 			if (self::getHost() == 'http://extranet.dev/api') {
 				$host = 'extranet.dev';
-				$file = 'img/iubar_logo_75.png';
-				$remote_file = 'C:/Users/Daniele/workspace_php/php-extranet/www/public/' . $file;
-
+				$file = 'img/iubar_logo_75.png';				
+				$user_home = getenv('userprofile');
+				$project_folder = $user_home . "/workspace_php/php-extranet/www/public";			
+				$remote_file = $project_folder . DIRECTORY_SEPARATOR . $file;
 				$remote_url = 'http://' . $host . '/' . $file;
 				$exists = $this->remoteFileExists($remote_url);
 				if (!$exists) {
