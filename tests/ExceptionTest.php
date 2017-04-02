@@ -20,9 +20,9 @@ use Iubar\Tests\HttpStatusCode;
  */
 class ExceptionTest extends RestApi_TestCase {
 
-	const EXCEPTION1_ROUTE = '/extranet/exception'; // FIXME: in locale è solo '/exception'
+	const EXCEPTION1_ROUTE = 'exception1'; // questa rotta non è associata ad alcun controller, il comportamento è definito inline nel file index.php
 
-	const EXCEPTION2_ROUTE = 'exception';
+	const EXCEPTION2_ROUTE = 'exception2';
 
 	const APP_HTML_CT = 'text/html';
 
