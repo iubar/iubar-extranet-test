@@ -39,6 +39,8 @@ class OthersTest extends RestApi_TestCase {
 
 	const LENGTH = 100;
 
+	const TIMEOUT_FOR_LONGER_TASK = 8; // seconds
+
 	public static function setUpBeforeClass() {
 		parent::init();
 		self::$client = self::factoryClient();
@@ -89,7 +91,7 @@ class OthersTest extends RestApi_TestCase {
 			'limit' => self::ELEM_LIMIT,
 			'length' => self::LENGTH
 		);
-		$response = $this->sendGetReq(self::RSS_ROUTE, $array);
+		$response = $this->sendGetReq(self::RSS_ROUTE, $array, self::TIMEOUT_FOR_LONGER_TASK);
 		$data = $this->checkResponse($response);
 		$this->assertEquals(self::ELEM_LIMIT, count($data));
 	}
@@ -111,9 +113,9 @@ class OthersTest extends RestApi_TestCase {
 		} else
 			if (self::getHost() == 'http://extranet.dev/api') {
 				$host = 'extranet.dev';
-				$file = 'img/iubar_logo_75.png';				
+				$file = 'img/iubar_logo_75.png';
 				$user_home = getenv('userprofile');
-				$project_folder = $user_home . "/workspace_php/php-extranet/www/public";			
+				$project_folder = $user_home . "/workspace_php/php-extranet/www/public";
 				$remote_file = $project_folder . DIRECTORY_SEPARATOR . $file;
 				$remote_url = 'http://' . $host . '/' . $file;
 				$exists = $this->remoteFileExists($remote_url);
