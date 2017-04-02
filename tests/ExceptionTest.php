@@ -20,7 +20,7 @@ use Iubar\Tests\HttpStatusCode;
  */
 class ExceptionTest extends RestApi_TestCase {
 
-	const EXCEPTION1_ROUTE = 'http://extranet.dev/exception';
+	const EXCEPTION1_ROUTE = '/exception';
 
 	const EXCEPTION2_ROUTE = 'exception';
 
