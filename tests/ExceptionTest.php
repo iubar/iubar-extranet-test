@@ -20,7 +20,7 @@ use Iubar\Tests\HttpStatusCode;
  */
 class ExceptionTest extends RestApi_TestCase {
 
-	const EXCEPTION1_ROUTE = '/exception';
+	const EXCEPTION1_ROUTE = '/extranet/exception'; // FIXME: in locale è solo '/exception'
 
 	const EXCEPTION2_ROUTE = 'exception';
 
