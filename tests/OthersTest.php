@@ -176,7 +176,7 @@ class OthersTest extends RestApi_TestCase {
 		$first_result = $data['data']['results'][0];
 		$formatted_address = $first_result['formatted_address'];
 		$lat = $first_result['geometry']['location']['lat'];
-		$expected = substr('43.844' 0, 6);
+		$expected = substr('43.844', 0, 6);
 		$actual = substr($lat, 0, 6);
 		$this->assertEquals($expected, $actual);
 		$this->assertRegexp($regex, $formatted_address);
