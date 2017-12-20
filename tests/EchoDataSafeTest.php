@@ -40,7 +40,7 @@ class EchoDataSafeTest extends SafeRestApi_TestCase {
     public function testEchoGet() {  // Send a GET request
         self::$climate->comment('Testing Echo->get(...');
         $array0 = array(
-            'Foo' => 'Bar1'
+            'Foo Bàr' => 'Fòò Bar'
         );
         
         $array = array_merge($array0, $this->getAuthData(self::getHost() . '/' . self::ECHO_ROUTE));
