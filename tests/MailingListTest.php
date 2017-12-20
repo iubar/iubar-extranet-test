@@ -192,10 +192,10 @@ class MailingListTest extends RestApi_TestCase {
 			$body = $response->getBody()->getContents();
 			$data = json_decode($body, true);
 			$result = $data['data']['result'];
-			if ($result === 'true') {
+			if ($result === true) {
 				$b = true;
 			} else
-				if ($result === 'false') {
+				if ($result === false) {
 					$b = false;
 				} else {
 					self::$climate->error('Response body: ' . PHP_EOL . $body);
