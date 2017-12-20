@@ -112,7 +112,9 @@ class MailingListTest extends RestApi_TestCase {
 			'cognome' => self::SECOND_NAME,
 			'idprofessione' => self::MAILING_LIST_PROFESSION_ID
 		);
-		$response = $this->sendGetReq(self::EDIT, $array);
+		$token = "000000000";
+		$url = self::EDIT . '/token/' . $token;
+		$response = $this->sendGetReq($url, $array);
 		$data = $this->checkResponse($response);
 	}
 
@@ -203,7 +205,7 @@ class MailingListTest extends RestApi_TestCase {
 				}
 		} else {
 			self::$climate->error('Response code is: ' . $response->getStatusCode());
-			$this->fail('Situazione imprevista');
+			$this->fail('Situazione imprevista: probabile errore sui tipi');
 		}
 
 		// Getting data
