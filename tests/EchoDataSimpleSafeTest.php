@@ -92,29 +92,29 @@ class EchoDataSimpleSafeTest extends SimpleSafeRestApi_TestCase {
     	$this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
     }
 
-    public function testEchoPost2() { // Post Json data
+//     public function testEchoPost2() { // Post Json data
 
-    	//         $this->markTestSkipped(
-    	//             'Method not implemented server-side'
-    	//             );
+//     	//         $this->markTestSkipped(
+//     	//             'Method not implemented server-side'
+//     	//             );
 
-    	self::$climate->comment('Testing Echo3->post(...');
-    	$array0 = array(
-    		'Foo' => 'Bar2'
-    	);
-    	$array = array_merge($array0, $this->getAuthData());
-    	$json = json_encode($array);
-    	self::$climate->info('Request data: ' . $json);
-    	$response = self::$client->request(self::POST, self::ECHO_ROUTE, [
-    		'headers' => [
-    			'Content-Type' => 'application/json; charset=UTF-8',
-    			'X-Requested-With' => 'XMLHttpRequest'
-    		],
-    		'body' => $json
-    	]);
-    	$data = $this->checkResponse($response);
-    	$this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
-    }
+//     	self::$climate->comment('Testing Echo2->post(...');
+//     	$array0 = array(
+//     		'Foo' => 'Bar2'
+//     	);
+//     	$array = array_merge($array0, $this->getAuthData());
+//     	$json = json_encode($array);
+//     	self::$climate->info('Request data: ' . $json);
+//     	$response = self::$client->request(self::POST, self::ECHO_ROUTE, [
+//     		'headers' => [
+//     			'Content-Type' => 'application/json; charset=UTF-8',
+//     			'X-Requested-With' => 'XMLHttpRequest'
+//     		],
+//     		'body' => $json
+//     	]);
+//     	$data = $this->checkResponse($response);
+//     	$this->assertJsonStringEqualsJsonString(json_encode($array), json_encode($data['data']));
+//     }
 
 
     public function testEchoPost3() { // Send an 'application/x-www-form-urlencoded' POST request (using request() method)
