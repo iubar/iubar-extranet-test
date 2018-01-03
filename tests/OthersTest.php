@@ -165,9 +165,21 @@ class OthersTest extends RestApi_TestCase {
 		$response = $this->sendGetReq(self::GEODECODER_ROUTE, $array);
 		$data = $this->checkResponse($response);
 		self::$climate->dump($data);
-		$expected1 = 'Via Arco D\'Augusto';
-		$this->assertEquals($expected1, $data['data']['results'][0]['address_components'][1]['long_name']);
-		$this->assertEquals(substr('43.8445061', 0, 5), substr($data['data']['results'][0]['geometry']['location']['lat'], 0, 5));
+				
+		// Stop here and mark this test as incomplete.
+        	//$this->markTestIncomplete(
+          	//	'This test has not been implemented yet.'
+        	//);
+		
+		$findme = 'Via Arco D\'Augusto';
+		$regex = '/' . $findme . '/';
+		$first_result = $data['data']['results'][0];
+		$formatted_address = $first_result['formatted_address'];
+		$lat = $first_result['geometry']['location']['lat'];
+		$expected = substr('43.844', 0, 6);
+		$actual = substr($lat, 0, 6);
+		$this->assertEquals($expected, $actual);
+		$this->assertRegexp($regex, $formatted_address);
 	}
 
 	public function testGeoReverseDecoder() {
