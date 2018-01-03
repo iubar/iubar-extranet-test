@@ -195,7 +195,7 @@ class MailingListTest extends RestApi_TestCase {
 			if ($result === 'true') {
 				$b = true;
 			} else
-				if ($result === 'false') {
+				if ($result === false) {
 					$b = false;
 				} else {
 					self::$climate->error('Response body: ' . PHP_EOL . $body);

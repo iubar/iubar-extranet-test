@@ -9,10 +9,9 @@ class EchoDataJwt extends RestApi_TestCase {
 
     const TOKEN_ROUTE = 'jwt/token/email/daniele.montesi@iubar.it/apikey/abcd123';
     const TOKEN_ROUTE_2 = 'jwt/token';
-    const DATA_ROUTE = 'jwt/data/token/';
+    const DATA_ROUTE = 'jwt/data';
 
     const EMAIL = 'daniele.montesi@iubar.it';
-    const API_KEY = 'abcd123';
 
     private static $token = null;
 
@@ -23,7 +22,7 @@ class EchoDataJwt extends RestApi_TestCase {
 
     public function testPostToken(){
     	self::$climate->comment('testPostToken');
-    	$request_data = [ 'email' => self::EMAIL, 'apikey' => self::API_KEY ];
+    	$request_data = [ 'email' => self::EMAIL ];
     	$headers = ['Content-Type' => 'application/x-www-form-urlencoded', 'X-Requested-With' => 'XMLHttpRequest'];
     	$request = new Request(self::POST, self::TOKEN_ROUTE_2, $headers, json_encode($request_data));
     	$response = self::$client->send($request, [
@@ -37,7 +36,9 @@ class EchoDataJwt extends RestApi_TestCase {
     public function testGetData() {
     	self::$climate->comment('testGetData()');
     	$headers = ['X-Requested-With' => 'XMLHttpRequest'];
-    	$request = new Request(self::GET, self::DATA_ROUTE. self::$token, $headers);
+    	$route = self::DATA_ROUTE . '?email=' . self::EMAIL . '&token=' . self::$token;
+    	// self::$climate->comment('route: ' . $route);
+    	$request = new Request(self::GET, $route, $headers);
     	$response = self::$client->send($request, [
     		'timeout' => self::TIMEOUT
     	]);

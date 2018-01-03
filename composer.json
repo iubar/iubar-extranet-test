@@ -1,49 +1,43 @@
 {
 	"name" : "iubar/iubar-extranet-test",
-    "description": "",
-    "keywords": ["package", "dependency", "autoload"],
-    "homepage": "https://www.fatturatutto.it",
-    "type": "test",
-    "license": "MPL",
-    "authors": [
-        {
-            "name": "Matteo Mirisola",
-            "email": "mirimmm94@gmail.com"
-        },
-        {
-            "name": "Andrea Borgogelli Avveduti",
-            "homepage": "http://www.iubar.it"
-        }
-    ],
-    
-    "repositories": [
-           
-	        {
-	            "type": "git",
-	            "url": "https://github.com/iubar/iubar-web-test.git"
-	        },
-	        {
-	            "type": "git",
-	            "url": "https://github.com/iubar/iubar-php-common.git"
-	        } 	        
-	    ],
- 
-    "require-dev": {
-        "php": ">=5.5.0",
-        "guzzlehttp/guzzle": "*",
-        "guzzlehttp/psr7" : "*",
-        "league/climate": "*",
-        "mailgun/mailgun-php": "*",        
-        "php-http/guzzle6-adapter": "*",
-        "iubar/iubar-web-test": "dev-master@dev",
-        "iubar/iubar-php-common": "dev-master@dev",
-        "devster/ubench": "*"
-        
-    },
-    
-    "autoload": {
-    	"psr-4": {
-    		"Extranet\\": "tests/"
-        }  
+	"keywords" : [
+		"package",
+		"dependency",
+		"autoload"
+	],
+	"homepage" : "https://www.fatturatutto.it",
+	"type" : "test",
+	"license" : "MPL",
+	"authors" : [{
+			"name" : "Matteo Mirisola",
+			"email" : "mirimmm94@gmail.com"
+		}, {
+			"name" : "Andrea Borgogelli Avveduti",
+			"homepage" : "http://www.iubar.it"
+		}
+	],
+	"repositories" : [{
+			"type" : "git",
+			"url" : "https://github.com/iubar/iubar-web-test.git"
+		}, {
+			"type" : "git",
+			"url" : "https://github.com/iubar/iubar-php-common.git"
+		}
+	],
+	"require-dev" : {
+		"php" : ">=5.5.0",
+		"guzzlehttp/guzzle" : "*",
+		"guzzlehttp/psr7" : "*",
+		"league/climate" : "*",
+		"mailgun/mailgun-php" : "*",
+		"php-http/guzzle6-adapter" : "*",
+		"iubar/iubar-web-test" : "dev-master@dev",
+		"iubar/iubar-php-common" : "dev-master@dev",
+		"devster/ubench" : "*"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Extranet\\" : "tests/"
+		}
 	}
 }

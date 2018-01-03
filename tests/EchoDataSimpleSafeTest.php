@@ -4,15 +4,15 @@ namespace Extranet;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7;
-use Iubar\Tests\SafeRestApi_TestCase;
+use Iubar\Tests\SimpleSafeRestApi_TestCase;
 
 /*
  * @see: http://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
  * @see: https://httpbin.org/
  */
-class EchoDataSafeTest extends SafeRestApi_TestCase {
+class EchoDataSimpleSafeTest extends SimpleSafeRestApi_TestCase {
 
-    const ECHO_ROUTE = 'echo2';
+    const ECHO_ROUTE = 'echo3';
 
     private $users = ['daniele.montesi@iubar.it' => '1234567890'];
 
@@ -38,12 +38,11 @@ class EchoDataSafeTest extends SafeRestApi_TestCase {
     }
 
     public function testEchoGet() {  // Send a GET request
-    	self::$climate->comment('Testing Echo->get(...');
+    	self::$climate->comment('Testing Echo3->get(...');
     	$array0 = array(
     		'Foo' => 'Bar1'
     	);
 
-    	$this->setUrl(self::getHost() . '/' . self::ECHO_ROUTE);
     	$array = array_merge($array0, $this->getAuthData());
     	$data = [
     		'headers' => [
@@ -60,11 +59,10 @@ class EchoDataSafeTest extends SafeRestApi_TestCase {
     }
 
     public function testEchoGet2() { // Send a GET request (using Psr7\Request)
-    	self::$climate->comment('Testing Echo->get(...');
+    	self::$climate->comment('Testing Echo3->get(...');
     	$array0 = array(
     		'Foo' => 'Bar2'
     	);
-    	$this->setUrl(self::getHost() . '/' . self::ECHO_ROUTE);
     	$array = array_merge($array0, $this->getAuthData());
     	$headers = ['X-Requested-With' => 'XMLHttpRequest']; // Ok
     	$encoded_data = http_build_query($array, null, '&');
@@ -78,11 +76,10 @@ class EchoDataSafeTest extends SafeRestApi_TestCase {
 
     public function testEchoPost() { // Send an 'application/x-www-form-urlencoded' POST request (using Psr7\Request)
 
-    	self::$climate->comment('Testing Echo->post(...');
+    	self::$climate->comment('Testing Echo3->post(...');
     	$array0 = array(
     		'Foo' => 'Bar1'
     	);
-    	$this->setUrl(self::getHost() . '/' . self::ECHO_ROUTE);
     	$array = array_merge($array0, $this->getAuthData());
     	$encoded_data = http_build_query($array, null, '&'); // @see: http://php.net/manual/en/function.http-build-query.php
     	self::$climate->info('Request data: ' . $encoded_data);
@@ -101,11 +98,10 @@ class EchoDataSafeTest extends SafeRestApi_TestCase {
     	//             'Method not implemented server-side'
     	//             );
 
-    	self::$climate->comment('Testing Echo->post(...');
+    	self::$climate->comment('Testing Echo3->post(...');
     	$array0 = array(
     		'Foo' => 'Bar2'
     	);
-    	$this->setUrl(self::getHost() . '/' . self::ECHO_ROUTE);
     	$array = array_merge($array0, $this->getAuthData());
     	$json = json_encode($array);
     	self::$climate->info('Request data: ' . $json);
@@ -123,11 +119,10 @@ class EchoDataSafeTest extends SafeRestApi_TestCase {
 
     public function testEchoPost3() { // Send an 'application/x-www-form-urlencoded' POST request (using request() method)
 
-    	self::$climate->comment('Testing Echo->post(...');
+    	self::$climate->comment('Testing Echo3->post(...');
     	$array0 = array(
     		'Foo' => 'Bar3'
     	);
-    	$this->setUrl(self::getHost() . '/' . self::ECHO_ROUTE);
     	$array = array_merge($array0, $this->getAuthData());
     	$json = json_encode($array);
     	self::$climate->info('Request data: ' . $json);
