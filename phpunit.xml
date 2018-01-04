@@ -29,7 +29,7 @@
 	<testsuites>
 
 		<testsuite name="Extranet Api">
-			<!--<file>./tests/ExceptionTest.php</file>-->
+			<file>./tests/ExceptionTest.php</file>
 			<!--<file>./tests/OthersTest.php</file>-->
 			<file>./tests/EchoDataJwt.php</file>
 			<file>./tests/EchoDataSafeTest.php</file>
