@@ -7,7 +7,7 @@ use Iubar\Tests\RestApi_TestCase;
 
 class EchoDataJwt extends RestApi_TestCase {
 
-    const TOKEN_ROUTE = 'jwt/token/email/daniele.montesi@iubar.it/apikey/abcd123';
+    //const TOKEN_ROUTE = 'jwt/token/email/daniele.montesi@iubar.it/apikey/abcd123';
     const TOKEN_ROUTE_2 = 'jwt/token';
     const DATA_ROUTE = 'jwt/data';
 
@@ -20,6 +20,9 @@ class EchoDataJwt extends RestApi_TestCase {
         self::$client = self::factoryClient();
     }
 
+    /**
+     * Recupera il token jwt
+     */
     public function testPostToken(){
     	self::$climate->comment('testPostToken');
     	$request_data = [ 'email' => self::EMAIL ];
@@ -33,6 +36,9 @@ class EchoDataJwt extends RestApi_TestCase {
     	self::$token = $data['data']['token'];
     }
 
+    /**
+     * Richiede i dati, passando come parametri il token jwt e l'indirizzo email dell'utente
+     */
     public function testGetData() {
     	self::$climate->comment('testGetData()');
     	$headers = ['X-Requested-With' => 'XMLHttpRequest'];
