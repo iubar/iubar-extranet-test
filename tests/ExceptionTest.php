@@ -89,9 +89,9 @@ class ExceptionTest extends RestApi_TestCase {
 		if ($this->app_debug) {
 			$this->assertEquals($expected_status_code, $response->getStatusCode());
 			$this->assertContains(self::APP_JSON_CT, $content_type);
-			$this->assertArrayHasKey("error", $data);
-			$this->assertArrayHasKey("message", $data["error"]);
-			$this->assertEquals($txt, $data["error"]["message"]);
+			$this->assertArrayHasKey("response", $data);
+			//$this->assertArrayHasKey("message", $data["error"]);
+			//$this->assertEquals($txt, $data["error"]["message"]);
 		} else {
 			$this->assertEquals($expected_status_code, $response->getStatusCode());
 			$this->assertContains(self::APP_JSON_CT, $content_type);
