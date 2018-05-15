@@ -113,7 +113,7 @@ class ExceptionTest extends RestApi_TestCase {
 		if ($this->app_debug) {
 			$body = $response->getBody()->getContents();
 			$this->assertEquals($expected_status_code, $response->getStatusCode());
-			$this->assertContains(self::APP_HTML_CT, $content_type);
+			$this->assertContains(self::APP_JSON_CT, $content_type);
 			$this->assertContains('Whoops! There was an error.', $body);
 		} else {
 			$this->assertEquals($expected_status_code, $response->getStatusCode());
