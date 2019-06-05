@@ -198,9 +198,9 @@ class OthersTest extends RestApi_TestCase {
 	}
 
 	public function testIp2Geo() {
-		// e.g.: http://extranet/api/ip2geo?ip=95.224.129.129
+		// e.g.: http://extranet/api/ip2geo?ip=217.133.38.27
 		self::$climate->info('Testing testIp2Geo(...');
-		$ip = '95.224.129.129';
+		$ip = '217.133.38.27';
 		$array = array(
 			'ip' => $ip
 		);
