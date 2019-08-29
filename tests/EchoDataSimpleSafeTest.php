@@ -32,7 +32,7 @@ class EchoDataSimpleSafeTest extends SimpleSafeRestApi_TestCase {
     //
     // POST requests in Guzzle are sent with an application/x-www-form-urlencoded Content-Type header if POST fields are present but no files are being sent in the POST. If files are specified in the POST request, then the Content-Type header will become multipart/form-data.
 
-    public function setUp() {
+    public function setUp() : void {
     	$this->user = key($this->users);
     	$this->api_key = current($this->users);
     }

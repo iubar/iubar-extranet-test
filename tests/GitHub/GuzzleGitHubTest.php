@@ -15,7 +15,7 @@ class GuzzleGitHubTest extends PHPUnit_Framework_TestCase {
 	    self::$github_user_id = getenv('GITHUB_USER_ID');   // eg: '7045594'	    
 	}
 	
-	public function setUp(){		
+	public function setUp() : void {		
 		echo "Class " . get_class($this) . PHP_EOL;		
 		$this->client = new GuzzleHttp\Client([
 				// Base URI is used with relative requests

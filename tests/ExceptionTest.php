@@ -33,7 +33,7 @@ class ExceptionTest extends RestApi_TestCase {
 		self::$client = self::factoryClient();
 	}
 
-	public function setUp() {
+	public function setUp() : void {
 		$this->app_debug = true; // true se $app->config('debug2') == 1
 	}
 

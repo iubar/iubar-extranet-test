@@ -58,7 +58,7 @@ class TransactionalEmailTest extends RestApi_TestCase {
         self::$pop3 = self::factoryPop3();        
     }
     
-    public function setUp() {
+    public function setUp() : void {
         // nothing to do
     }
     

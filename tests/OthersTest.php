@@ -46,7 +46,7 @@ class OthersTest extends RestApi_TestCase {
 		self::$client = self::factoryClient();
 	}
 
-	public function setUp() {
+	public function setUp() : void {
 		// nothing to do
 	}
 
