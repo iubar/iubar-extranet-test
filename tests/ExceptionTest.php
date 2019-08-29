@@ -51,7 +51,7 @@ class ExceptionTest extends RestApi_TestCase {
 		$actualJson = json_encode($data);
 
 		$this->assertEquals($expected_status_code, $response->getStatusCode());
-		$this->assertContains(self::APP_JSON_CT, $content_type);
+		$this->assertStringContainsString(self::APP_JSON_CT, $content_type);
 		$this->assertArrayHasKey("error", $data);
 		$this->assertArrayHasKey("message", $data["error"]);
 		$this->assertEquals($txt, $data["error"]["message"]);
@@ -70,8 +70,8 @@ class ExceptionTest extends RestApi_TestCase {
 		$body = $response->getBody()->getContents();
 
 		$this->assertEquals($expected_status_code, $response->getStatusCode());
-		$this->assertContains(self::APP_HTML_CT, $content_type);
-		$this->assertContains('Whoops! There was an error.', $body);
+		$this->assertStringContainsString(self::APP_HTML_CT, $content_type);
+		$this->assertStringContainsString('Whoops! There was an error.', $body);
 	}
 
 	public function testException2WithAjax() {
@@ -93,7 +93,7 @@ class ExceptionTest extends RestApi_TestCase {
 			//$this->assertEquals($txt, $data["error"]["message"]);
 		} else {
 			$this->assertEquals($expected_status_code, $response->getStatusCode());
-			$this->assertContains(self::APP_JSON_CT, $content_type);
+			$this->assertStringContainsString(self::APP_JSON_CT, $content_type);
 			$actualJson = json_encode($data);
 			$expectedJson = "{\"code\": 500, \"response\": \"$txt\"}";
 			$this->assertJsonStringEqualsJsonString($expectedJson, $actualJson);
@@ -113,10 +113,10 @@ class ExceptionTest extends RestApi_TestCase {
 		if ($this->app_debug) {
 			$body = $response->getBody()->getContents();
 			$this->assertEquals($expected_status_code, $response->getStatusCode());
-			$this->assertContains(self::APP_JSON_CT, $content_type);
+			$this->assertStringContainsString(self::APP_JSON_CT, $content_type);
 		} else {
 			$this->assertEquals($expected_status_code, $response->getStatusCode());
-			$this->assertContains(self::APP_JSON_CT, $content_type);
+			$this->assertStringContainsString(self::APP_JSON_CT, $content_type);
 			$data = $this->checkResponse($response, $expected_status_code);
 			$actualJson = json_encode($data);
 			$expectedJson = "{\"code\": 500, \"response\": \"$txt\"}";
@@ -181,7 +181,7 @@ class ExceptionTest extends RestApi_TestCase {
 			// Asserzioni
 			self::$climate->comment('Checking assertions...');
 			$this->assertEquals($expected_status_code, $response->getStatusCode());
-			$this->assertContains(self::APP_JSON_CT, $content_type);
+			$this->assertStringContainsString(self::APP_JSON_CT, $content_type);
 			self::$climate->comment('...ok');
 		}
 		return $data;

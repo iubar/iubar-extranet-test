@@ -195,7 +195,7 @@ class MailingListTest extends RestApi_TestCase {
 
 		$response = $this->sendGetReq($route, $array);
 
-		$this->assertContains(self::APP_JSON_CT, $response->getHeader(self::CONTENT_TYPE)[0]);
+		$this->assertStringContainsString(self::APP_JSON_CT, $response->getHeader(self::CONTENT_TYPE)[0]);
 		if ($response->getStatusCode() == self::HTTP_OK) {
 			$body = $response->getBody()->getContents();
 			$data = json_decode($body, true);
