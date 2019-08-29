@@ -41,7 +41,7 @@ class OthersTest extends RestApi_TestCase {
 
 	const TIMEOUT_FOR_LONGER_TASK = 8; // seconds
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass() : void {
 		parent::init();
 		self::$client = self::factoryClient();
 	}

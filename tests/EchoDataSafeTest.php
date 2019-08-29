@@ -16,7 +16,7 @@ class EchoDataSafeTest extends SafeRestApi_TestCase {
 
     private $users = ['daniele.montesi@iubar.it' => '1234567890'];
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass() : void {
         parent::init();
         self::$client = self::factoryClient();
     }

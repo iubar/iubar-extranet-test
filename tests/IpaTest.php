@@ -55,7 +55,7 @@ class IpaTest extends RestApi_TestCase {
     const WS6 = "WS06_OU_CODUNI.php";	// Dati dell'Unita' Organizzativa e Fatturazione Elettronica per Codice Univoco Ufficio
     const WS7 = "WS07_EMAIL.php"; 		// Lista delle entita' associate ad uno specifico indirizzo email in IPA
         
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass() : void {
         parent::init();
         self::$client = self::factoryClient();
     }    

@@ -28,7 +28,7 @@ class ExceptionTest extends RestApi_TestCase {
 
 	private $app_debug = false;
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass() : void {
 		parent::init();
 		self::$client = self::factoryClient();
 	}

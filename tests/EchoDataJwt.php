@@ -15,7 +15,7 @@ class EchoDataJwt extends RestApi_TestCase {
 
     private static $token = null;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass() : void {
         parent::init();
         self::$client = self::factoryClient();
     }

@@ -51,7 +51,7 @@ class TransactionalEmailTest extends RestApi_TestCase {
     protected static $pop3 = null;
  
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass() : void {
         parent::init();        
         self::$transact_secret_api_key = getenv('TRANSACT_SECRET_API_KEY');        
         self::$client = self::factoryClient();

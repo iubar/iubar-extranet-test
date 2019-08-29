@@ -9,7 +9,7 @@ class GuzzleGitHubTest extends PHPUnit_Framework_TestCase {
 	
 	protected $client = null;
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass() : void {
 	    self::$github_user = getenv('GITHUB_USER');         // eg: borgo***@iubar.**
 	    self::$github_password = getenv('GITHUB_PASSWORD');
 	    self::$github_user_id = getenv('GITHUB_USER_ID');   // eg: '7045594'	    

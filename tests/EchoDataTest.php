@@ -14,7 +14,7 @@ class EchoDataTest extends RestApi_TestCase {
 
     const ECHO_ROUTE = 'echo';
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass() : void{
         parent::init();
         self::$client = self::factoryClient();
     }

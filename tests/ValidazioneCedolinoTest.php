@@ -9,7 +9,7 @@ class ValidazioneCedolinoTest extends RestApi_TestCase {
 
 	const URL = 'validazione-cedolino';
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass() : void {
 		parent::init();
 		self::$client = self::factoryClient();
 	}

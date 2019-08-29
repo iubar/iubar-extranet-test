@@ -49,7 +49,7 @@ class MailingListTest extends RestApi_TestCase {
 // 		self::$client = self::factoryClient(self::getHost(), $base_url);
 // 	}
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass() : void {
 		parent::init();
 		self::$client = self::factoryClient();
 	}
