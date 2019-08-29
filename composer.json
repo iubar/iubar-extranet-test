@@ -24,8 +24,8 @@
 			"url" : "https://github.com/iubar/iubar-php-common.git"
 		}
 	],
-	"require-dev" : {
-		"php" : ">=5.5.0",
+	"require" : {
+		"php" : ">=7.1",
 		"guzzlehttp/guzzle" : "*",
 		"guzzlehttp/psr7" : "*",
 		"league/climate" : "*",
@@ -34,6 +34,10 @@
 		"iubar/iubar-web-test" : "dev-master@dev",
 		"iubar/iubar-php-common" : "dev-master@dev",
 		"devster/ubench" : "*"
+	},
+	"require-dev" : {
+		"phpunit/phpunit" : "^7.4",
+		"phpstan/phpstan" : "*"			
 	},
 	"autoload" : {
 		"psr-4" : {
