@@ -171,32 +171,32 @@ class EchoDataTest extends RestApi_TestCase {
 
     }
 
-    /**
-     * Metodo incompleto: restituisce error 'Fatal error: Class 'GuzzleHttp\Psr7\stream_for' not found'
-     * @see http://guzzle.readthedocs.io/en/latest/psr7.html#streams
-     */
-    public function NON_VA_testEchoPost4() { // Send a 'multipart/form-data' POST request (using Psr7\Request)
+    // /**
+    //  * Metodo incompleto: restituisce error 'Fatal error: Class 'GuzzleHttp\Psr7\stream_for' not found'
+    //  * @see http://guzzle.readthedocs.io/en/latest/psr7.html#streams
+    //  */
+    // public function NON_VA_testEchoPost4() { // Send a 'multipart/form-data' POST request (using Psr7\Request)
 
-        self::$climate->comment('Testing Echo->post(...');
-        $array = array(
-            'name'     => 'field_name',
-            'contents' => 'abc'
-        );
-        $json = json_encode($array);
-        self::$climate->info('Request data: ' . $json);
+    //     self::$climate->comment('Testing Echo->post(...');
+    //     $array = array(
+    //         'name'     => 'field_name',
+    //         'contents' => 'abc'
+    //     );
+    //     $json = json_encode($array);
+    //     self::$climate->info('Request data: ' . $json);
 
-        // $stream = GuzzleHttp\Psr7\stream_for('foo');
-        $body = new Psr7\stream_for(http_build_query($array)); // http://guzzle.readthedocs.io/en/latest/psr7.html#streams
-        $boundary = uniqid();
-        $headers = ['Content-Type' => 'multipart/form-data; boundary=' . $boundary];
-        //$headers = ['Content-Type' => 'multipart/form-data'];
-        $request = new Request(self::POST, self::ECHO_ROUTE, $headers, $stream);
-        $response = self::$client->send($request, [
-            'timeout' => self::TIMEOUT
-        ]);
-        $data = $this->checkResponse($response);
-        $this->assertJsonStringEqualsJsonString($json, json_encode($data['data']));
-    }
+    //     // $stream = GuzzleHttp\Psr7\stream_for('foo');
+    //     $body = new Psr7\stream_for(http_build_query($array)); // http://guzzle.readthedocs.io/en/latest/psr7.html#streams
+    //     $boundary = uniqid();
+    //     $headers = ['Content-Type' => 'multipart/form-data; boundary=' . $boundary];
+    //     //$headers = ['Content-Type' => 'multipart/form-data'];
+    //     $request = new Request(self::POST, self::ECHO_ROUTE, $headers, $stream);
+    //     $response = self::$client->send($request, [
+    //         'timeout' => self::TIMEOUT
+    //     ]);
+    //     $data = $this->checkResponse($response);
+    //     $this->assertJsonStringEqualsJsonString($json, json_encode($data['data']));
+    // }
 
     // ALTRI ESEMPI
 

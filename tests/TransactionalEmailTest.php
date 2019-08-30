@@ -105,50 +105,6 @@ class TransactionalEmailTest extends RestApi_TestCase {
     }
 
 
-    /**
-     * Test for the Contact.php class
-     * Send an email with a uniqid subject and delete it
-     */
-    public function testContact() {
-        self::$climate->info('Testing testContact()...');  
-        $from_email = self::FROM_USER . '@' . self::EMAIL_DOMAIN;
-        
-        // 1) Send the message through Mailgun
-        $expected_subject = uniqid(self::PREFIX_SUBJECT); // Create a unique id for the subject of the email to identify it
-
-        $array = array(
-            'from_name' => self::FROM_NAME,
-            'from_email' => $from_email,
-            'from_domain' => self::EMAIL_DOMAIN,
-            'subject' => $expected_subject,
-            'message' => 'This is an api test'
-        );
-        
-        // e.g.: http://extranet/api/contact?%27from_name=borgo&from_email=postmaster@fatturatutto.it&from_domain=fatturatutto.it&subject=titolo&message=This%20is%20an%20api%20test
- 
-        $response = $this->sendGetReq(self::CONTACT, $array);
-        $this->assertEquals(self::HTTP_OK, $response->getStatusCode());
-        self::$climate->info($response->getBody()->getContents());
-        
-        
-        // $data = $this->checkResponse($response);
-        
-        // 2) Read the Mailgun event log
-        $this->sleep(self::LOG_WAIT);  // Wait until the Mailgun log is updated
-        $mailgun = new MailgunUtil(self::$transact_secret_api_key);
-        $mailgun->setDomain(self::EMAIL_DOMAIN);
-        $recipient = getenv('MAIL_USER');
-        $b = $mailgun->checkEvents($from_email, $recipient, $expected_subject);        
-        if(!$b){
-            $this->fail('ERROR: Mailgun error');
-        }else{            
-            // 3) Cleanup the recipient's mailbox   
-            self::$climate->info('The e-mail was sent correctly, now I wait its arrival on the target mailbox.');
-            $this->sleep(self::EMAIL_WAIT); // Wait until the email arrived
-            $this->cleanMailbox($expected_subject);            
-        }        
-
-    }
 
     private function cleanMailbox($expected_subject){
         self::$climate->info('cleanMailbox()...');
