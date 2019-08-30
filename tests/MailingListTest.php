@@ -67,7 +67,7 @@ class MailingListTest extends RestApi_TestCase {
 			'email' => self::ML_EMAIL_EXAMPLE,
 			'nome' => self::FIRST_NAME,
 			'cognome' => self::SECOND_NAME,
-			'idprofessione' => self::MAILING_LIST_PROFESSION_ID,
+			'id_professione' => self::MAILING_LIST_PROFESSION_ID,
 			'list_id' => self::MAILING_LIST_ID,
 			'force' => $this->force
 		);
@@ -114,10 +114,11 @@ class MailingListTest extends RestApi_TestCase {
 		}
 		// Param 'list_id' cannot be modified
 		$array = array(
-			'email' => self::ML_EMAIL_EXAMPLE,
+            'email' => self::ML_EMAIL_EXAMPLE,
+            'list_id' => self::MAILING_LIST_ID,
 			'nome' => self::FIRST_NAME,
 			'cognome' => self::SECOND_NAME,
-			'idprofessione' => self::MAILING_LIST_PROFESSION_ID
+			'id_professione' => self::MAILING_LIST_PROFESSION_ID
 		);
 		$url = self::EDIT . '/token/' . self::TOKEN;
 		$response = $this->sendGetReq($url, $array);
